@@ -41,5 +41,7 @@ export const navigateAndSimpleReset = (name, index = 0) => {
 
 export const ROUTE_NAME = {
   HOME: 'home',
+  DASHBOARD: 'dashboard',
+  RECORDS: 'records',
   SETTINGS: 'settings',
 };

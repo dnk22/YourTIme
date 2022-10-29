@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { navigationRef } from './navigators/utils';
 import { store } from './store';
 import { Provider } from 'react-redux';
-import AppNavigators from './navigators';
+import AppNavigators from 'navigators';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
