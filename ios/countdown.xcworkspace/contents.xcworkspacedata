@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:countdown.xcodeproj">
+      location = "group:/Users/duynk/Documents/project/countdown/ios/Count Down.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
