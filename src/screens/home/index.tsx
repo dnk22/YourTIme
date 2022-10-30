@@ -1,17 +1,27 @@
-import React from 'react';
-import { SafeAreaView, Text, useColorScheme } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import HomeHeaderBar from 'components/HomeHeaderBar';
+import React, { useState } from 'react';
+import { SafeAreaView, View } from 'react-native';
+import ListCategory from '../../components/ListCategory/index';
+import { useCustomTheme } from 'hooks';
 
 const Home = ({ navigation }) => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
+  const [isShowCategory, setIsShowCategory] = useState(false);
+  const { colors } = useCustomTheme();
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <Text>Home</Text>
+    <SafeAreaView style={{ backgroundColor: colors.surface }}>
+      <View style={[{ backgroundColor: colors.background }]}>
+        <HomeHeaderBar
+          setModalVisible={() => setIsShowCategory(!isShowCategory)}
+          isModalShow={isShowCategory}
+        />
+        {isShowCategory && (
+          <ListCategory
+            isShow={isShowCategory}
+            setShowHide={setIsShowCategory}
+            colors={colors}
+          />
+        )}
+      </View>
     </SafeAreaView>
   );
 };

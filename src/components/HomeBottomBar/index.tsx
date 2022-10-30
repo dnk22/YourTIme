@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useMemo } from 'react';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LayoutChangeEvent, View } from 'react-native';
@@ -10,6 +10,7 @@ import Animated, {
 import { Path, Svg } from 'react-native-svg';
 import TabBar from './TabBar';
 import styles from './styles';
+import { useCustomTheme } from '../../hooks';
 
 const AnimatedSvg = Animated.createAnimatedComponent(Svg);
 
@@ -18,7 +19,8 @@ const BottomBar = ({
   navigation,
   descriptors,
 }: BottomTabBarProps) => {
-  const { bottom } = useSafeAreaInsets();
+  const { colors } = useCustomTheme();
+  const { bottom: bottomSafeAreaHeight } = useSafeAreaInsets();
   // get information about the components position on the screen -----
   const reducer = (state: any, action: { x: number; index: number }) => {
     // Add the new value to the state
@@ -56,7 +58,15 @@ const BottomBar = ({
   });
 
   return (
-    <View style={[styles.tabBar, { paddingBottom: bottom }]}>
+    <View
+      style={[
+        styles.tabBar,
+        {
+          paddingBottom: bottomSafeAreaHeight,
+          backgroundColor: colors.surface,
+        },
+      ]}
+    >
       <AnimatedSvg
         width={110}
         height={60}
@@ -64,7 +74,7 @@ const BottomBar = ({
         style={[styles.activeBackground, animatedStyles]}
       >
         <Path
-          fill="rgb(242, 242, 242)"
+          fill={colors.background}
           d="M20 0H0c11.046 0 20 8.953 20 20v5c0 19.33 15.67 35 35 35s35-15.67 35-35v-5c0-11.045 8.954-20 20-20H20z"
         />
       </AnimatedSvg>

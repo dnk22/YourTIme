@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
-import { LayoutChangeEvent, Pressable, Text } from 'react-native';
+import { LayoutChangeEvent, Pressable } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   withTiming,
@@ -44,15 +44,21 @@ const TabBar = ({ active, options, onLayout, onPress }: ITabBarProps) => {
   });
 
   return (
-    <Pressable onPress={onPress} onLayout={onLayout} style={styles.component}>
+    <Pressable
+      onPress={onPress}
+      disabled={active}
+      onLayout={onLayout}
+      style={styles.component}
+    >
       <Animated.View
         style={[styles.componentCircle, animatedComponentCircleStyles]}
       />
       <Animated.View
         style={[styles.iconContainer, animatedIconContainerStyles]}
       >
+        {/* {options.tabBarIcon ? options.tabBarIcon({ ref }) : <Text>?</Text>} */}
         {/* @ts-ignore */}
-        {options.tabBarIcon ? options.tabBarIcon({ ref }) : <Text>?</Text>}
+        {options.tabBarIcon({ ref })}
       </Animated.View>
     </Pressable>
   );

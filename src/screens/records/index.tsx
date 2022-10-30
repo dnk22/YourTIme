@@ -11,7 +11,6 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 const Records = ({ navigation }) => {
   const isDarkMode = useColorScheme() === 'dark';
-
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };

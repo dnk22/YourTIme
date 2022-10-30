@@ -1,7 +1,9 @@
+import { SIZE } from 'utils/theme';
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   tabBar: {
+    height: SIZE.bottomBarHeight,
     backgroundColor: 'white',
   },
   activeBackground: {
