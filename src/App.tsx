@@ -1,39 +1,17 @@
 import React from 'react';
-import { StatusBar, useColorScheme, SafeAreaView } from 'react-native';
-import { Theme } from '@react-navigation/native';
-import {
-  NavigationContainer,
-  DefaultTheme,
-  DarkTheme,
-} from '@react-navigation/native';
-import { navigationRef } from './navigators/utils';
-import { store } from './store';
+import { StatusBar, useColorScheme } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from 'react-redux';
-import AppNavigators from 'navigators';
-import { THEME } from './utils/theme';
+import { navigationRef } from './navigation/utils';
+import { store } from './store';
+import AppNavigators from 'navigation';
+import { MyAppTheme } from 'resources/theme';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
-  const customThemeLight = {
-    ...DefaultTheme,
-    colors: {
-      ...DefaultTheme.colors,
-      ...THEME.light,
-    },
-  };
-  const customThemeDark = {
-    ...DarkTheme,
-    colors: {
-      ...DarkTheme.colors,
-      ...THEME.dark,
-    },
-  };
   return (
     <Provider store={store}>
-      <NavigationContainer
-        ref={navigationRef}
-        theme={isDarkMode ? customThemeDark : customThemeLight}
-      >
+      <NavigationContainer ref={navigationRef} theme={MyAppTheme['dark']}>
         <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
         <AppNavigators />
       </NavigationContainer>
