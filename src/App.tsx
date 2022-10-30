@@ -11,7 +11,10 @@ const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
   return (
     <Provider store={store}>
-      <NavigationContainer ref={navigationRef} theme={MyAppTheme['dark']}>
+      <NavigationContainer
+        ref={navigationRef}
+        theme={MyAppTheme[isDarkMode ? 'dark' : 'default']}
+      >
         <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
         <AppNavigators />
       </NavigationContainer>
