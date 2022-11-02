@@ -24,7 +24,7 @@ const iconStyle = {
   width: 24,
 };
 
-function HomeTabs() {
+function HomeNavigation() {
   return (
     <Tab.Navigator
       screenOptions={homeOptions}
@@ -84,4 +84,4 @@ function HomeTabs() {
   );
 }
 
-export default HomeTabs;
+export default HomeNavigation;

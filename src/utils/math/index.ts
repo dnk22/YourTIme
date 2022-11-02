@@ -21,3 +21,15 @@ export const formatNumber = (num: number | string, comma = ',') => {
   }
   return String(num).replace(/(\d)(?=(\d{3})+\b)/g, `$1${comma}`);
 };
+
+/**
+ * Return true, if @param n is valid number
+ *
+ * @param n is number
+ */
+export function isNonEmptyNumber(n: number | undefined | null) {
+  if (n === undefined || n == null) {
+    return false;
+  }
+  return true;
+}

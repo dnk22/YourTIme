@@ -1,4 +1,4 @@
-import React, { useReducer, useMemo } from 'react';
+import React, { useReducer } from 'react';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LayoutChangeEvent, View } from 'react-native';
@@ -10,7 +10,7 @@ import Animated, {
 import { Path, Svg } from 'react-native-svg';
 import TabBar from './TabBar';
 import styles from './styles';
-import { useCustomTheme } from '../../../hooks';
+import { useCustomTheme } from 'resources/theme';
 
 const AnimatedSvg = Animated.createAnimatedComponent(Svg);
 

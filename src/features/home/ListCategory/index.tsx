@@ -1,4 +1,4 @@
-import React, { useEffect, memo } from 'react';
+import React, { useEffect, memo, useContext, useCallback } from 'react';
 import {
   View,
   Text,
@@ -6,26 +6,28 @@ import {
   Pressable,
   TouchableHighlight,
 } from 'react-native';
-import { DATA } from './data';
+import { DATA } from '../data';
 import styles from './styles';
 
 import SVG from 'assets/svg/icon-search.svg';
+import { ThemeContext } from '../useContext';
 import Animated, {
   Easing,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import { ThemeType } from 'resources/theme';
 
 const ListCategory = ({
   setShowHide,
-  colors,
   isShow,
 }: {
   setShowHide: (value: boolean) => void;
-  colors: any;
   isShow: boolean;
 }) => {
+  const { colors } = useContext(ThemeContext) as ThemeType;
+
   const formAnimatedValue = useSharedValue(0);
   const formStyles = useAnimatedStyle(() => {
     return {
@@ -50,7 +52,11 @@ const ListCategory = ({
   const renderItem = ({ item }: any) => {
     const onPress = () => console.log('hih');
     return (
-      <TouchableHighlight onPress={onPress}>
+      <TouchableHighlight
+        onPress={onPress}
+        activeOpacity={0.6}
+        underlayColor={colors.background}
+      >
         <View style={styles.item}>
           <View style={styles.itemIcon}>
             <SVG color={colors.text} />
@@ -62,7 +68,8 @@ const ListCategory = ({
       </TouchableHighlight>
     );
   };
-  console.log('render');
+
+  const keyExtractor = useCallback((item: any) => item.id.toString(), []);
 
   return (
     <View style={styles.container}>
@@ -76,7 +83,7 @@ const ListCategory = ({
         <FlatList
           data={DATA}
           renderItem={renderItem}
-          keyExtractor={item => item.id}
+          keyExtractor={keyExtractor}
         />
       </Animated.View>
       <Pressable onPress={() => setShowHide(!isShow)} style={styles.backDrop} />

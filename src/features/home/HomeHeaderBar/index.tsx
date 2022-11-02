@@ -1,13 +1,14 @@
-import React, { memo, useMemo } from 'react';
+import React, { memo, useContext, useMemo } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import SearchIcon from 'assets/svg/icon-search.svg';
 import ViewCard from 'assets/svg/icon-view-card.svg';
 import IconDown from 'assets/svg/icon-down.svg';
 import IconUp from 'assets/svg/icon-up.svg';
+import { DIMENSIONS } from 'share/scale';
+import isEqual from 'react-fast-compare';
 import styles from './style';
-import { useCustomTheme } from 'hooks';
-import { SIZE } from 'resources/theme';
-import { normalize } from 'share/scale';
+import { ThemeContext } from '../useContext';
+import { ThemeType } from 'resources/theme';
 
 export interface IHomeHeaderBarProps {
   setModalVisible: () => void;
@@ -18,21 +19,21 @@ const HomeHeaderBar = ({
   setModalVisible,
   isModalShow = false,
 }: IHomeHeaderBarProps) => {
-  const { colors } = useCustomTheme();
+  const { colors } = useContext(ThemeContext) as ThemeType;
   const renderIcon = useMemo(() => {
     return (
       <>
         {isModalShow && (
           <IconUp
-            width={normalize(14)}
-            height={normalize(14)}
+            width={DIMENSIONS.home.iconDropDown}
+            height={DIMENSIONS.home.iconDropDown}
             color={colors.text}
           />
         )}
         {!isModalShow && (
           <IconDown
-            width={normalize(14)}
-            height={normalize(14)}
+            width={DIMENSIONS.home.iconDropDown}
+            height={DIMENSIONS.home.iconDropDown}
             color={colors.text}
           />
         )}
@@ -41,14 +42,25 @@ const HomeHeaderBar = ({
   }, [isModalShow, colors]);
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.surface }]}>
+    <View
+      style={[
+        styles.container,
+        {
+          backgroundColor: colors.surface,
+          height: DIMENSIONS.home.navbarHeight,
+        },
+      ]}
+    >
       <View style={[styles.centerIcon, styles.left]}>
-        <ViewCard {...SIZE.iconSize} fill={colors.text} />
+        <ViewCard {...DIMENSIONS.iconSize} fill={colors.text} />
       </View>
       <View style={[styles.center, styles.centerIcon]}>
         <Pressable onPress={setModalVisible} style={styles.centerContent}>
           <Text
-            style={[styles.textStyle, { color: colors.text }]}
+            style={[
+              styles.textStyle,
+              { color: colors.text, fontSize: DIMENSIONS.home.title },
+            ]}
             numberOfLines={1}
           >
             Tất cả sự kiện
@@ -57,10 +69,10 @@ const HomeHeaderBar = ({
         </Pressable>
       </View>
       <View style={[styles.right, styles.centerIcon]}>
-        <SearchIcon {...SIZE.iconSize} color={colors.text} />
+        <SearchIcon {...DIMENSIONS.iconSize} color={colors.text} />
       </View>
     </View>
   );
 };
 
-export default memo(HomeHeaderBar);
+export default memo(HomeHeaderBar, isEqual);

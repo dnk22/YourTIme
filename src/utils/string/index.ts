@@ -1,6 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { processColor } from 'react-native';
 
+/**
+ * Return true, if @param s is valid string
+ *
+ *  @param s is string
+ */
+export function isNonEmptyString(s: string | undefined | null) {
+  if (s === undefined || s == null || s === '') {
+    return false;
+  }
+  return true;
+}
+
 export const trimArray = (sourceArr: Array<unknown> = []): Array<unknown> => {
   return sourceArr.map((element: any) => {
     if (Array.isArray(element)) {

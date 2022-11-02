@@ -15,7 +15,7 @@ enum ThemeEnum {
 
 type ThemeColors = typeof lightTheme;
 
-type ThemeType = {
+export type ThemeType = {
   colors: ThemeColors;
 } & Theme;
 
@@ -40,14 +40,6 @@ const MyAppTheme = {
   dark: CustomDarkTheme,
 };
 
-const SIZE = {
-  bottomBarHeight: 90,
-  iconSize: {
-    width: 26,
-    height: 26,
-  },
-};
-
 const useCustomTheme = useTheme as () => ThemeType;
 
-export { MyAppTheme, useCustomTheme, SIZE, ThemeEnum };
+export { MyAppTheme, useCustomTheme, ThemeEnum };

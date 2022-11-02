@@ -2,7 +2,7 @@ import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ROUTE_NAME } from './utils';
 import type { NativeStackNavigationOptions } from '@react-navigation/native-stack';
-import HomeTabs from './Home';
+import HomeNavigation from './Home';
 
 //set up routes
 const Stack = createNativeStackNavigator();
@@ -17,7 +17,7 @@ function AppNavigators() {
       initialRouteName={ROUTE_NAME.HOME}
       screenOptions={appOptions}
     >
-      <Stack.Screen name={ROUTE_NAME.HOME} component={HomeTabs} />
+      <Stack.Screen name={ROUTE_NAME.HOME} component={HomeNavigation} />
     </Stack.Navigator>
   );
 }
