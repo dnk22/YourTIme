@@ -6,7 +6,8 @@ const styles = StyleSheet.create({
     position: 'relative',
     flexDirection: 'column',
     borderRadius: DIMENSIONS.home.reminderItem.itemBorderRadius,
-    padding: DIMENSIONS.home.reminderItem.itemMarginBottom,
+    paddingVertical: DIMENSIONS.home.reminderItem.itemMarginBottom,
+    paddingHorizontal: DIMENSIONS.home.reminderItem.itemMarginBottom * 2,
     marginBottom: DIMENSIONS.home.reminderItem.itemMarginBottom,
   },
   pin: {
@@ -41,8 +42,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   fontSizeDetails: {
-    marginHorizontal: 10,
     fontSize: DIMENSIONS.home.reminderItem.details,
+  },
+  divider: {
+    marginHorizontal: 10,
+    fontSize: 16,
+    fontWeight: '100',
   },
 });
 export default styles;

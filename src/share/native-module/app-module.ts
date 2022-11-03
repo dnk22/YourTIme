@@ -3,11 +3,11 @@ import {
   EmitterSubscription,
   NativeEventEmitter,
   NativeModules,
+  Platform,
 } from 'react-native';
-
-import { CustomOmit, isIos } from '@common';
-
-import { hexStringFromCSSColor } from '../string';
+export const isIos = Platform.OS === 'ios';
+import { hexStringFromCSSColor } from 'utils/string';
+import { CustomOmit } from 'utils/types';
 
 const { AppModule } = NativeModules;
 

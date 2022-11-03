@@ -1,9 +1,19 @@
-import { format } from 'date-fns';
+import { format, intlFormatDistance, formatDistanceToNow } from 'date-fns';
 import { vi, enUS } from 'date-fns/locale';
 
+// define variable
+const ONE_MINUTE = 60;
+const ONE_HOUR = 60 * 60;
+const ONE_DAY = 60 * 60 * 24;
+const ONE_MONTH = 60 * 60 * 24 * 30;
+const ONE_YEAR = 60 * 60 * 24 * 365;
+
+/**
+ * format local date by date-fns
+ */
 export const formatDateLocal = (
-  date: Date,
-  formatType: any = 'MM/dd/yyyy',
+  date: Date | number,
+  formatType: string = 'dd/MM/yyyy',
   local: any = vi,
 ) => {
   let localString: any = local;
@@ -12,6 +22,56 @@ export const formatDateLocal = (
   }
   return format(date, formatType, { locale: localString });
 };
+
+/**
+ * Return the distance between the given date and now in words.
+ */
+type TTimeAgo = {
+  unit?: string;
+  locale?: Locale;
+  localeMatcher?: string;
+  numeric?: string;
+  style?: string;
+};
+
+export const getFormatDistanceToNow = (
+  date: Date | number,
+  options?: TTimeAgo,
+): string => {
+  return formatDistanceToNow(date, {
+    includeSeconds: true,
+    addSuffix: true,
+    locale: vi,
+    ...options,
+  });
+};
+
+export const getCountDownBetweenDate = (timeInMilliSeconds: number) => {
+  const days = Math.floor(timeInMilliSeconds / (1000 * ONE_DAY));
+  const hours = Math.floor(
+    (timeInMilliSeconds % (1000 * ONE_DAY)) / (1000 * ONE_HOUR),
+  );
+  const minutes = Math.floor(
+    (timeInMilliSeconds % (1000 * ONE_HOUR)) / (1000 * ONE_MINUTE),
+  );
+  const seconds = Math.floor((timeInMilliSeconds % (1000 * ONE_MINUTE)) / 1000);
+
+  return { Ngày: days, Giờ: hours, Phút: minutes, Giây: seconds };
+};
+
+// export const dayBetweenRange = ({
+//   endDate,
+//   startDate,
+//   format = 'DD/MM/YYYY',
+// }: {
+//   startDate?: string;
+//   endDate?: string;
+//   format?: string;
+// }) => {
+//   const mStartDate = moment(startDate, format);
+//   const mEndDate = moment(endDate, format);
+//   return mEndDate.diff(mStartDate, 'days') + 1;
+// };
 
 // /**
 //  * Return list days between 2 date.
@@ -89,70 +149,3 @@ export const formatDateLocal = (
 //   }
 //   return before.concat(days.slice(1, days.length - 1), after);
 // }
-
-// /**
-//  * Get time ago like facebook. (ex: a day ago).
-//  */
-// export function getTimeDifference(date: Date | string): {
-//   count: number | null;
-//   tx: string;
-// } {
-//   const timeDifference = moment().diff(moment.utc(date).local(), 'seconds');
-
-//   const yearTime = 60 * 60 * 24 * 365;
-//   const monthTime = 60 * 60 * 24 * 30;
-//   const dayTime = 60 * 60 * 24;
-//   const hourTime = 60 * 60;
-//   const minutesTime = 60;
-
-//   const yearCalculator = Math.floor(timeDifference / yearTime);
-//   const monthCalculator = Math.floor(timeDifference / monthTime);
-//   const dayCalculator = Math.floor(timeDifference / dayTime);
-//   const hourCalculator = Math.floor(timeDifference / hourTime);
-//   const minutesCalculator = Math.floor(timeDifference / minutesTime);
-
-//   switch (true) {
-//     case yearCalculator > 1:
-//       return { count: yearCalculator, tx: 'txYearsAgo' };
-//     case yearCalculator > 0:
-//       return { count: yearCalculator, tx: 'txYearAgo' };
-
-//     case monthCalculator > 1:
-//       return { count: monthCalculator, tx: 'txMonthsAgo' };
-//     case monthCalculator > 0:
-//       return { count: monthCalculator, tx: 'txMonthAgo' };
-
-//     case dayCalculator > 1:
-//       return { count: dayCalculator, tx: 'txDaysAgo' };
-//     case dayCalculator > 0:
-//       return { count: dayCalculator, tx: 'txDayAgo' };
-
-//     case hourCalculator > 1:
-//       return { count: hourCalculator, tx: 'txHoursAgo' };
-//     case hourCalculator > 0:
-//       return { count: hourCalculator, tx: 'txHourAgo' };
-
-//     case minutesCalculator > 1:
-//       return { count: minutesCalculator, tx: 'txMinutesAgo' };
-//     case minutesCalculator > 0:
-//       return { count: minutesCalculator, tx: 'txMinuteAgo' };
-
-//     case timeDifference > 1:
-//       return { count: timeDifference, tx: 'txSecondsAgo' };
-//     default:
-//       return { count: null, tx: 'txFewSecondsAgo' };
-//   }
-// }
-// export const dayBetweenRange = ({
-//   endDate,
-//   startDate,
-//   format = 'DD/MM/YYYY',
-// }: {
-//   startDate?: string;
-//   endDate?: string;
-//   format?: string;
-// }) => {
-//   const mStartDate = moment(startDate, format);
-//   const mEndDate = moment(endDate, format);
-//   return mEndDate.diff(mStartDate, 'days') + 1;
-// };

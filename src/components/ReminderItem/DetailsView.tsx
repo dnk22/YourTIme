@@ -20,9 +20,7 @@ function DetailsView({
       <Text style={[{ color: colors.text }, styles.fontSizeDetails]}>
         {formatDateLocal(targetDate, 'eeee, dd/MM/yyyy')}
       </Text>
-      <Text style={[{ color: colors.text, fontSize: 16, fontWeight: '100' }]}>
-        |
-      </Text>
+      <Text style={[{ color: colors.text }, styles.divider]}>|</Text>
       <Text style={[{ color: colors.text }, styles.fontSizeDetails]}>
         {repeat}
       </Text>

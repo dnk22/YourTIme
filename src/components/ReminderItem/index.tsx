@@ -11,6 +11,7 @@ import CountDown from './CountDown';
 import { ThemeContext } from 'features/home/useContext';
 import { ThemeType } from 'resources/theme';
 import PinCountDown from './CountDown/PinCountDown';
+import NormalCountDown from './CountDown/NormalCountDown';
 
 type IReminderItemProps = {
   item: TReminder;
@@ -46,6 +47,7 @@ function ReminderItem({ item }: IReminderItemProps) {
         repeat={repeat}
         targetDate={targetDate}
       />
+      {!isPin && <NormalCountDown colors={colors} targetDate={targetDate} />}
     </View>
   );
 }

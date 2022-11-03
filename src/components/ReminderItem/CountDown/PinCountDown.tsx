@@ -1,8 +1,8 @@
 import React, { memo, useCallback, useMemo } from 'react';
 import isEqual from 'react-fast-compare';
 import { Text, View } from 'react-native';
-import { useCountdown } from './count';
 import styles from '../styles';
+import { useCountTime } from 'share/hook.custom';
 
 type TItem = {
   item: any;
@@ -16,8 +16,7 @@ function PinCountDown({
   colors: any;
   targetDate: Date;
 }) {
-  const timerRemaining = useCountdown(targetDate);
-
+  const timerRemaining = useCountTime(targetDate);
   return (
     <View style={styles.countdownView}>
       {Object.entries(timerRemaining).map(item => {
