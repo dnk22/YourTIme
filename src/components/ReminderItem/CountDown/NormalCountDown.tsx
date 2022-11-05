@@ -1,8 +1,10 @@
-import React, { memo, useCallback, useMemo } from 'react';
+import { compareAsc } from 'date-fns';
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import isEqual from 'react-fast-compare';
 import { StyleSheet, Text, View } from 'react-native';
-import { useCountTime } from 'share/hook.custom';
+import { useInterval } from 'share/hook.custom';
 import { normalize } from 'share/scale';
+import { getCountDownBetweenDate, getFormatDistanceToNow } from 'utils/date';
 
 type TItem = {
   item: any;
@@ -16,16 +18,63 @@ function NormalCountDown({
   colors: any;
   targetDate: Date;
 }) {
-  const timerRemaining = useCountTime(targetDate);
+  // set time count
+  const futureInterval = 1000;
+  const passedInterVal = 60000;
+  const [timeRemaining, setTimeRemaining] = useState<any>('');
+  const [isCountType, setIsCountType] = useState<string>('');
+
+  const getCountType = useCallback(() => {
+    const result = compareAsc(new Date(), new Date(targetDate));
+    switch (result) {
+      case -1:
+        return 'future';
+      case 1:
+        setTimeRemaining(getFormatDistanceToNow(targetDate));
+        return 'passed';
+      default:
+        return 'now';
+    }
+  }, [targetDate]);
+
+  useEffect(() => {
+    setIsCountType(getCountType);
+  }, []);
+
+  useInterval(
+    () => {
+      const time = getCountDownBetweenDate(targetDate);
+      if (!time) {
+        setTimeRemaining(true);
+        setIsCountType('passed');
+        return;
+      }
+      setTimeRemaining(time);
+    },
+    isCountType === 'future' ? futureInterval : null,
+  );
+
+  useInterval(
+    () => {
+      const time = getFormatDistanceToNow(targetDate);
+      setTimeRemaining(time);
+    },
+    isCountType === 'passed' ? passedInterVal : null,
+  );
 
   return (
     <View style={styles.countdownView}>
-      {!timerRemaining.isPassed &&
-        Object.entries(timerRemaining).map(item => {
+      {isCountType === 'future' ? (
+        Object.entries(timeRemaining).map(item => {
           const [key] = item;
           return <RenderItem item={item} colors={colors} key={key} />;
-        })}
-      <Text>{timerRemaining.value}</Text>
+        })
+      ) : isCountType === 'now' ? (
+        <Text style={styles.itemCountValue}>Đang diễn ra</Text>
+      ) : (
+        <Text style={styles.itemCountValue}>Đã kết thúc {timeRemaining}</Text>
+      )}
+      {!timeRemaining && <Text style={styles.itemCountValue}>Loading</Text>}
     </View>
   );
 }

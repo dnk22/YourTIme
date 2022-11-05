@@ -7,11 +7,11 @@ import styles from './styles';
 import { normalize } from 'share/scale';
 import Title from './Title';
 import DetailsView from './DetailsView';
-import CountDown from './CountDown';
 import { ThemeContext } from 'features/home/useContext';
 import { ThemeType } from 'resources/theme';
 import PinCountDown from './CountDown/PinCountDown';
 import NormalCountDown from './CountDown/NormalCountDown';
+import { addSeconds } from 'date-fns';
 
 type IReminderItemProps = {
   item: TReminder;

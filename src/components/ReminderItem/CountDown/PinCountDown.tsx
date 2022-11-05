@@ -1,41 +1,91 @@
-import React, { memo, useCallback, useMemo } from 'react';
-import isEqual from 'react-fast-compare';
+import React, { memo, useCallback, useState, useEffect } from 'react';
 import { Text, View } from 'react-native';
+import isEqual from 'react-fast-compare';
+import { getCountDownBetweenDate, getFormatDistanceToNow } from 'utils/date';
+import { useInterval } from 'share/hook.custom';
+import { compareAsc } from 'date-fns';
 import styles from '../styles';
-import { useCountTime } from 'share/hook.custom';
 
-type TItem = {
+type TItemProps = {
   item: any;
   colors: any;
 };
 
-function PinCountDown({
-  colors,
-  targetDate,
-}: {
+interface TPinCountDownProps {
   colors: any;
   targetDate: Date;
-}) {
-  const timerRemaining = useCountTime(targetDate);
+}
+
+function PinCountDown({ colors, targetDate }: TPinCountDownProps) {
+  // set time count
+  const futureInterval = 1000;
+  const passedInterVal = 60000;
+  const [timeRemaining, setTimeRemaining] = useState<any>('');
+  const [isCountType, setIsCountType] = useState<string>('');
+
+  const getCountType = useCallback(() => {
+    const result = compareAsc(new Date(), new Date(targetDate));
+    switch (result) {
+      case -1:
+        return 'future';
+      case 1:
+        return 'passed';
+      default:
+        return 'now';
+    }
+  }, [targetDate]);
+
+  useEffect(() => {
+    setIsCountType(getCountType);
+  }, []);
+
+  useInterval(
+    () => {
+      const time = getCountDownBetweenDate(targetDate);
+      if (!time) {
+        setTimeRemaining(true);
+        setIsCountType('passed');
+        return;
+      }
+      setTimeRemaining(time);
+    },
+    isCountType === 'future' ? futureInterval : null,
+  );
+
+  useInterval(
+    () => {
+      const time = getFormatDistanceToNow(targetDate);
+      setTimeRemaining(time);
+    },
+    isCountType === 'passed' ? passedInterVal : null,
+  );
+
   return (
     <View style={styles.countdownView}>
-      {Object.entries(timerRemaining).map(item => {
-        const [key] = item;
-        return <RenderItem item={item} colors={colors} key={key} />;
-      })}
+      {isCountType === 'future' ? (
+        Object.entries(timeRemaining).map(item => {
+          const [key] = item;
+          return <RenderItem item={item} colors={colors} key={key} />;
+        })
+      ) : isCountType === 'now' ? (
+        <Text style={styles.itemCountValue}>Đang diễn ra</Text>
+      ) : (
+        <Text style={styles.itemCountValue}>Đã kết thúc {timeRemaining}</Text>
+      )}
+      {!timeRemaining && <Text style={styles.itemCountValue}>Loading</Text>}
     </View>
   );
 }
 
-const RenderItem = memo(function ({ item, colors }: TItem) {
+const RenderItem = memo(function ({ item, colors }: TItemProps) {
   const [key, value] = item;
-  const isBigNumber = value > 1;
+  // const isBigNumber = value > 1;
 
   // for cache key display
-  const typeKey = useMemo(
-    () => (value > 1 ? key : key.substring(0, key.length - 1)),
-    [isBigNumber],
-  );
+  // const typeKey = useMemo(
+  //   () => (value > 1 ? key : key.substring(0, key.length - 1)),
+  //   [isBigNumber],
+  // );
 
   // for cache value display
   const zeroPad = useCallback(
@@ -44,11 +94,9 @@ const RenderItem = memo(function ({ item, colors }: TItem) {
   );
   return (
     <View style={styles.itemCountDetail} key={key}>
-      {/* <ImageBackground source={require('assets/images/bg-timer.png')}> */}
       <Text style={[styles.itemCountValue, { color: colors.text }]}>
         {zeroPad(value)}
       </Text>
-      {/* </ImageBackground> */}
       <Text style={{ color: colors.text }}>{key}</Text>
     </View>
   );

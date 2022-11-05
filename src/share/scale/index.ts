@@ -5,7 +5,6 @@ export const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('wi
 
 // Scale item base on screen width and screen height
 // Guideline sizes are based on standard ~5" screen mobile device
-
 // prettier-ignore
 const [shortDimension, longDimension] = SCREEN_WIDTH < SCREEN_HEIGHT ? [SCREEN_WIDTH, SCREEN_HEIGHT] : [SCREEN_HEIGHT, SCREEN_WIDTH];
 

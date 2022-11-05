@@ -1,24 +1,6 @@
-import { differenceInMilliseconds } from 'date-fns';
 import { useEffect, useRef } from 'react';
-import { getFormatDistanceToNow, getCountDownBetweenDate } from 'utils/date';
 
-const useCountTime = (targetDate: Date | number) => {
-  const diffInMilliSeconds = differenceInMilliseconds(
-    new Date(targetDate),
-    new Date(),
-  );
-  /**
-   * timeInSeconds > 0 : return object countdown
-   * timeInSeconds > < : return string about pass time
-   */
-  if (!diffInMilliSeconds) {
-    return { isPassed: true, value: getFormatDistanceToNow(targetDate) };
-  } else {
-    return getCountDownBetweenDate(diffInMilliSeconds);
-  }
-};
-
-function useInterval(callback: any, delay: number) {
+function useInterval(callback: any, delay: number | null) {
   const savedCallback: any = useRef();
 
   // Remember the latest callback.
@@ -38,4 +20,4 @@ function useInterval(callback: any, delay: number) {
   }, [delay]);
 }
 
-export { useCountTime, useInterval };
+export { useInterval };

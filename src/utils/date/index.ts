@@ -1,4 +1,9 @@
-import { format, intlFormatDistance, formatDistanceToNow } from 'date-fns';
+import {
+  format,
+  intlFormatDistance,
+  formatDistanceToNow,
+  differenceInMilliseconds,
+} from 'date-fns';
 import { vi, enUS } from 'date-fns/locale';
 
 // define variable
@@ -39,22 +44,33 @@ export const getFormatDistanceToNow = (
   options?: TTimeAgo,
 ): string => {
   return formatDistanceToNow(date, {
-    includeSeconds: true,
     addSuffix: true,
     locale: vi,
     ...options,
   });
 };
 
-export const getCountDownBetweenDate = (timeInMilliSeconds: number) => {
-  const days = Math.floor(timeInMilliSeconds / (1000 * ONE_DAY));
+/**
+ * Return the distance between the given future date and now in words.
+ */
+export const getCountDownBetweenDate = (
+  targetDate: Date | number,
+): { [name: string]: number } | number => {
+  const diffInMilliSeconds = differenceInMilliseconds(
+    new Date(targetDate),
+    new Date(),
+  );
+  if (diffInMilliSeconds <= 0) {
+    return 0;
+  }
+  const days = Math.floor(diffInMilliSeconds / (1000 * ONE_DAY));
   const hours = Math.floor(
-    (timeInMilliSeconds % (1000 * ONE_DAY)) / (1000 * ONE_HOUR),
+    (diffInMilliSeconds % (1000 * ONE_DAY)) / (1000 * ONE_HOUR),
   );
   const minutes = Math.floor(
-    (timeInMilliSeconds % (1000 * ONE_HOUR)) / (1000 * ONE_MINUTE),
+    (diffInMilliSeconds % (1000 * ONE_HOUR)) / (1000 * ONE_MINUTE),
   );
-  const seconds = Math.floor((timeInMilliSeconds % (1000 * ONE_MINUTE)) / 1000);
+  const seconds = Math.floor((diffInMilliSeconds % (1000 * ONE_MINUTE)) / 1000);
 
   return { Ngày: days, Giờ: hours, Phút: minutes, Giây: seconds };
 };
