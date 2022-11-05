@@ -7,9 +7,9 @@ import HomeBottomBar from './HomeBottomBar';
 import Lottie from 'lottie-react-native';
 import { ROUTE_NAME } from '../utils';
 
-import HomeScreen from 'features/home';
-import Records from 'features/records';
-import Settings from 'features/settings';
+import Dashboard from 'features/Dashboard';
+import Tools from 'features/Tools';
+import Settings from 'features/Settings';
 
 //set up routes
 const Tab = createBottomTabNavigator();
@@ -46,7 +46,7 @@ function HomeNavigation() {
             />
           ),
         }}
-        component={Records}
+        component={Tools}
       />
       <Tab.Screen
         name={ROUTE_NAME.DASHBOARD}
@@ -62,7 +62,7 @@ function HomeNavigation() {
             />
           ),
         }}
-        component={HomeScreen}
+        component={Dashboard}
       />
       <Tab.Screen
         name={ROUTE_NAME.SETTINGS}
