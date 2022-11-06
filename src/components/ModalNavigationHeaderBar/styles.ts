@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
-import { ModalHeaderBarDimensions, normalize } from 'share/scale';
+import { ModalNavigationHeaderBarDimensions, normalize } from 'share/scale';
 
 const styles = StyleSheet.create({
   container: {
-    height: ModalHeaderBarDimensions.headerBarHeight,
+    height: ModalNavigationHeaderBarDimensions.headerBarHeight,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   },
   center: { flex: 4 },
   titleText: {
-    fontSize: ModalHeaderBarDimensions.titleFontSize,
+    fontSize: ModalNavigationHeaderBarDimensions.titleFontSize,
     fontWeight: '700',
   },
   right: { flex: 1, alignItems: 'flex-end' },

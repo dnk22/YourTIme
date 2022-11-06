@@ -2,7 +2,6 @@ import React, { memo, useRef, useState } from 'react';
 import {
   View,
   Text,
-  TextInput,
   Pressable,
   TouchableOpacity,
   Switch,
@@ -12,7 +11,7 @@ import {
 import isEqual from 'react-fast-compare';
 import { NavigationProp } from '@react-navigation/native';
 import { useCustomTheme } from 'resources/theme';
-import ModalHeaderBar from 'components/ModalHeaderBar';
+import ModalNavigationHeaderBar from 'components/ModalNavigationHeaderBar';
 import AddIcon from 'assets/svg/icon-sound.svg';
 import Category from 'assets/svg/icon-view-card.svg';
 import IconCloseCircle from 'assets/svg/icon-close-circle.svg';
@@ -23,6 +22,9 @@ import DateTimePicker, {
 import Modal from 'react-native-modal';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import styles from './styles';
+import { useForm } from 'react-hook-form';
+import InputField from 'components/InputField';
+import { FormAddReminder } from './type';
 
 interface IAddReminderProps {
   navigation: NavigationProp<any, any>;
@@ -34,13 +36,24 @@ function AddReminder({ navigation }: IAddReminderProps) {
 
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormAddReminder>({
+    defaultValues: {
+      name: '',
+      descriptions: '',
+    },
+  });
 
   const onHandleBack = () => {
     navigation.goBack();
   };
 
-  const onHandleConfirm = () => {
-    navigation.goBack();
+  const onHandleConfirm = (data: FormAddReminder) => {
+    console.log(data);
+    // navigation.goBack();
   };
 
   const onChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
@@ -89,21 +102,27 @@ function AddReminder({ navigation }: IAddReminderProps) {
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       {renderModal()}
-      <ModalHeaderBar
+      <ModalNavigationHeaderBar
         text={{ title: 'Tạo mới đếm ngược' }}
         onBack={onHandleBack}
-        onConfirm={onHandleConfirm}
+        onConfirm={handleSubmit(onHandleConfirm)}
       />
+
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.form}>
           <View style={[styles.group, { backgroundColor: colors.surface }]}>
-            <TextInput style={styles.inputName} placeholder="Tên" />
-            <TextInput
+            <InputField
+              name="name"
+              control={control}
+              style={styles.inputName}
+              placeholder="Tên"
+            />
+            <InputField
+              name="descriptions"
+              control={control}
               style={styles.inputDesc}
               placeholder="Chi tiết"
               multiline
-              // numberOfLines={3}
-              // maxLength={120}
             />
           </View>
           <View style={[styles.group, styles.groupRow]}>
@@ -126,7 +145,7 @@ function AddReminder({ navigation }: IAddReminderProps) {
                 { backgroundColor: colors.surface },
               ]}
             >
-              <Text>Hihi</Text>
+              <Text style={[{ color: colors.text }]}>Hihi</Text>
             </View>
             <View
               style={[

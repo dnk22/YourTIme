@@ -12,20 +12,20 @@ import IconCloseCircle from 'assets/svg/icon-close-circle.svg';
 import { useCustomTheme } from 'resources/theme';
 import styles from './styles';
 
-interface IModalHeaderBarProps {
+interface IModalNavigationHeaderBarProps {
   text: {
-    back?: string;
     title?: string;
     confirm?: string;
   };
   onBack: () => void;
   onConfirm: () => void;
 }
-function ModalHeaderBar({ text, onBack, onConfirm }: IModalHeaderBarProps) {
+function ModalNavigationHeaderBar({
+  text,
+  onBack,
+  onConfirm,
+}: IModalNavigationHeaderBarProps) {
   const { colors } = useCustomTheme();
-  const onHandleButtonConfirm = () => {
-    onBack();
-  };
   return (
     <>
       <View style={styles.container}>
@@ -44,7 +44,7 @@ function ModalHeaderBar({ text, onBack, onConfirm }: IModalHeaderBarProps) {
         keyboardVerticalOffset={80}
       >
         <Pressable
-          onPress={onHandleButtonConfirm}
+          onPress={onConfirm}
           style={[styles.actionConfirm, { backgroundColor: colors.primary }]}
         >
           <Text style={styles.textButtonConfirm}>Xác nhận</Text>
@@ -54,4 +54,4 @@ function ModalHeaderBar({ text, onBack, onConfirm }: IModalHeaderBarProps) {
   );
 }
 
-export default memo(ModalHeaderBar, isEqual);
+export default memo(ModalNavigationHeaderBar, isEqual);

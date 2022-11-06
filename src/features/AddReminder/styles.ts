@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
   colorPicker: {
     width: normalize(50),
     height: normalize(50),
+    justifyContent: 'center',
   },
   timeTitle: {
     flexDirection: 'row',

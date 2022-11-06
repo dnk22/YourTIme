@@ -48,7 +48,7 @@ export const IconSize = {
   },
 };
 
-export const ModalHeaderBarDimensions = {
+export const ModalNavigationHeaderBarDimensions = {
   headerBarHeight: normalize(40),
   titleFontSize: normalize(16),
   actionFontSize: normalize(14),
