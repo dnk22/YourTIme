@@ -68,11 +68,19 @@ function PinCountDown({ colors, targetDate }: TPinCountDownProps) {
           return <RenderItem item={item} colors={colors} key={key} />;
         })
       ) : isCountType === 'now' ? (
-        <Text style={styles.itemCountValue}>Đang diễn ra</Text>
+        <Text style={[styles.itemCountValue, { color: colors.text }]}>
+          Đang diễn ra
+        </Text>
       ) : (
-        <Text style={styles.itemCountValue}>Đã kết thúc {timeRemaining}</Text>
+        <Text style={[styles.itemCountValue, { color: colors.text }]}>
+          Đã kết thúc {timeRemaining}
+        </Text>
       )}
-      {!timeRemaining && <Text style={styles.itemCountValue}>Loading</Text>}
+      {!timeRemaining && (
+        <Text style={[styles.itemCountValue, { color: colors.text }]}>
+          Loading
+        </Text>
+      )}
     </View>
   );
 }

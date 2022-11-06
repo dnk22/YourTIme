@@ -1,16 +1,20 @@
 import React, { memo, useCallback, useState } from 'react';
 import { FlatList, SafeAreaView, View } from 'react-native';
-import { useCustomTheme } from 'resources/theme';
+import { ThemeContext, useCustomTheme } from 'resources/theme';
 import HomeHeaderBar from './HomeHeaderBar';
 import ListCategory from './ListCategory';
 import ReminderItem from 'components/ReminderItem';
-import styles from './styles';
 import isEqual from 'react-fast-compare';
 import { DATA } from './data';
 import { TReminder } from 'utils/types';
-import { ThemeContext } from './useContext';
+import { NavigationProp } from '@react-navigation/native';
+import styles from './styles';
 
-const Home = ({ navigation }) => {
+export interface IHomeProps {
+  navigation: NavigationProp<any, any>;
+}
+
+const Home = ({ navigation }: IHomeProps) => {
   const [isShowCategory, setIsShowCategory] = useState(false);
   const { colors } = useCustomTheme();
 
@@ -31,6 +35,7 @@ const Home = ({ navigation }) => {
           <HomeHeaderBar
             setModalVisible={() => setIsShowCategory(!isShowCategory)}
             isModalShow={isShowCategory}
+            navigation={navigation}
           />
           {isShowCategory && (
             <ListCategory

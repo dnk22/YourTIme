@@ -1,23 +1,25 @@
 import React, { memo, useContext, useMemo } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import SearchIcon from 'assets/svg/icon-search.svg';
-import ViewCard from 'assets/svg/icon-view-card.svg';
+import AddIcon from 'assets/svg/icon-add.svg';
 import IconDown from 'assets/svg/icon-down.svg';
 import IconUp from 'assets/svg/icon-up.svg';
-import { DIMENSIONS } from 'share/scale';
+import { DIMENSIONS, IconSize } from 'share/scale';
 import isEqual from 'react-fast-compare';
+import { ThemeContext, ThemeType } from 'resources/theme';
+import { NavigationProp } from '@react-navigation/native';
 import styles from './style';
-import { ThemeContext } from '../useContext';
-import { ThemeType } from 'resources/theme';
 
 export interface IHomeHeaderBarProps {
   setModalVisible: () => void;
   isModalShow: boolean;
+  navigation: NavigationProp<any, any>;
 }
 
 const HomeHeaderBar = ({
   setModalVisible,
   isModalShow = false,
+  navigation,
 }: IHomeHeaderBarProps) => {
   const { colors } = useContext(ThemeContext) as ThemeType;
   const renderIcon = useMemo(() => {
@@ -41,6 +43,10 @@ const HomeHeaderBar = ({
     );
   }, [isModalShow, colors]);
 
+  const onHandleAddReminderClick = () => {
+    navigation.navigate('AddReminder');
+  };
+
   return (
     <View
       style={[
@@ -52,7 +58,9 @@ const HomeHeaderBar = ({
       ]}
     >
       <View style={[styles.centerIcon, styles.left]}>
-        <ViewCard {...DIMENSIONS.iconSize} fill={colors.text} />
+        <Pressable onPress={onHandleAddReminderClick}>
+          <AddIcon {...IconSize.app} fill={colors.text} />
+        </Pressable>
       </View>
       <View style={[styles.center, styles.centerIcon]}>
         <Pressable onPress={setModalVisible} style={styles.centerContent}>
@@ -69,7 +77,7 @@ const HomeHeaderBar = ({
         </Pressable>
       </View>
       <View style={[styles.right, styles.centerIcon]}>
-        <SearchIcon {...DIMENSIONS.iconSize} color={colors.text} />
+        <SearchIcon {...IconSize.app} color={colors.text} />
       </View>
     </View>
   );

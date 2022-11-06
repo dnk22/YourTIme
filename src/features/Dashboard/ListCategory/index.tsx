@@ -6,18 +6,16 @@ import {
   Pressable,
   TouchableHighlight,
 } from 'react-native';
-import { DATA } from '../data';
-import styles from './styles';
-
 import SVG from 'assets/svg/icon-search.svg';
-import { ThemeContext } from '../useContext';
 import Animated, {
   Easing,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { ThemeType } from 'resources/theme';
+import { ThemeContext, ThemeType } from 'resources/theme';
+import { DATA } from '../data';
+import styles from './styles';
 
 const ListCategory = ({
   setShowHide,

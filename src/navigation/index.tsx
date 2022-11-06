@@ -3,9 +3,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ROUTE_NAME } from './utils';
 import type { NativeStackNavigationOptions } from '@react-navigation/native-stack';
 import HomeNavigation from './Home';
+import AddReminder from 'features/AddReminder';
 
 //set up routes
-const Stack = createNativeStackNavigator();
+const RootStack = createNativeStackNavigator();
 
 const appOptions: NativeStackNavigationOptions = {
   headerShown: false,
@@ -13,12 +14,15 @@ const appOptions: NativeStackNavigationOptions = {
 
 function AppNavigators() {
   return (
-    <Stack.Navigator
+    <RootStack.Navigator
       initialRouteName={ROUTE_NAME.HOME}
       screenOptions={appOptions}
     >
-      <Stack.Screen name={ROUTE_NAME.HOME} component={HomeNavigation} />
-    </Stack.Navigator>
+      <RootStack.Screen name={ROUTE_NAME.HOME} component={HomeNavigation} />
+      <RootStack.Group screenOptions={{ presentation: 'modal' }}>
+        <RootStack.Screen name="AddReminder" component={AddReminder} />
+      </RootStack.Group>
+    </RootStack.Navigator>
   );
 }
 

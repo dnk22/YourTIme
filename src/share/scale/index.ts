@@ -20,10 +20,6 @@ export const normalize = (size: number, factor = 0.5) => size + (scale(size) - s
 // system icon scale
 export const DIMENSIONS = {
   bottomBarHeight: 90,
-  iconSize: {
-    width: normalize(24),
-    height: normalize(24),
-  },
   home: {
     iconDropDown: normalize(12),
     navbarHeight: normalize(40),
@@ -39,4 +35,21 @@ export const DIMENSIONS = {
       details: normalize(14),
     },
   },
+};
+
+export const IconSize = {
+  app: {
+    width: normalize(24),
+    height: normalize(24),
+  },
+  addReminder: {
+    width: normalize(22),
+    height: normalize(22),
+  },
+};
+
+export const ModalHeaderBarDimensions = {
+  headerBarHeight: normalize(40),
+  titleFontSize: normalize(16),
+  actionFontSize: normalize(14),
 };

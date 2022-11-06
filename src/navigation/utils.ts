@@ -10,8 +10,19 @@ import {
   createNavigationContainerRef,
 } from '@react-navigation/native';
 
+export const ROUTE_NAME = {
+  HOME: 'home',
+  DASHBOARD: 'dashboard',
+  RECORDS: 'records',
+  SETTINGS: 'settings',
+};
+
+type RootStackParamList = {
+  home: undefined;
+};
+
 export const navigationRef = createNavigationContainerRef<RootStackParamList>();
-export const navigate = (name, params) => {
+export const navigate = (name: any, params: any) => {
   if (navigationRef.isReady()) {
     navigationRef.navigate(name, params);
   }
@@ -37,11 +48,4 @@ export const navigateAndSimpleReset = (name, index = 0) => {
       }),
     );
   }
-};
-
-export const ROUTE_NAME = {
-  HOME: 'home',
-  DASHBOARD: 'dashboard',
-  RECORDS: 'records',
-  SETTINGS: 'settings',
 };
