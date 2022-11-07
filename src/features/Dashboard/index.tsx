@@ -1,23 +1,28 @@
 import React, { memo, useCallback, useState } from 'react';
 import { FlatList, SafeAreaView, View } from 'react-native';
 import { ThemeContext, useCustomTheme } from 'resources/theme';
+import styles from './styles';
 import HomeHeaderBar from './HomeHeaderBar';
 import ListCategory from './ListCategory';
-import ReminderItem from 'components/ReminderItem';
+import { ReminderItem } from 'components/index';
 import isEqual from 'react-fast-compare';
 import { DATA } from './data';
-import { TReminder } from 'utils/types';
 import { NavigationProp } from '@react-navigation/native';
-import styles from './styles';
+import { useAppSelector, RootState } from 'store/index';
+import { selectAllReminder } from 'store/reminder/reminder.selector';
+import { TReminder } from './type';
 
 export interface IHomeProps {
   navigation: NavigationProp<any, any>;
 }
 
 const Home = ({ navigation }: IHomeProps) => {
-  const [isShowCategory, setIsShowCategory] = useState(false);
   const { colors } = useCustomTheme();
-
+  const [isShowCategory, setIsShowCategory] = useState(false);
+  const getAllReminder = useAppSelector((state: RootState) =>
+    selectAllReminder(state),
+  );
+  console.log(getAllReminder, 'getAllReminder');
   const renderItem = useCallback(
     ({ item }: { item: TReminder }) => <ReminderItem item={item} />,
     [],

@@ -17,7 +17,7 @@ const ONE_YEAR = 60 * 60 * 24 * 365;
  * format local date by date-fns
  */
 export const formatDateLocal = (
-  date: Date | number,
+  date: Date | number | string,
   formatType: string = 'dd/MM/yyyy',
   local: any = vi,
 ) => {
@@ -25,7 +25,7 @@ export const formatDateLocal = (
   if (local === 'en') {
     localString = enUS;
   }
-  return format(date, formatType, { locale: localString });
+  return format(new Date(date), formatType, { locale: localString });
 };
 
 /**
@@ -40,10 +40,10 @@ type TTimeAgo = {
 };
 
 export const getFormatDistanceToNow = (
-  date: Date | number,
+  date: Date | number | string,
   options?: TTimeAgo,
 ): string => {
-  return formatDistanceToNow(date, {
+  return formatDistanceToNow(new Date(date), {
     addSuffix: true,
     locale: vi,
     ...options,
@@ -54,7 +54,7 @@ export const getFormatDistanceToNow = (
  * Return the distance between the given future date and now in words.
  */
 export const getCountDownBetweenDate = (
-  targetDate: Date | number,
+  targetDate: Date | number | string,
 ): { [name: string]: number } | number => {
   const diffInMilliSeconds = differenceInMilliseconds(
     new Date(targetDate),

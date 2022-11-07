@@ -17,8 +17,9 @@ import { IconSize } from 'share/scale';
 import Modal from 'react-native-modal';
 import styles from './styles';
 import { useForm } from 'react-hook-form';
-import { FormAddReminder, FIELD_NAME } from './type';
+import { TReminder } from '../type';
 import { formatDateLocal } from 'utils/date';
+import { useAppDispatch } from 'store/index';
 import {
   SegmentedControlField,
   Switch,
@@ -26,6 +27,8 @@ import {
   DateTimeField,
   ModalNavigationHeaderBar,
 } from 'components/index';
+import { addNewReminder } from 'store/reminder/reminder.slice';
+import { FIELD_NAME } from '../const';
 
 interface IAddReminderProps {
   navigation: NavigationProp<any, any>;
@@ -42,11 +45,11 @@ function AddReminder({ navigation }: IAddReminderProps) {
   const [isModalShow, setIsModalShow] = useState<boolean>(false);
   const [isLoop, setIsLoop] = useState<boolean>(false);
   const [isReminder, setIsReminder] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
-  const { control, handleSubmit, getValues, setValue } =
-    useForm<FormAddReminder>({
-      defaultValues,
-    });
+  const { control, handleSubmit, getValues, setValue } = useForm<TReminder>({
+    defaultValues,
+  });
   const targetDateTime = getValues('targetDateTime');
   const targetDateRender = useMemo(
     () => formatDateLocal(targetDateTime, 'MM/dd/yyyy'),
@@ -61,8 +64,13 @@ function AddReminder({ navigation }: IAddReminderProps) {
     navigation.goBack();
   };
 
-  const onHandleConfirm = (data: FormAddReminder) => {
+  const onHandleConfirm = (data: TReminder) => {
     console.log(data);
+    const result = {
+      ...data,
+      targetDateTime: data.targetDateTime.toString(),
+    };
+    dispatch(addNewReminder(result));
     // navigation.goBack();
   };
 
@@ -77,7 +85,7 @@ function AddReminder({ navigation }: IAddReminderProps) {
 
   const onHandleLoopChange = (value: boolean) => {
     if (!value) {
-      setValue('loop', value);
+      setValue('repeat', value);
     }
     setIsLoop(value);
   };
@@ -220,7 +228,7 @@ function AddReminder({ navigation }: IAddReminderProps) {
             </View>
             {isLoop && (
               <SegmentedControlField
-                name={FIELD_NAME.LOOP}
+                name={FIELD_NAME.REPEAT}
                 control={control}
                 style={styles.loop}
                 values={['Hằng ngày', 'Hằng tuần', 'Hàng tháng', 'Hàng tháng']}

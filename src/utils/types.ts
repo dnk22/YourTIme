@@ -12,19 +12,3 @@ export type TDimensionsType = {
     avatar: number;
   };
 };
-
-export type TReminder = {
-  id?: string;
-  name: string;
-  description: string;
-  category: string;
-  targetDate: Date | number;
-  targetTime: Date;
-  repeat: string;
-  alarmConfig: string;
-  theme: string;
-  ring: string;
-  isPin: boolean;
-  isImportant: boolean;
-  dateCreated?: Date;
-};
