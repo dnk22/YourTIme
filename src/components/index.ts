@@ -6,6 +6,8 @@ import SwitchField from 'components/Switch/SwitchField';
 import SegmentedControlField from 'components/SegmentedControlField';
 import ModalNavigationHeaderBar from 'components/ModalNavigationHeaderBar';
 import ReminderItem from 'components/ReminderItem';
+import FlatListComponent from './FlatList/index';
+import ModalComponent from 'components/Modal';
 
 export {
   DateTimeField,
@@ -16,4 +18,6 @@ export {
   SegmentedControlField,
   ModalNavigationHeaderBar,
   ReminderItem,
+  FlatListComponent,
+  ModalComponent,
 };

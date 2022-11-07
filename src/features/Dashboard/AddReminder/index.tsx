@@ -3,18 +3,16 @@ import {
   View,
   Text,
   Pressable,
-  TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from 'react-native';
 import isEqual from 'react-fast-compare';
 import { NavigationProp } from '@react-navigation/native';
 import { useCustomTheme } from 'resources/theme';
 import AddIcon from 'assets/svg/icon-sound.svg';
 import Category from 'assets/svg/icon-view-card.svg';
-import IconCloseCircle from 'assets/svg/icon-close-circle.svg';
 import { IconSize } from 'share/scale';
-import Modal from 'react-native-modal';
 import styles from './styles';
 import { useForm } from 'react-hook-form';
 import { TReminder } from '../type';
@@ -22,10 +20,11 @@ import { formatDateLocal } from 'utils/date';
 import { useAppDispatch } from 'store/index';
 import {
   SegmentedControlField,
-  Switch,
   InputField,
   DateTimeField,
   ModalNavigationHeaderBar,
+  ModalComponent,
+  SwitchField,
 } from 'components/index';
 import { addNewReminder } from 'store/reminder/reminder.slice';
 import { FIELD_NAME } from '../const';
@@ -42,16 +41,16 @@ const defaultValues = {
 
 function AddReminder({ navigation }: IAddReminderProps) {
   const { colors } = useCustomTheme();
-  const isPickerType = useRef<any>('date');
+  const isPickerMode = useRef<any>('date');
   const [isModalShow, setIsModalShow] = useState<boolean>(false);
-  const [isLoop, setIsLoop] = useState<boolean>(false);
-  const [isReminder, setIsReminder] = useState<boolean>(false);
   const dispatch = useAppDispatch();
 
-  const { control, handleSubmit, getValues, setValue } = useForm<TReminder>({
+  const { control, handleSubmit, getValues } = useForm<TReminder>({
     defaultValues,
   });
-  const targetDateTime = getValues('targetDateTime');
+
+  // get form values
+  const { targetDateTime, isRepeat, isReminder } = getValues();
   const targetDateRender = useMemo(
     () => formatDateLocal(targetDateTime, 'MM/dd/yyyy'),
     [targetDateTime],
@@ -67,27 +66,16 @@ function AddReminder({ navigation }: IAddReminderProps) {
 
   const onHandleConfirm = (data: TReminder) => {
     const result = {
-      id: "'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba'",
-      name: 'Chúc mừng năm mới',
-      description: 'Năm mới 2023',
-      category: 'Ngày lễ',
-      targetDateTime: new Date('2023-01-01').toString(),
-      isRepeat: true,
-      repeat: 'Hàng ngày',
-      isReminder: true,
-      reminder: '1',
-      color: '#E7F6F2',
-      bell: 'string',
-      isImportant: false,
-      dateCreated: new Date().toString(),
+      ...data,
+      id: randomUniqueId(),
     };
-
-    dispatch(addNewReminder(result));
+    Alert.alert('Heading', JSON.stringify(result), []);
+    // dispatch(addNewReminder(result));
     // navigation.goBack();
   };
 
-  const onHandleDateTimeClick = (type: string): void => {
-    isPickerType.current = type;
+  const onHandleOpenDateTimePickerModal = (type: string): void => {
+    isPickerMode.current = type;
     onToggleModal();
   };
 
@@ -95,49 +83,22 @@ function AddReminder({ navigation }: IAddReminderProps) {
     setIsModalShow(!isModalShow);
   };
 
-  const onHandleLoopChange = (value: boolean) => {
-    if (!value) {
-      setValue('repeat', value);
-    }
-    setIsLoop(value);
-  };
-  const onHandleReminderChange = (value: boolean) => {
-    if (!value) {
-      setValue('reminder', value);
-    }
-    setIsReminder(value);
-  };
-
   const renderModal = () => {
-    const { current } = isPickerType;
+    const { current } = isPickerMode;
     return (
-      <Modal
-        isVisible={isModalShow}
-        backdropColor="#6e768142"
-        style={styles.modal}
-        animationInTiming={400}
-        animationOutTiming={400}
-        hideModalContentWhileAnimating
-        onBackdropPress={onToggleModal}
-        useNativeDriver
-        useNativeDriverForBackdrop
-      >
-        <View style={[styles.modalView, { backgroundColor: colors.surface }]}>
-          <TouchableOpacity style={styles.modalAction} onPress={onToggleModal}>
-            <IconCloseCircle {...IconSize.addReminder} fill={colors.text} />
-          </TouchableOpacity>
-          <DateTimeField
-            name={FIELD_NAME.TARGET_DATE_TIME}
-            control={control}
-            locale="vi"
-            value={new Date()}
-            mode={current}
-            display={current === 'date' ? 'inline' : 'spinner'}
-          />
-        </View>
-      </Modal>
+      <ModalComponent isVisible={isModalShow} onToggleModal={onToggleModal}>
+        <DateTimeField
+          name={FIELD_NAME.TARGET_DATE_TIME}
+          control={control}
+          locale="vi"
+          value={new Date()}
+          mode={current}
+          display={current === 'date' ? 'inline' : 'spinner'}
+        />
+      </ModalComponent>
     );
   };
+  console.log('render root');
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
@@ -211,7 +172,7 @@ function AddReminder({ navigation }: IAddReminderProps) {
                     styles.dateTimePicker,
                     { backgroundColor: colors.background },
                   ]}
-                  onPress={() => onHandleDateTimeClick('date')}
+                  onPress={() => onHandleOpenDateTimePickerModal('date')}
                 >
                   <Text style={[styles.dateTimeText, { color: colors.text }]}>
                     {targetDateRender}
@@ -222,7 +183,7 @@ function AddReminder({ navigation }: IAddReminderProps) {
                     styles.dateTimePicker,
                     { backgroundColor: colors.background },
                   ]}
-                  onPress={() => onHandleDateTimeClick('time')}
+                  onPress={() => onHandleOpenDateTimePickerModal('time')}
                 >
                   <Text style={[styles.dateTimeText, { color: colors.text }]}>
                     {targetTimeRender}
@@ -236,13 +197,13 @@ function AddReminder({ navigation }: IAddReminderProps) {
               <Text style={[{ color: colors.text }, styles.textTime]}>
                 Lặp lại?
               </Text>
-              <Switch value={isLoop} onValueChange={onHandleLoopChange} />
+              <SwitchField name="isLoop" control={control} />
             </View>
-            {isLoop && (
+            {isRepeat && (
               <SegmentedControlField
                 name={FIELD_NAME.REPEAT}
                 control={control}
-                style={styles.loop}
+                style={styles.segmentedControl}
                 values={['Hằng ngày', 'Hằng tuần', 'Hàng tháng', 'Hàng tháng']}
               />
             )}
@@ -252,16 +213,13 @@ function AddReminder({ navigation }: IAddReminderProps) {
               <Text style={[{ color: colors.text }, styles.textTime]}>
                 Thông báo?
               </Text>
-              <Switch
-                value={isReminder}
-                onValueChange={onHandleReminderChange}
-              />
+              <SwitchField name="isReminder" control={control} />
             </View>
             {isReminder && (
               <SegmentedControlField
                 name={FIELD_NAME.REMINDER}
                 control={control}
-                style={styles.loop}
+                style={styles.segmentedControl}
                 values={['Hằng ngày', 'Hằng tuần', 'Hàng tháng', 'Hàng tháng']}
               />
             )}

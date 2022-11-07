@@ -1,10 +1,10 @@
 import React, { memo, useCallback, useState } from 'react';
-import { FlatList, SafeAreaView, View, Pressable, Text } from 'react-native';
+import { SafeAreaView, View, Pressable, Text } from 'react-native';
 import { ThemeContext, useCustomTheme } from 'resources/theme';
 import styles from './styles';
 import HomeHeaderBar from './HomeHeaderBar';
 import ListCategory from './ListCategory';
-import { ReminderItem } from 'components/index';
+import { FlatListComponent, ReminderItem } from 'components/index';
 import isEqual from 'react-fast-compare';
 import { NavigationProp } from '@react-navigation/native';
 import { useAppSelector, RootState, useAppDispatch } from 'store/index';
@@ -30,7 +30,6 @@ const Home = ({ navigation }: IHomeProps) => {
     ),
     [],
   );
-  const keyExtractor = useCallback((item: TReminder) => item.id.toString(), []);
 
   return (
     <SafeAreaView
@@ -58,10 +57,9 @@ const Home = ({ navigation }: IHomeProps) => {
             <Text>clear all</Text>
           </Pressable>
           <View style={[styles.contentView]}>
-            <FlatList
+            <FlatListComponent
               data={getAllReminder}
               renderItem={renderItem}
-              keyExtractor={keyExtractor}
               maxToRenderPerBatch={5}
               initialNumToRender={5}
               showsVerticalScrollIndicator={false}

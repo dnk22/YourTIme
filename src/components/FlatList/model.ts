@@ -6,4 +6,4 @@ interface Props extends FlatListProps<any> {
   onLoadMore?: () => void;
 }
 
-export type PropsFlatlist = React.FC<Props>;
+export type PropsFlatList = React.FC<Props>;

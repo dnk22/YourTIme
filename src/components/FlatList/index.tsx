@@ -1,14 +1,25 @@
-import React from 'react';
+import React, { useCallback, memo } from 'react';
 import { FlatList, RefreshControl } from 'react-native';
-import { PropsFlatlist } from './model';
+import { PropsFlatList } from './model';
+import isEqual from 'react-fast-compare';
 
-const FlatListComponent: PropsFlatlist = props => {
-  const { data, renderItem, onRefresh, onLoadMore } = props;
+const FlatListComponent: PropsFlatList = props => {
+  const {
+    data,
+    renderItem,
+    onRefresh,
+    onLoadMore,
+    maxToRenderPerBatch = 5,
+    initialNumToRender = 5,
+    showsVerticalScrollIndicator = false,
+    showsHorizontalScrollIndicator = false,
+  } = props;
+  const keyExtractor = useCallback((item: any) => item.id.toString(), []);
   return (
     <FlatList
       {...props}
       data={data}
-      keyExtractor={(e, i) => i.toString()}
+      keyExtractor={keyExtractor}
       extraData={data}
       keyboardShouldPersistTaps="handled"
       renderItem={renderItem}
@@ -22,8 +33,12 @@ const FlatListComponent: PropsFlatlist = props => {
       }
       onEndReachedThreshold={0.5}
       onEndReached={() => onLoadMore && onLoadMore()}
+      maxToRenderPerBatch={maxToRenderPerBatch}
+      initialNumToRender={initialNumToRender}
+      showsVerticalScrollIndicator={showsVerticalScrollIndicator}
+      showsHorizontalScrollIndicator={showsHorizontalScrollIndicator}
     />
   );
 };
 
-export default FlatListComponent;
+export default memo(FlatListComponent, isEqual);

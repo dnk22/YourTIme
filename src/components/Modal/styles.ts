@@ -1,26 +1,28 @@
-import { StyleSheet } from 'react-native-size-scaling';
+import { StyleSheet } from 'react-native';
+import { normalize } from 'share/scale';
 
 export const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  modal: {
+    marginHorizontal: 5,
+    justifyContent: 'flex-end',
+    paddingBottom: normalize(20),
   },
-  main: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 10,
+  modalView: {
+    flexDirection: 'column',
+    borderRadius: 20,
+    padding: normalize(20),
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
-  header: {
-    width: '100%',
-    backgroundColor: 'gray',
-    height: 40,
-  },
-  pan: {
-    width: 40,
-    height: 5,
-    borderRadius: 5,
-    backgroundColor: 'white',
-    alignSelf: 'center',
-    marginTop: 12,
+  modalAction: {
+    alignItems: 'flex-end',
+    paddingHorizontal: normalize(10),
+    marginBottom: 20,
   },
 });
