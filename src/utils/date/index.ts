@@ -54,10 +54,10 @@ export const getFormatDistanceToNow = (
  * Return the distance between the given future date and now in words.
  */
 export const getCountDownBetweenDate = (
-  targetDate: Date | number | string,
+  targetDateTime: Date | number | string,
 ): { [name: string]: number } | number => {
   const diffInMilliSeconds = differenceInMilliseconds(
-    new Date(targetDate),
+    new Date(targetDateTime),
     new Date(),
   );
   if (diffInMilliSeconds <= 0) {

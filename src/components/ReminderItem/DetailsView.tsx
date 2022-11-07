@@ -6,19 +6,19 @@ import styles from './styles';
 
 function DetailsView({
   colors,
-  targetDate,
+  targetDateTime,
   repeat,
   isPin,
 }: {
   colors: any;
-  targetDate: Date;
+  targetDateTime: Date;
   repeat: string;
   isPin: boolean;
 }) {
   return (
     <View style={[styles.detailsView, { borderTopWidth: isPin ? 0.3 : 0 }]}>
       <Text style={[{ color: colors.text }, styles.fontSizeDetails]}>
-        {formatDateLocal(targetDate, 'eeee, dd/MM/yyyy')}
+        {formatDateLocal(targetDateTime, 'eeee, dd/MM/yyyy')}
       </Text>
       <Text style={[{ color: colors.text }, styles.divider]}>|</Text>
       <Text style={[{ color: colors.text }, styles.fontSizeDetails]}>

@@ -49,7 +49,7 @@ export const trimObject = (source: any) => {
 };
 
 export const randomUniqueId = () => {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+  return 'xxxxxxxx-xxxx'.replace(/[xy]/g, function (c) {
     // eslint-disable-next-line no-bitwise
     const r = (Math.random() * 16) | 0,
       // eslint-disable-next-line no-bitwise

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
 import { TReminder } from 'features/Dashboard/type';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
 export interface ReminderState {
   reminder: TReminder[];
@@ -15,13 +15,15 @@ export const reminderSlice = createSlice({
   initialState,
   reducers: {
     addNewReminder: (state, action: PayloadAction<TReminder>) => {
-      console.log(action);
       state.reminder = [...state.reminder, action.payload];
+    },
+    clearAllReminder: state => {
+      state.reminder = [];
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addNewReminder } = reminderSlice.actions;
+export const { addNewReminder, clearAllReminder } = reminderSlice.actions;
 
 export default reminderSlice.reducer;

@@ -1,15 +1,15 @@
 import React, { memo, useCallback, useState } from 'react';
-import { FlatList, SafeAreaView, View } from 'react-native';
+import { FlatList, SafeAreaView, View, Pressable, Text } from 'react-native';
 import { ThemeContext, useCustomTheme } from 'resources/theme';
 import styles from './styles';
 import HomeHeaderBar from './HomeHeaderBar';
 import ListCategory from './ListCategory';
 import { ReminderItem } from 'components/index';
 import isEqual from 'react-fast-compare';
-import { DATA } from './data';
 import { NavigationProp } from '@react-navigation/native';
-import { useAppSelector, RootState } from 'store/index';
+import { useAppSelector, RootState, useAppDispatch } from 'store/index';
 import { selectAllReminder } from 'store/reminder/reminder.selector';
+import { clearAllReminder } from 'store/reminder/reminder.slice';
 import { TReminder } from './type';
 
 export interface IHomeProps {
@@ -19,12 +19,15 @@ export interface IHomeProps {
 const Home = ({ navigation }: IHomeProps) => {
   const { colors } = useCustomTheme();
   const [isShowCategory, setIsShowCategory] = useState(false);
+
+  const dispatch = useAppDispatch();
   const getAllReminder = useAppSelector((state: RootState) =>
     selectAllReminder(state),
   );
-  console.log(getAllReminder, 'getAllReminder');
   const renderItem = useCallback(
-    ({ item }: { item: TReminder }) => <ReminderItem item={item} />,
+    ({ item, index }: { item: TReminder; index: number }) => (
+      <ReminderItem item={item} isPin={index === 0} />
+    ),
     [],
   );
   const keyExtractor = useCallback((item: TReminder) => item.id.toString(), []);
@@ -48,9 +51,15 @@ const Home = ({ navigation }: IHomeProps) => {
               setShowHide={setIsShowCategory}
             />
           )}
+          <Pressable
+            style={{ alignItems: 'center', marginTop: 5 }}
+            onPress={() => dispatch(clearAllReminder())}
+          >
+            <Text>clear all</Text>
+          </Pressable>
           <View style={[styles.contentView]}>
             <FlatList
-              data={DATA}
+              data={getAllReminder}
               renderItem={renderItem}
               keyExtractor={keyExtractor}
               maxToRenderPerBatch={5}

@@ -13,6 +13,7 @@ import NormalCountDown from './CountDown/NormalCountDown';
 
 type IReminderItemProps = {
   item: TReminder;
+  isPin: boolean;
 };
 
 const styleOfPinItem: StyleProp<any> = {
@@ -25,8 +26,8 @@ function renderPin() {
   );
 }
 
-function ReminderItem({ item }: IReminderItemProps) {
-  const { name, isPin, targetDate, repeat } = item;
+function ReminderItem({ item, isPin }: IReminderItemProps) {
+  const { name, targetDateTime, repeat } = item;
   const { colors } = useContext(ThemeContext) as ThemeType;
   return (
     <View
@@ -38,14 +39,18 @@ function ReminderItem({ item }: IReminderItemProps) {
     >
       {isPin && renderPin()}
       <Title colors={colors} title={name} />
-      {isPin && <PinCountDown colors={colors} targetDate={targetDate} />}
+      {isPin && (
+        <PinCountDown colors={colors} targetDateTime={targetDateTime} />
+      )}
       <DetailsView
         isPin={isPin}
         colors={colors}
         repeat={repeat}
-        targetDate={targetDate}
+        targetDateTime={targetDateTime}
       />
-      {!isPin && <NormalCountDown colors={colors} targetDate={targetDate} />}
+      {!isPin && (
+        <NormalCountDown colors={colors} targetDateTime={targetDateTime} />
+      )}
     </View>
   );
 }

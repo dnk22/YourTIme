@@ -13,10 +13,10 @@ type TItemProps = {
 
 interface TPinCountDownProps {
   colors: any;
-  targetDate: Date;
+  targetDateTime: Date;
 }
 
-function PinCountDown({ colors, targetDate }: TPinCountDownProps) {
+function PinCountDown({ colors, targetDateTime }: TPinCountDownProps) {
   // set time count
   const futureInterval = 1000;
   const passedInterVal = 60000;
@@ -24,7 +24,7 @@ function PinCountDown({ colors, targetDate }: TPinCountDownProps) {
   const [isCountType, setIsCountType] = useState<string>('');
 
   const getCountType = useCallback(() => {
-    const result = compareAsc(new Date(), new Date(targetDate));
+    const result = compareAsc(new Date(), new Date(targetDateTime));
     switch (result) {
       case -1:
         return 'future';
@@ -33,7 +33,7 @@ function PinCountDown({ colors, targetDate }: TPinCountDownProps) {
       default:
         return 'now';
     }
-  }, [targetDate]);
+  }, [targetDateTime]);
 
   useEffect(() => {
     setIsCountType(getCountType);
@@ -41,7 +41,7 @@ function PinCountDown({ colors, targetDate }: TPinCountDownProps) {
 
   useInterval(
     () => {
-      const time = getCountDownBetweenDate(targetDate);
+      const time = getCountDownBetweenDate(targetDateTime);
       if (!time) {
         setTimeRemaining(true);
         setIsCountType('passed');
@@ -54,7 +54,7 @@ function PinCountDown({ colors, targetDate }: TPinCountDownProps) {
 
   useInterval(
     () => {
-      const time = getFormatDistanceToNow(targetDate);
+      const time = getFormatDistanceToNow(targetDateTime);
       setTimeRemaining(time);
     },
     isCountType === 'passed' ? passedInterVal : null,

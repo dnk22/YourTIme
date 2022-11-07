@@ -13,10 +13,10 @@ type TItem = {
 
 function NormalCountDown({
   colors,
-  targetDate,
+  targetDateTime,
 }: {
   colors: any;
-  targetDate: Date;
+  targetDateTime: Date;
 }) {
   // set time count
   const futureInterval = 1000;
@@ -25,17 +25,17 @@ function NormalCountDown({
   const [isCountType, setIsCountType] = useState<string>('');
 
   const getCountType = useCallback(() => {
-    const result = compareAsc(new Date(), new Date(targetDate));
+    const result = compareAsc(new Date(), new Date(targetDateTime));
     switch (result) {
       case -1:
         return 'future';
       case 1:
-        setTimeRemaining(getFormatDistanceToNow(targetDate));
+        setTimeRemaining(getFormatDistanceToNow(targetDateTime));
         return 'passed';
       default:
         return 'now';
     }
-  }, [targetDate]);
+  }, [targetDateTime]);
 
   useEffect(() => {
     setIsCountType(getCountType);
@@ -43,7 +43,7 @@ function NormalCountDown({
 
   useInterval(
     () => {
-      const time = getCountDownBetweenDate(targetDate);
+      const time = getCountDownBetweenDate(targetDateTime);
       if (!time) {
         setTimeRemaining(true);
         setIsCountType('passed');
@@ -56,7 +56,7 @@ function NormalCountDown({
 
   useInterval(
     () => {
-      const time = getFormatDistanceToNow(targetDate);
+      const time = getFormatDistanceToNow(targetDateTime);
       setTimeRemaining(time);
     },
     isCountType === 'passed' ? passedInterVal : null,

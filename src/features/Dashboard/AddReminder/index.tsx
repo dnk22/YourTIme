@@ -29,6 +29,7 @@ import {
 } from 'components/index';
 import { addNewReminder } from 'store/reminder/reminder.slice';
 import { FIELD_NAME } from '../const';
+import { randomUniqueId } from 'utils/string';
 
 interface IAddReminderProps {
   navigation: NavigationProp<any, any>;
@@ -65,11 +66,22 @@ function AddReminder({ navigation }: IAddReminderProps) {
   };
 
   const onHandleConfirm = (data: TReminder) => {
-    console.log(data);
     const result = {
-      ...data,
-      targetDateTime: data.targetDateTime.toString(),
+      id: "'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba'",
+      name: 'Chúc mừng năm mới',
+      description: 'Năm mới 2023',
+      category: 'Ngày lễ',
+      targetDateTime: new Date('2023-01-01').toString(),
+      isRepeat: true,
+      repeat: 'Hàng ngày',
+      isReminder: true,
+      reminder: '1',
+      color: '#E7F6F2',
+      bell: 'string',
+      isImportant: false,
+      dateCreated: new Date().toString(),
     };
+
     dispatch(addNewReminder(result));
     // navigation.goBack();
   };
