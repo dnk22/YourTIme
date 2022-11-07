@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { normalize } from '../../share/scale/index';
+import { normalize } from '../../../share/scale/index';
 
 const styles = StyleSheet.create({
   container: {

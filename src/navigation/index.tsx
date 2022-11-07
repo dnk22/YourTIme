@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ROUTE_NAME } from './utils';
 import type { NativeStackNavigationOptions } from '@react-navigation/native-stack';
 import HomeNavigation from './Home';
-import AddReminder from 'features/AddReminder';
+import AddReminder from 'features/Dashboard/AddReminder';
 
 //set up routes
 const RootStack = createNativeStackNavigator();

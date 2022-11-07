@@ -19,7 +19,9 @@ function InputField({
   style,
   ...props
 }: IInputField) {
-  const { field } = useController({
+  const {
+    field: { value, onChange, onBlur },
+  } = useController({
     name,
     control,
     defaultValue,
@@ -27,9 +29,9 @@ function InputField({
 
   return (
     <TextInput
-      value={field.value}
-      onChangeText={field.onChange}
-      onBlur={field.onBlur}
+      value={value}
+      onChangeText={onChange}
+      onBlur={onBlur}
       style={[stylesInline, style]}
       {...props}
     />

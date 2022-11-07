@@ -14,11 +14,11 @@ export type TDimensionsType = {
 };
 
 export type TReminder = {
-  id: string;
+  id?: string;
   name: string;
   description: string;
   category: string;
-  targetDate: Date;
+  targetDate: Date | number;
   targetTime: Date;
   repeat: string;
   alarmConfig: string;
@@ -26,5 +26,5 @@ export type TReminder = {
   ring: string;
   isPin: boolean;
   isImportant: boolean;
-  dateCreated: Date;
+  dateCreated?: Date;
 };

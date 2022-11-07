@@ -3,7 +3,7 @@ import { TouchableWithoutFeedback, View, Image } from 'react-native';
 import { Checkbox } from './model';
 import { scale } from 'react-native-size-scaling';
 import { styles } from './styles';
-import Text from '../Text';
+import Text from '../Text/indexhihih';
 
 const checkbox_check = require('./icon/checkbox-check.png');
 const checkbox_uncheck = require('./icon/checkbox-uncheck.png');
