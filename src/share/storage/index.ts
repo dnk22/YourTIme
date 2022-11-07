@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { MMKV } from 'react-native-mmkv';
+import { Storage } from 'redux-persist';
 
-const appName = 'APP_Name';
+const appName = 'Count_Down';
 const AppKey = '7268428d-d814-4eca-8829-3dbe0e2eaa7a';
 
 export const AppStorage = new MMKV({
@@ -78,21 +79,21 @@ export async function remove(key: string) {
   } catch {}
 }
 
-interface Storage {
-  getItem(key: string, ...args: Array<any>): any;
-  setItem(key: string, value: any, ...args: Array<any>): any;
-  removeItem(key: string, ...args: Array<any>): any;
-}
+// interface Storage {
+//   setItem(key: string, value: any, ...args: Array<any>): any;
+//   getItem(key: string, ...args: Array<any>): any;
+//   removeItem(key: string, ...args: Array<any>): any;
+// }
 export const reduxPersistStorage: Storage = {
-  setItem: (key, value) => {
+  setItem: (key: string, value: string): Promise<boolean> => {
     AppStorage.set(key, value);
     return Promise.resolve(true);
   },
-  getItem: key => {
+  getItem: (key: string): Promise<any> => {
     const value = AppStorage.getString(key);
     return Promise.resolve(value);
   },
-  removeItem: key => {
+  removeItem: (key: string): Promise<void> => {
     AppStorage.delete(key);
     return Promise.resolve();
   },
