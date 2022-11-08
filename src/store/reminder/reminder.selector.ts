@@ -7,3 +7,13 @@ export const selectAllReminder = createSelector(
   reminderState,
   items => items.reminder,
 );
+
+export const selectAllReminderCategory = createSelector(
+  reminderState,
+  item => item.initCategory,
+);
+
+export const selectReminderCategoryByUser = createSelector(
+  reminderState,
+  item => item.category,
+);

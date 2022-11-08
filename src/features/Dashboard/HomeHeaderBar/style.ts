@@ -8,13 +8,15 @@ const styles = StyleSheet.create({
   },
   center: {
     flex: 3,
+    alignItems: 'center',
   },
   right: {
     flex: 1,
+    alignItems: 'flex-end',
   },
   centerIcon: {
     justifyContent: 'center',
-    alignItems: 'center',
+    paddingHorizontal: 15,
   },
   textStyle: {
     width: 'auto',

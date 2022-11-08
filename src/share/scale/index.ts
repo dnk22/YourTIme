@@ -26,7 +26,7 @@ export const DIMENSIONS = {
     title: normalize(16),
     viewReminderItemPadding: normalize(15),
     reminderItem: {
-      valueCount: normalize(30),
+      fontSizeDateTimeCount: normalize(30),
       itemMarginBottom: normalize(10),
       itemBorderRadius: normalize(5),
       heightPin: normalize(120),

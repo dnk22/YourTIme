@@ -17,6 +17,7 @@ import { allReducer } from './root.reducer';
 const persistConfig = {
   key: 'root',
   storage: reduxPersistStorage,
+  version: 1,
 };
 
 const persistedReducer = persistReducer(persistConfig, allReducer);
@@ -24,9 +25,7 @@ export const store = configureStore({
   reducer: persistedReducer,
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
+      serializableCheck: false,
     }),
 });
 

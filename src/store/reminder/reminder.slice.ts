@@ -1,13 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { TReminder } from 'features/Dashboard/type';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { initReminderCategory } from './reminder.data.default';
+import { IReminderCategory } from 'features/Dashboard/type';
 
 export interface ReminderState {
   reminder: TReminder[];
+  initCategory: IReminderCategory[];
+  category: IReminderCategory[];
 }
 
 const initialState: ReminderState = {
   reminder: [],
+  initCategory: initReminderCategory,
+  category: [],
 };
 
 export const reminderSlice = createSlice({

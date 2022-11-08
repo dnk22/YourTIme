@@ -69,8 +69,8 @@ function AddReminder({ navigation }: IAddReminderProps) {
       ...data,
       id: randomUniqueId(),
     };
-    Alert.alert('Heading', JSON.stringify(result), []);
-    // dispatch(addNewReminder(result));
+    // Alert.alert('Heading', JSON.stringify(result), []);
+    dispatch(addNewReminder(result));
     // navigation.goBack();
   };
 
@@ -98,7 +98,6 @@ function AddReminder({ navigation }: IAddReminderProps) {
       </ModalComponent>
     );
   };
-  console.log('render root');
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>

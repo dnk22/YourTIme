@@ -1,11 +1,5 @@
-import React, { useEffect, memo, useContext, useCallback } from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  Pressable,
-  TouchableHighlight,
-} from 'react-native';
+import React, { useEffect, memo, useContext } from 'react';
+import { View, Text, Pressable, TouchableHighlight } from 'react-native';
 import SVG from 'assets/svg/icon-search.svg';
 import Animated, {
   Easing,
@@ -14,8 +8,11 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { ThemeContext, ThemeType } from 'resources/theme';
-import { DATA } from '../data';
+import { RootState, useAppSelector } from 'store/index';
+import { selectAllReminderCategory } from 'store/reminder/reminder.selector';
+import { FlatListComponent } from 'components/index';
 import styles from './styles';
+import { IReminderCategory } from '../type';
 
 const ListCategory = ({
   setShowHide,
@@ -25,6 +22,9 @@ const ListCategory = ({
   isShow: boolean;
 }) => {
   const { colors } = useContext(ThemeContext) as ThemeType;
+  const getAllReminderCategory = useAppSelector((state: RootState) =>
+    selectAllReminderCategory(state),
+  );
 
   const formAnimatedValue = useSharedValue(0);
   const formStyles = useAnimatedStyle(() => {
@@ -47,27 +47,26 @@ const ListCategory = ({
     };
   }, [formAnimatedValue]);
 
-  const renderItem = ({ item }: any) => {
-    const onPress = () => console.log('hih');
+  const renderItem = ({ item }: { item: IReminderCategory }) => {
+    const onPress = () => console.log(item.name);
     return (
       <TouchableHighlight
         onPress={onPress}
         activeOpacity={0.6}
         underlayColor={colors.background}
+        style={{ borderRadius: 10 }}
       >
         <View style={styles.item}>
           <View style={styles.itemIcon}>
             <SVG color={colors.text} />
           </View>
           <Text style={[styles.title, { color: colors.text }]}>
-            {item.title}
+            {item.name}
           </Text>
         </View>
       </TouchableHighlight>
     );
   };
-
-  const keyExtractor = useCallback((item: any) => item.id.toString(), []);
 
   return (
     <View style={styles.container}>
@@ -78,10 +77,9 @@ const ListCategory = ({
           { backgroundColor: colors.surface },
         ]}
       >
-        <FlatList
-          data={DATA}
+        <FlatListComponent
+          data={getAllReminderCategory}
           renderItem={renderItem}
-          keyExtractor={keyExtractor}
         />
       </Animated.View>
       <Pressable onPress={() => setShowHide(!isShow)} style={styles.backDrop} />

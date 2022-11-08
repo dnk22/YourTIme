@@ -19,21 +19,6 @@ const styles = StyleSheet.create({
     fontSize: DIMENSIONS.home.reminderItem.reminderName,
     fontWeight: '500',
   },
-  countdownView: {
-    width: '80%',
-    marginVertical: 10,
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  itemCountDetail: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  itemCountValue: {
-    marginBottom: 5,
-    fontSize: DIMENSIONS.home.reminderItem.valueCount,
-  },
   detailsView: {
     marginTop: 5,
     paddingTop: 5,

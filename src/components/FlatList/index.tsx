@@ -1,4 +1,4 @@
-import React, { useCallback, memo } from 'react';
+import React, { useCallback, memo, useMemo } from 'react';
 import { FlatList, RefreshControl } from 'react-native';
 import { PropsFlatList } from './model';
 import isEqual from 'react-fast-compare';
@@ -14,7 +14,23 @@ const FlatListComponent: PropsFlatList = props => {
     showsVerticalScrollIndicator = false,
     showsHorizontalScrollIndicator = false,
   } = props;
-  const keyExtractor = useCallback((item: any) => item.id.toString(), []);
+  const keyExtractor = useCallback((item: any) => item.id, []);
+  const renderRefreshControl = useMemo(
+    () => (
+      <RefreshControl
+        refreshing={false}
+        onRefresh={() => {
+          onRefresh && onRefresh();
+        }}
+      />
+    ),
+    [onRefresh],
+  );
+
+  // const viewConfigRef = useRef({
+  //   waitForInteraction: true,
+  //   viewAreaCoveragePercentThreshold: 95,
+  // });
   return (
     <FlatList
       {...props}
@@ -23,16 +39,10 @@ const FlatListComponent: PropsFlatList = props => {
       extraData={data}
       keyboardShouldPersistTaps="handled"
       renderItem={renderItem}
-      refreshControl={
-        <RefreshControl
-          refreshing={false}
-          onRefresh={() => {
-            onRefresh && onRefresh();
-          }}
-        />
-      }
+      refreshControl={renderRefreshControl}
       onEndReachedThreshold={0.5}
       onEndReached={() => onLoadMore && onLoadMore()}
+      // viewabilityConfig={viewConfigRef.current}
       maxToRenderPerBatch={maxToRenderPerBatch}
       initialNumToRender={initialNumToRender}
       showsVerticalScrollIndicator={showsVerticalScrollIndicator}
