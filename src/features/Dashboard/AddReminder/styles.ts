@@ -87,5 +87,23 @@ const styles = StyleSheet.create({
   segmentedControl: {
     marginTop: 10,
   },
+  // category modal style
+  modalCategoryHeader: {
+    marginBottom: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  headerCategoryTitle: {
+    fontSize: normalize(15),
+    fontWeight: '500',
+  },
+  headerCategoryActionButton: {
+    padding: 10,
+    borderRadius: 10,
+  },
+  headerCategoryActionText: {
+    fontSize: normalize(15),
+  },
 });
 export default styles;

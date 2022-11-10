@@ -4,6 +4,7 @@
   "compilerOptions": {
     "skipLibCheck": true,
     "baseUrl": ".",
+    "strict": true,
     "paths": {
       "assets/*": ["src/assets/*"],
       "components/*": ["src/components/*"],

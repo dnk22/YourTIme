@@ -1,4 +1,4 @@
-import React, { memo, useRef, useState, useMemo } from 'react';
+import React, { memo, useState, useMemo, useCallback } from 'react';
 import {
   View,
   Text,
@@ -7,17 +7,6 @@ import {
   Keyboard,
   Alert,
 } from 'react-native';
-import isEqual from 'react-fast-compare';
-import { NavigationProp } from '@react-navigation/native';
-import { useCustomTheme } from 'resources/theme';
-import AddIcon from 'assets/svg/icon-sound.svg';
-import Category from 'assets/svg/icon-view-card.svg';
-import { IconSize } from 'share/scale';
-import styles from './styles';
-import { useForm } from 'react-hook-form';
-import { TReminder } from '../type';
-import { formatDateLocal } from 'utils/date';
-import { useAppDispatch } from 'store/index';
 import {
   SegmentedControlField,
   InputField,
@@ -26,31 +15,64 @@ import {
   ModalComponent,
   SwitchField,
 } from 'components/index';
+import styles from './styles';
+import isEqual from 'react-fast-compare';
+import { NavigationProp } from '@react-navigation/native';
+import { useCustomTheme } from 'resources/theme';
+import AddIcon from 'assets/svg/icon-sound.svg';
+import Category from 'assets/svg/icon-view-card.svg';
+import { IconSize } from 'share/scale';
+import { useForm } from 'react-hook-form';
+import { IReminderCategory, TAddReminder, TReminder } from '../type';
+import { formatDateLocal, randomUniqueId } from 'utils/index';
+import { useAppDispatch } from 'store/index';
 import { addNewReminder } from 'store/reminder/reminder.slice';
 import { FIELD_NAME } from '../const';
-import { randomUniqueId } from 'utils/string';
+import ReminderCategory from '../ReminderCategory';
+import { hapticFeedback } from 'utils/haptic';
 
 interface IAddReminderProps {
   navigation: NavigationProp<any, any>;
 }
-const defaultValues = {
+const defaultValues: TAddReminder = {
   name: '',
   description: '',
   targetDateTime: new Date(),
+  isRepeat: false,
+  isReminder: true,
+  reminder: 0,
 };
 
 function AddReminder({ navigation }: IAddReminderProps) {
   const { colors } = useCustomTheme();
-  const isPickerMode = useRef<any>('date');
-  const [isModalShow, setIsModalShow] = useState<boolean>(false);
   const dispatch = useAppDispatch();
+  const [isModalShowType, setIsModalShowType] = useState<string>('');
 
-  const { control, handleSubmit, getValues } = useForm<TReminder>({
-    defaultValues,
-  });
+  const isDateModal = useMemo(
+    () => isModalShowType === 'date',
+    [isModalShowType],
+  );
+  const isTimeModal = useMemo(
+    () => isModalShowType === 'time',
+    [isModalShowType],
+  );
+  const isCategoryModal = useMemo(
+    () => isModalShowType === 'category',
+    [isModalShowType],
+  );
+  // const isBellModal = useMemo(
+  //   () => isModalShowType === 'bell',
+  //   [isModalShowType],
+  // );
+
+  const { control, handleSubmit, getValues, setValue, watch } =
+    useForm<TReminder>({
+      defaultValues,
+    });
 
   // get form values
-  const { targetDateTime, isRepeat, isReminder } = getValues();
+  const { targetDateTime, categoryId, categoryName } = getValues();
+  const { isRepeat, isReminder } = watch();
   const targetDateRender = useMemo(
     () => formatDateLocal(targetDateTime, 'MM/dd/yyyy'),
     [targetDateTime],
@@ -69,45 +91,92 @@ function AddReminder({ navigation }: IAddReminderProps) {
       ...data,
       id: randomUniqueId(),
     };
-    // Alert.alert('Heading', JSON.stringify(result), []);
-    dispatch(addNewReminder(result));
+    Alert.alert('Heading', JSON.stringify(result), []);
+    // dispatch(addNewReminder(result));
     // navigation.goBack();
   };
 
-  const onHandleOpenDateTimePickerModal = (type: string): void => {
-    isPickerMode.current = type;
-    onToggleModal();
+  const onToggleModal = (type: string) => {
+    setIsModalShowType(type);
   };
 
-  const onToggleModal = () => {
-    setIsModalShow(!isModalShow);
-  };
+  const onHandleCategorySelect = useCallback(
+    ({ id, name }: IReminderCategory) => {
+      setValue('categoryId', id);
+      setValue('categoryName', name);
+    },
+    [setValue],
+  );
 
-  const renderModal = () => {
-    const { current } = isPickerMode;
+  const renderDateTimePickerModal = useMemo(() => {
     return (
-      <ModalComponent isVisible={isModalShow} onToggleModal={onToggleModal}>
+      <ModalComponent
+        isVisible={isDateModal || isTimeModal}
+        onToggleModal={() => onToggleModal('')}
+      >
         <DateTimeField
           name={FIELD_NAME.TARGET_DATE_TIME}
           control={control}
           locale="vi"
           value={new Date()}
-          mode={current}
-          display={current === 'date' ? 'inline' : 'spinner'}
+          mode={isDateModal ? 'date' : 'time'}
+          display={isDateModal ? 'inline' : 'spinner'}
         />
       </ModalComponent>
     );
-  };
+  }, [control, isDateModal, isTimeModal]);
+
+  const renderCategoryPickerModal = useMemo(() => {
+    return (
+      <ModalComponent
+        isVisible={isCategoryModal}
+        onToggleModal={() => onToggleModal('')}
+        isShowClose={false}
+        height={'60%'}
+      >
+        <View style={styles.modalCategoryHeader}>
+          <Text style={styles.headerCategoryTitle}>Danh mục của tôi</Text>
+          <Pressable
+            style={[
+              styles.headerCategoryActionButton,
+              { backgroundColor: colors.primary },
+            ]}
+          >
+            <Text style={styles.headerCategoryActionText}>Chỉnh sửa</Text>
+          </Pressable>
+        </View>
+        <ReminderCategory
+          onPressItem={onHandleCategorySelect}
+          isCurrentCategory={categoryId}
+          isShowCheckbox
+        />
+      </ModalComponent>
+    );
+  }, [categoryId, colors.primary, isCategoryModal, onHandleCategorySelect]);
+
+  // const renderBellPickerModal = useMemo(() => {
+  //   return (
+  //     <ModalComponent
+  //       isVisible={isBellModal}
+  //       onToggleModal={() => onToggleModal('')}
+  //       isShowClose={false}
+  //       height={'60%'}
+  //     >
+  //       <ReminderCategory />
+  //     </ModalComponent>
+  //   );
+  // }, [isBellModal]);
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      {renderModal()}
+      {renderDateTimePickerModal}
+      {renderCategoryPickerModal}
+      {/* {renderBellPickerModal} */}
       <ModalNavigationHeaderBar
         text={{ title: 'Tạo mới đếm ngược' }}
         onBack={onHandleBack}
         onConfirm={handleSubmit(onHandleConfirm)}
       />
-
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.form}>
           <View style={[styles.group, { backgroundColor: colors.surface }]}>
@@ -126,19 +195,23 @@ function AddReminder({ navigation }: IAddReminderProps) {
             />
           </View>
           <View style={[styles.group, styles.groupRow]}>
-            <View
+            <Pressable
               style={[
                 styles.category,
                 styles.groupChild,
                 { backgroundColor: colors.surface },
               ]}
+              onPress={() => {
+                hapticFeedback();
+                setIsModalShowType('category');
+              }}
             >
               <Category {...IconSize.addReminder} fill={colors.text} />
               <Text style={[styles.textSound, { color: colors.text }]}>
-                Danh mục
+                {categoryName || 'Danh mục'}
               </Text>
-            </View>
-            <View
+            </Pressable>
+            <Pressable
               style={[
                 styles.colorPicker,
                 styles.groupChild,
@@ -146,19 +219,20 @@ function AddReminder({ navigation }: IAddReminderProps) {
               ]}
             >
               <Text style={[{ color: colors.text }]}>Hihi</Text>
-            </View>
-            <View
+            </Pressable>
+            <Pressable
               style={[
                 styles.sound,
                 styles.groupChild,
                 { backgroundColor: colors.surface },
               ]}
+              onPress={() => setIsModalShowType('bell')}
             >
               <AddIcon {...IconSize.addReminder} fill={colors.text} />
               <Text style={[styles.textSound, { color: colors.text }]}>
                 Âm báo
               </Text>
-            </View>
+            </Pressable>
           </View>
           <View style={[styles.group, { backgroundColor: colors.surface }]}>
             <View style={styles.groupChildRow}>
@@ -171,7 +245,7 @@ function AddReminder({ navigation }: IAddReminderProps) {
                     styles.dateTimePicker,
                     { backgroundColor: colors.background },
                   ]}
-                  onPress={() => onHandleOpenDateTimePickerModal('date')}
+                  onPress={() => setIsModalShowType('date')}
                 >
                   <Text style={[styles.dateTimeText, { color: colors.text }]}>
                     {targetDateRender}
@@ -182,7 +256,7 @@ function AddReminder({ navigation }: IAddReminderProps) {
                     styles.dateTimePicker,
                     { backgroundColor: colors.background },
                   ]}
-                  onPress={() => onHandleOpenDateTimePickerModal('time')}
+                  onPress={() => setIsModalShowType('time')}
                 >
                   <Text style={[styles.dateTimeText, { color: colors.text }]}>
                     {targetTimeRender}
@@ -196,7 +270,7 @@ function AddReminder({ navigation }: IAddReminderProps) {
               <Text style={[{ color: colors.text }, styles.textTime]}>
                 Lặp lại?
               </Text>
-              <SwitchField name="isLoop" control={control} />
+              <SwitchField name="isRepeat" control={control} />
             </View>
             {isRepeat && (
               <SegmentedControlField
@@ -210,7 +284,7 @@ function AddReminder({ navigation }: IAddReminderProps) {
           <View style={[styles.group, { backgroundColor: colors.surface }]}>
             <View style={[styles.groupChildRow]}>
               <Text style={[{ color: colors.text }, styles.textTime]}>
-                Thông báo?
+                Nhắc nhở?
               </Text>
               <SwitchField name="isReminder" control={control} />
             </View>

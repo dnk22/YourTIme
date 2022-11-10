@@ -11,6 +11,7 @@ import { useAppSelector, RootState, useAppDispatch } from 'store/index';
 import { selectAllReminder } from 'store/reminder/reminder.selector';
 import { clearAllReminder } from 'store/reminder/reminder.slice';
 import { TReminder } from './type';
+import ReminderCategory from './ReminderCategory';
 
 export interface IHomeProps {
   navigation: NavigationProp<any, any>;
@@ -31,6 +32,10 @@ const Home = ({ navigation }: IHomeProps) => {
     [],
   );
 
+  const toggleReminderCategory = (): void => {
+    setIsShowCategory(!isShowCategory);
+  };
+
   return (
     <SafeAreaView
       style={[styles.container, { backgroundColor: colors.surface }]}
@@ -40,15 +45,14 @@ const Home = ({ navigation }: IHomeProps) => {
           style={[styles.container, { backgroundColor: colors.background }]}
         >
           <HomeHeaderBar
-            setModalVisible={() => setIsShowCategory(!isShowCategory)}
+            setModalVisible={toggleReminderCategory}
             isModalShow={isShowCategory}
             navigation={navigation}
           />
           {isShowCategory && (
-            <ListCategory
-              isShow={isShowCategory}
-              setShowHide={setIsShowCategory}
-            />
+            <ListCategory onToggle={toggleReminderCategory} colors={colors}>
+              <ReminderCategory />
+            </ListCategory>
           )}
           <Pressable
             style={{ alignItems: 'center', marginTop: 5 }}

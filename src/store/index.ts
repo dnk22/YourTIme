@@ -17,7 +17,7 @@ import { allReducer } from './root.reducer';
 const persistConfig = {
   key: 'root',
   storage: reduxPersistStorage,
-  version: 1,
+  blacklist: ['initCategory'],
 };
 
 const persistedReducer = persistReducer(persistConfig, allReducer);

@@ -1,12 +1,13 @@
 export interface TAddReminder {
   name: string;
   description?: string;
-  category?: string;
+  categoryId?: string;
+  categoryName?: string;
   targetDateTime: Date | number | string;
-  isRepeat: boolean;
-  repeat?: string | boolean;
-  isReminder: boolean;
-  reminder?: string | boolean;
+  isRepeat?: boolean;
+  repeat?: string | number;
+  isReminder?: boolean;
+  reminder?: string | number;
   color?: string;
   bell?: string;
   isImportant?: boolean;

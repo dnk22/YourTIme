@@ -21,7 +21,7 @@ function SegmentedControlField({
     <SegmentedControl
       style={[style]}
       values={values}
-      selectedIndex={value || 0}
+      selectedIndex={value}
       onChange={event => onChange(event.nativeEvent.selectedSegmentIndex)}
       {...rest}
     />

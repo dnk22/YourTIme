@@ -10,10 +10,12 @@ import isEqual from 'react-fast-compare';
 
 const defaultProps = {
   isVisible: false,
+  isShowClose: true,
 };
 
 const ModalComponent = (props: IModalComponentProps) => {
-  const { isVisible, onToggleModal, style, children } = props;
+  const { isVisible, isShowClose, onToggleModal, style, children, height } =
+    props;
   const { colors } = useCustomTheme();
   return (
     <Modal
@@ -26,12 +28,18 @@ const ModalComponent = (props: IModalComponentProps) => {
       onBackdropPress={onToggleModal}
       useNativeDriver
       useNativeDriverForBackdrop
+      animationIn="zoomInUp"
+      animationOut="zoomOut"
       {...props}
     >
-      <View style={[styles.modalView, { backgroundColor: colors.surface }]}>
-        <TouchableOpacity style={styles.modalAction} onPress={onToggleModal}>
-          <IconCloseCircle {...IconSize.addReminder} fill={colors.text} />
-        </TouchableOpacity>
+      <View
+        style={[styles.modalView, { backgroundColor: colors.surface, height }]}
+      >
+        {isShowClose && (
+          <TouchableOpacity style={styles.modalAction} onPress={onToggleModal}>
+            <IconCloseCircle {...IconSize.addReminder} fill={colors.text} />
+          </TouchableOpacity>
+        )}
         {children}
       </View>
     </Modal>

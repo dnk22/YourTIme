@@ -5,12 +5,13 @@ export const styles = StyleSheet.create({
   modal: {
     marginHorizontal: 5,
     justifyContent: 'flex-end',
-    paddingBottom: normalize(20),
+    paddingBottom: normalize(10),
   },
   modalView: {
     flexDirection: 'column',
     borderRadius: 20,
-    padding: normalize(20),
+    paddingVertical: normalize(10),
+    paddingHorizontal: normalize(15),
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     borderBottomWidth: 0.5,
-    borderColor: 'gray',
+    borderColor: '#C6C6C8',
     paddingHorizontal: 20,
   },
   center: { flex: 4 },
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     marginHorizontal: normalize(20),
   },
   textButtonConfirm: {
-    fontSize: normalize(18),
+    fontSize: ModalNavigationHeaderBarDimensions.actionFontSize,
     color: 'white',
   },
 });

@@ -25,6 +25,7 @@ export const reminderSlice = createSlice({
     },
     clearAllReminder: state => {
       state.reminder = [];
+      // state.initCategory = [];
     },
   },
 });
