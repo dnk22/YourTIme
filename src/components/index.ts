@@ -8,6 +8,7 @@ import ModalNavigationHeaderBar from 'components/ModalNavigationHeaderBar';
 import ReminderItem from 'components/ReminderItem';
 import FlatListComponent from './FlatList/index';
 import ModalComponent from 'components/Modal';
+import PressableHaptic from 'components/PressableHaptic';
 
 export {
   DateTimeField,
@@ -20,4 +21,5 @@ export {
   ReminderItem,
   FlatListComponent,
   ModalComponent,
+  PressableHaptic,
 };

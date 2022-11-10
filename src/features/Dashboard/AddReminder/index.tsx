@@ -2,7 +2,6 @@ import React, { memo, useState, useMemo, useCallback } from 'react';
 import {
   View,
   Text,
-  Pressable,
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
@@ -14,6 +13,7 @@ import {
   ModalNavigationHeaderBar,
   ModalComponent,
   SwitchField,
+  PressableHaptic,
 } from 'components/index';
 import styles from './styles';
 import isEqual from 'react-fast-compare';
@@ -136,14 +136,14 @@ function AddReminder({ navigation }: IAddReminderProps) {
       >
         <View style={styles.modalCategoryHeader}>
           <Text style={styles.headerCategoryTitle}>Danh mục của tôi</Text>
-          <Pressable
+          <PressableHaptic
             style={[
               styles.headerCategoryActionButton,
               { backgroundColor: colors.primary },
             ]}
           >
             <Text style={styles.headerCategoryActionText}>Chỉnh sửa</Text>
-          </Pressable>
+          </PressableHaptic>
         </View>
         <ReminderCategory
           onPressItem={onHandleCategorySelect}
@@ -195,14 +195,13 @@ function AddReminder({ navigation }: IAddReminderProps) {
             />
           </View>
           <View style={[styles.group, styles.groupRow]}>
-            <Pressable
+            <PressableHaptic
               style={[
                 styles.category,
                 styles.groupChild,
                 { backgroundColor: colors.surface },
               ]}
               onPress={() => {
-                hapticFeedback();
                 setIsModalShowType('category');
               }}
             >
@@ -210,8 +209,8 @@ function AddReminder({ navigation }: IAddReminderProps) {
               <Text style={[styles.textSound, { color: colors.text }]}>
                 {categoryName || 'Danh mục'}
               </Text>
-            </Pressable>
-            <Pressable
+            </PressableHaptic>
+            <PressableHaptic
               style={[
                 styles.colorPicker,
                 styles.groupChild,
@@ -219,8 +218,8 @@ function AddReminder({ navigation }: IAddReminderProps) {
               ]}
             >
               <Text style={[{ color: colors.text }]}>Hihi</Text>
-            </Pressable>
-            <Pressable
+            </PressableHaptic>
+            <PressableHaptic
               style={[
                 styles.sound,
                 styles.groupChild,
@@ -232,7 +231,7 @@ function AddReminder({ navigation }: IAddReminderProps) {
               <Text style={[styles.textSound, { color: colors.text }]}>
                 Âm báo
               </Text>
-            </Pressable>
+            </PressableHaptic>
           </View>
           <View style={[styles.group, { backgroundColor: colors.surface }]}>
             <View style={styles.groupChildRow}>
@@ -240,7 +239,7 @@ function AddReminder({ navigation }: IAddReminderProps) {
                 Thời gian?
               </Text>
               <View style={styles.dateTimeArea}>
-                <Pressable
+                <PressableHaptic
                   style={[
                     styles.dateTimePicker,
                     { backgroundColor: colors.background },
@@ -250,8 +249,8 @@ function AddReminder({ navigation }: IAddReminderProps) {
                   <Text style={[styles.dateTimeText, { color: colors.text }]}>
                     {targetDateRender}
                   </Text>
-                </Pressable>
-                <Pressable
+                </PressableHaptic>
+                <PressableHaptic
                   style={[
                     styles.dateTimePicker,
                     { backgroundColor: colors.background },
@@ -261,7 +260,7 @@ function AddReminder({ navigation }: IAddReminderProps) {
                   <Text style={[styles.dateTimeText, { color: colors.text }]}>
                     {targetTimeRender}
                   </Text>
-                </Pressable>
+                </PressableHaptic>
               </View>
             </View>
           </View>

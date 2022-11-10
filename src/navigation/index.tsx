@@ -19,7 +19,12 @@ function AppNavigators() {
       screenOptions={appOptions}
     >
       <RootStack.Screen name={ROUTE_NAME.HOME} component={HomeNavigation} />
-      <RootStack.Group screenOptions={{ presentation: 'modal' }}>
+      <RootStack.Group
+        screenOptions={{
+          presentation: 'modal',
+          // animation: 'flip',
+        }}
+      >
         <RootStack.Screen name="AddReminder" component={AddReminder} />
       </RootStack.Group>
     </RootStack.Navigator>
