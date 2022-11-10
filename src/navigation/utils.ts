@@ -1,21 +1,7 @@
-/**
- * Used to navigating without the navigation prop
- * @see https://reactnavigation.org/docs/navigating-without-navigation-prop/
- *
- * You can add other navigation functions that you need and export them
- */
-
 import {
   CommonActions,
   createNavigationContainerRef,
 } from '@react-navigation/native';
-
-export const ROUTE_NAME = {
-  HOME: 'home',
-  DASHBOARD: 'dashboard',
-  RECORDS: 'records',
-  SETTINGS: 'settings',
-};
 
 type RootStackParamList = {
   home: undefined;

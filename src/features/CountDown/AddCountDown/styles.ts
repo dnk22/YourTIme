@@ -66,8 +66,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   dateTimePicker: {
-    paddingVertical: 5,
-    paddingHorizontal: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     marginLeft: normalize(5),
     borderRadius: normalize(7),
     justifyContent: 'center',

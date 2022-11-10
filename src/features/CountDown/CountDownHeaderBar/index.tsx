@@ -9,18 +9,19 @@ import isEqual from 'react-fast-compare';
 import { ThemeContext, ThemeType } from 'resources/theme';
 import { NavigationProp } from '@react-navigation/native';
 import styles from './style';
+import { ROUTE_NAME } from 'navigation/constants';
 
-export interface IHomeHeaderBarProps {
+export interface ICountDownHeaderBarProps {
   setModalVisible: () => void;
   isModalShow: boolean;
   navigation: NavigationProp<any, any>;
 }
 
-const HomeHeaderBar = ({
+const CountDownHeaderBar = ({
   setModalVisible,
   isModalShow = false,
   navigation,
-}: IHomeHeaderBarProps) => {
+}: ICountDownHeaderBarProps) => {
   const { colors } = useContext(ThemeContext) as ThemeType;
   const renderIcon = useMemo(() => {
     return (
@@ -44,7 +45,7 @@ const HomeHeaderBar = ({
   }, [isModalShow, colors]);
 
   const onHandleAddReminderClick = () => {
-    navigation.navigate('AddReminder');
+    navigation.navigate(ROUTE_NAME.ADD_COUNTDOWN);
   };
 
   return (
@@ -83,4 +84,4 @@ const HomeHeaderBar = ({
   );
 };
 
-export default memo(HomeHeaderBar, isEqual);
+export default memo(CountDownHeaderBar, isEqual);

@@ -15,7 +15,7 @@ interface ReminderCategoryProps {
   isShowCheckbox?: boolean;
 }
 
-function ReminderCategory({
+function CountDownCategory({
   isCurrentCategory = '',
   isShowCheckbox = false,
   onPressItem,
@@ -80,4 +80,4 @@ function ReminderCategory({
   );
 }
 
-export default memo(ReminderCategory, isEqual);
+export default memo(CountDownCategory, isEqual);

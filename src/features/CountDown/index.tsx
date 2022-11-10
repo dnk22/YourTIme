@@ -2,7 +2,7 @@ import React, { memo, useCallback, useState } from 'react';
 import { SafeAreaView, View, Pressable, Text } from 'react-native';
 import { ThemeContext, useCustomTheme } from 'resources/theme';
 import styles from './styles';
-import HomeHeaderBar from './HomeHeaderBar';
+import CountDownHeaderBar from './CountDownHeaderBar';
 import { FlatListComponent, ReminderItem } from 'components/index';
 import isEqual from 'react-fast-compare';
 import { NavigationProp } from '@react-navigation/native';
@@ -10,14 +10,14 @@ import { useAppSelector, RootState, useAppDispatch } from 'store/index';
 import { selectAllReminder } from 'store/reminder/reminder.selector';
 import { clearAllReminder } from 'store/reminder/reminder.slice';
 import { TReminder } from './type';
-import ReminderCategory from './ReminderCategory';
+import CountDownCategory from './CountDownCategory';
 import ExpandViewAnimated from 'resources/animations/ExpandViewAnimated';
 
-export interface IHomeProps {
+export interface ICountDownProps {
   navigation: NavigationProp<any, any>;
 }
 
-const Home = ({ navigation }: IHomeProps) => {
+const CountDown = ({ navigation }: ICountDownProps) => {
   const { colors } = useCustomTheme();
   const [isShowCategory, setIsShowCategory] = useState(false);
 
@@ -44,7 +44,7 @@ const Home = ({ navigation }: IHomeProps) => {
         <View
           style={[styles.container, { backgroundColor: colors.background }]}
         >
-          <HomeHeaderBar
+          <CountDownHeaderBar
             setModalVisible={toggleReminderCategory}
             isModalShow={isShowCategory}
             navigation={navigation}
@@ -54,7 +54,7 @@ const Home = ({ navigation }: IHomeProps) => {
               onToggle={toggleReminderCategory}
               colors={colors}
             >
-              <ReminderCategory />
+              <CountDownCategory />
             </ExpandViewAnimated>
           )}
           <Pressable
@@ -79,4 +79,4 @@ const Home = ({ navigation }: IHomeProps) => {
   );
 };
 
-export default memo(Home, isEqual);
+export default memo(CountDown, isEqual);

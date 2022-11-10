@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ROUTE_NAME } from './utils';
 import type { NativeStackNavigationOptions } from '@react-navigation/native-stack';
 import HomeNavigation from './Home';
-import AddReminder from 'features/Dashboard/AddReminder';
+import AddCountDown from 'features/CountDown/AddCountDown';
+import { ROUTE_NAME } from './constants';
 
 //set up routes
 const RootStack = createNativeStackNavigator();
@@ -25,7 +25,10 @@ function AppNavigators() {
           // animation: 'flip',
         }}
       >
-        <RootStack.Screen name="AddReminder" component={AddReminder} />
+        <RootStack.Screen
+          name={ROUTE_NAME.ADD_COUNTDOWN}
+          component={AddCountDown}
+        />
       </RootStack.Group>
     </RootStack.Navigator>
   );

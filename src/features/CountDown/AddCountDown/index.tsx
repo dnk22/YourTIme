@@ -1,11 +1,5 @@
 import React, { memo, useState, useMemo, useCallback } from 'react';
-import {
-  View,
-  Text,
-  TouchableWithoutFeedback,
-  Keyboard,
-  Alert,
-} from 'react-native';
+import { View, Text, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import {
   SegmentedControlField,
   InputField,
@@ -27,9 +21,8 @@ import { IReminderCategory, TAddReminder, TReminder } from '../type';
 import { formatDateLocal, randomUniqueId } from 'utils/index';
 import { useAppDispatch } from 'store/index';
 import { addNewReminder } from 'store/reminder/reminder.slice';
-import { FIELD_NAME } from '../const';
-import ReminderCategory from '../ReminderCategory';
-import { hapticFeedback } from 'utils/haptic';
+import { FIELD_NAME } from '../constants';
+import CountDownCategory from '../CountDownCategory';
 
 interface IAddReminderProps {
   navigation: NavigationProp<any, any>;
@@ -41,9 +34,10 @@ const defaultValues: TAddReminder = {
   isRepeat: false,
   isReminder: true,
   reminder: 0,
+  repeat: 0,
 };
 
-function AddReminder({ navigation }: IAddReminderProps) {
+function AddCountDown({ navigation }: IAddReminderProps) {
   const { colors } = useCustomTheme();
   const dispatch = useAppDispatch();
   const [isModalShowType, setIsModalShowType] = useState<string>('');
@@ -74,7 +68,7 @@ function AddReminder({ navigation }: IAddReminderProps) {
   const { targetDateTime, categoryId, categoryName } = getValues();
   const { isRepeat, isReminder } = watch();
   const targetDateRender = useMemo(
-    () => formatDateLocal(targetDateTime, 'MM/dd/yyyy'),
+    () => formatDateLocal(targetDateTime, 'dd/MM/yyyy'),
     [targetDateTime],
   );
   const targetTimeRender = useMemo(
@@ -91,9 +85,8 @@ function AddReminder({ navigation }: IAddReminderProps) {
       ...data,
       id: randomUniqueId(),
     };
-    Alert.alert('Heading', JSON.stringify(result), []);
-    // dispatch(addNewReminder(result));
-    // navigation.goBack();
+    dispatch(addNewReminder(result));
+    navigation.goBack();
   };
 
   const onToggleModal = (type: string) => {
@@ -145,7 +138,7 @@ function AddReminder({ navigation }: IAddReminderProps) {
             <Text style={styles.headerCategoryActionText}>Chỉnh sửa</Text>
           </PressableHaptic>
         </View>
-        <ReminderCategory
+        <CountDownCategory
           onPressItem={onHandleCategorySelect}
           isCurrentCategory={categoryId}
           isShowCheckbox
@@ -162,7 +155,7 @@ function AddReminder({ navigation }: IAddReminderProps) {
   //       isShowClose={false}
   //       height={'60%'}
   //     >
-  //       <ReminderCategory />
+  //       <CountDownCategory />
   //     </ModalComponent>
   //   );
   // }, [isBellModal]);
@@ -269,14 +262,14 @@ function AddReminder({ navigation }: IAddReminderProps) {
               <Text style={[{ color: colors.text }, styles.textTime]}>
                 Lặp lại?
               </Text>
-              <SwitchField name="isRepeat" control={control} />
+              <SwitchField name={FIELD_NAME.IS_REPEAT} control={control} />
             </View>
             {isRepeat && (
               <SegmentedControlField
                 name={FIELD_NAME.REPEAT}
                 control={control}
                 style={styles.segmentedControl}
-                values={['Hằng ngày', 'Hằng tuần', 'Hàng tháng', 'Hàng tháng']}
+                values={['Hằng ngày', 'Hằng tuần', 'Hàng tháng', 'Hàng năm']}
               />
             )}
           </View>
@@ -285,7 +278,7 @@ function AddReminder({ navigation }: IAddReminderProps) {
               <Text style={[{ color: colors.text }, styles.textTime]}>
                 Nhắc nhở?
               </Text>
-              <SwitchField name="isReminder" control={control} />
+              <SwitchField name={FIELD_NAME.IS_REMINDER} control={control} />
             </View>
             {isReminder && (
               <SegmentedControlField
@@ -302,4 +295,4 @@ function AddReminder({ navigation }: IAddReminderProps) {
   );
 }
 
-export default memo(AddReminder, isEqual);
+export default memo(AddCountDown, isEqual);

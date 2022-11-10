@@ -5,9 +5,9 @@ import {
 } from '@react-navigation/bottom-tabs';
 import HomeBottomBar from './HomeBottomBar';
 import Lottie from 'lottie-react-native';
-import { ROUTE_NAME } from '../utils';
+import { ROUTE_NAME } from 'navigation/constants';
 
-import Dashboard from 'features/Dashboard';
+import Dashboard from 'features/CountDown';
 import Tools from 'features/Tools';
 import Settings from 'features/Settings';
 
