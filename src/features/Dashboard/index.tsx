@@ -3,7 +3,6 @@ import { SafeAreaView, View, Pressable, Text } from 'react-native';
 import { ThemeContext, useCustomTheme } from 'resources/theme';
 import styles from './styles';
 import HomeHeaderBar from './HomeHeaderBar';
-import ListCategory from './ListCategory';
 import { FlatListComponent, ReminderItem } from 'components/index';
 import isEqual from 'react-fast-compare';
 import { NavigationProp } from '@react-navigation/native';
@@ -12,6 +11,7 @@ import { selectAllReminder } from 'store/reminder/reminder.selector';
 import { clearAllReminder } from 'store/reminder/reminder.slice';
 import { TReminder } from './type';
 import ReminderCategory from './ReminderCategory';
+import ExpandViewAnimated from 'resources/animations/ExpandViewAnimated';
 
 export interface IHomeProps {
   navigation: NavigationProp<any, any>;
@@ -50,9 +50,12 @@ const Home = ({ navigation }: IHomeProps) => {
             navigation={navigation}
           />
           {isShowCategory && (
-            <ListCategory onToggle={toggleReminderCategory} colors={colors}>
+            <ExpandViewAnimated
+              onToggle={toggleReminderCategory}
+              colors={colors}
+            >
               <ReminderCategory />
-            </ListCategory>
+            </ExpandViewAnimated>
           )}
           <Pressable
             style={{ alignItems: 'center', marginTop: 5 }}
