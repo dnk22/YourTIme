@@ -16,6 +16,7 @@ const Setting = ({ navigation }) => {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+  console.log(navigation);
 
   return (
     <SafeAreaView style={backgroundStyle}>

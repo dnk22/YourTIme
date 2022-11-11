@@ -4,7 +4,8 @@ import isEqual from 'react-fast-compare';
 import { getCountDownBetweenDate, getFormatDistanceToNow } from 'utils/date';
 import { useInterval } from 'share/hook.custom';
 import { compareAsc } from 'date-fns';
-import { DIMENSIONS, normalize } from 'share/scale';
+import { DIMENSIONS } from 'share/scale';
+import Loading from 'components/Loading';
 
 type TItemProps = {
   item: any;
@@ -85,7 +86,7 @@ function PinCountDown({ colors, targetDateTime }: TPinCountDownProps) {
         <Text
           style={[styles.itemCountValue, { color: colors.text, fontSize: 24 }]}
         >
-          Loading
+          <Loading />
         </Text>
       )}
     </View>
