@@ -2,7 +2,7 @@ import React from 'react';
 import { ActivityIndicator, StatusBar, useColorScheme } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from 'react-redux';
-import { navigationRef } from './navigation/utils';
+// import { navigationRef } from './navigation/utils';
 import { persistor, store } from './store';
 import AppNavigators from 'navigation/index';
 import { MyAppTheme } from 'resources/theme';
@@ -19,7 +19,7 @@ const App = () => {
         persistor={persistor}
       >
         <NavigationContainer
-          ref={navigationRef}
+          // ref={navigationRef}
           theme={MyAppTheme[isDarkMode ? 'dark' : 'default']}
         >
           <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />

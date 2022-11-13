@@ -12,7 +12,7 @@ function Text({ text, children, t18n, t18nOptions }: TTextProps) {
     [t18n, t18nOptions, t],
   );
   const content = useMemo(
-    () => i18nText || text || children,
+    () => text || i18nText || children,
     [i18nText, text, children],
   );
   return <RNText allowFontScaling={false}>{content}</RNText>;

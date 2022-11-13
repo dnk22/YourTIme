@@ -5,7 +5,7 @@ export interface TAddReminder {
   categoryName?: string;
   targetDateTime: Date | number | string;
   isRepeat?: boolean;
-  repeat?: string | number;
+  repeat?: string;
   isReminder?: boolean;
   reminder?: string | number;
   color?: string;

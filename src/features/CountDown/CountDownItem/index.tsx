@@ -1,17 +1,20 @@
 import React, { memo, useContext } from 'react';
 import isEqual from 'react-fast-compare';
-import { StyleProp, View } from 'react-native';
-import { TReminder } from 'utils/types';
+import { StyleProp } from 'react-native';
 import Pin from 'assets/svg/pin.svg';
 import styles from './styles';
 import { normalize } from 'share/scale';
+import { TReminder } from '../type';
 import Title from './Title';
 import DetailsView from './DetailsView';
 import { ThemeContext, ThemeType } from 'resources/theme';
 import PinCountDown from './CountDown/PinCountDown';
 import NormalCountDown from './CountDown/NormalCountDown';
+import PressableHaptic from 'components/PressableHaptic';
+import { useNavigation } from '@react-navigation/native';
+import { COUNTDOWN_DETAILS } from 'navigation/constants';
 
-type IReminderItemProps = {
+type ICountDownItemProps = {
   item: TReminder;
   isPin: boolean;
 };
@@ -26,16 +29,23 @@ function renderPin() {
   );
 }
 
-function ReminderItem({ item, isPin }: IReminderItemProps) {
+function CountDownItem({ item, isPin }: ICountDownItemProps) {
   const { name, targetDateTime, repeat } = item;
   const { colors } = useContext(ThemeContext) as ThemeType;
+  const { navigate } = useNavigation();
+
+  const onHandleCountDownItemPress = () => {
+    navigate(COUNTDOWN_DETAILS, { countDownId: item.id });
+  };
+
   return (
-    <View
+    <PressableHaptic
       style={[
         styles.container,
         { backgroundColor: colors.surface },
         isPin && styleOfPinItem,
       ]}
+      onPress={onHandleCountDownItemPress}
     >
       {isPin && renderPin()}
       <Title colors={colors} title={name} />
@@ -51,7 +61,7 @@ function ReminderItem({ item, isPin }: IReminderItemProps) {
       {!isPin && (
         <NormalCountDown colors={colors} targetDateTime={targetDateTime} />
       )}
-    </View>
+    </PressableHaptic>
   );
 }
-export default memo(ReminderItem, isEqual);
+export default memo(CountDownItem, isEqual);

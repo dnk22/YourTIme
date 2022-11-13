@@ -1,23 +1,23 @@
-import { compareAsc } from 'date-fns';
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
-import isEqual from 'react-fast-compare';
+import React, { memo, useCallback, useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { useInterval } from 'share/hook.custom';
-import { normalize } from 'share/scale';
+import isEqual from 'react-fast-compare';
 import { getCountDownBetweenDate, getFormatDistanceToNow } from 'utils/date';
+import { useInterval } from 'share/hook.custom';
+import { compareAsc } from 'date-fns';
+import { DIMENSIONS } from 'share/scale';
+import Loading from 'components/Loading';
 
-type TItem = {
+type TItemProps = {
   item: any;
   colors: any;
 };
 
-function NormalCountDown({
-  colors,
-  targetDateTime,
-}: {
+interface TPinCountDownProps {
   colors: any;
-  targetDateTime: Date;
-}) {
+  targetDateTime: Date | string | number;
+}
+
+function PinCountDown({ colors, targetDateTime }: TPinCountDownProps) {
   // set time count
   const futureInterval = 1000;
   const passedInterVal = 60000;
@@ -39,7 +39,7 @@ function NormalCountDown({
 
   useEffect(() => {
     setIsCountType(getCountType);
-  }, []);
+  }, [getCountType]);
 
   useInterval(
     () => {
@@ -70,32 +70,38 @@ function NormalCountDown({
           return <RenderItem item={item} colors={colors} key={key} />;
         })
       ) : isCountType === 'now' ? (
-        <Text style={[styles.itemCountValue, { color: colors.text }]}>
+        <Text
+          style={[styles.itemCountValue, { color: colors.text, fontSize: 24 }]}
+        >
           Đang diễn ra
         </Text>
-      ) : (
-        <Text style={[styles.itemCountValue, { color: colors.text }]}>
+      ) : isCountType === 'passed' ? (
+        <Text
+          style={[styles.itemCountValue, { color: colors.text, fontSize: 24 }]}
+        >
           Đã kết thúc {timeRemaining}
         </Text>
-      )}
+      ) : null}
       {!timeRemaining && (
-        <Text style={[styles.itemCountValue, { color: colors.text }]}>
-          Loading
+        <Text
+          style={[styles.itemCountValue, { color: colors.text, fontSize: 24 }]}
+        >
+          <Loading />
         </Text>
       )}
     </View>
   );
 }
 
-const RenderItem = memo(function ({ item, colors }: TItem) {
+const RenderItem = memo(function ({ item, colors }: TItemProps) {
   const [key, value] = item;
-  const isBigNumber = value > 1;
+  // const isBigNumber = value > 1;
 
   // for cache key display
-  const typeKey = useMemo(
-    () => (value > 1 ? key : key.substring(0, key.length - 1)),
-    [isBigNumber],
-  );
+  // const typeKey = useMemo(
+  //   () => (value > 1 ? key : key.substring(0, key.length - 1)),
+  //   [isBigNumber],
+  // );
 
   // for cache value display
   const zeroPad = useCallback(
@@ -104,11 +110,9 @@ const RenderItem = memo(function ({ item, colors }: TItem) {
   );
   return (
     <View style={styles.itemCountDetail} key={key}>
-      {/* <ImageBackground source={require('assets/images/bg-timer.png')}> */}
       <Text style={[styles.itemCountValue, { color: colors.text }]}>
         {zeroPad(value)}
       </Text>
-      {/* </ImageBackground> */}
       <Text style={{ color: colors.text }}>{key}</Text>
     </View>
   );
@@ -116,18 +120,20 @@ const RenderItem = memo(function ({ item, colors }: TItem) {
 
 const styles = StyleSheet.create({
   countdownView: {
+    width: '80%',
+    marginVertical: 10,
     flexDirection: 'row',
-    marginTop: 10,
+    justifyContent: 'center',
   },
   itemCountDetail: {
-    marginRight: 10,
-    flexDirection: 'row',
-    alignItems: 'flex-end',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   itemCountValue: {
-    marginRight: 3,
-    fontSize: normalize(14),
+    marginBottom: 5,
+    fontSize: DIMENSIONS.home.reminderItem.fontSizeDateTimeCount,
   },
 });
 
-export default memo(NormalCountDown, isEqual);
+export default memo(PinCountDown, isEqual);

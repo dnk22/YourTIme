@@ -9,7 +9,7 @@ import isEqual from 'react-fast-compare';
 import { ThemeContext, ThemeType } from 'resources/theme';
 import { NavigationProp } from '@react-navigation/native';
 import styles from './style';
-import { ROUTE_NAME } from 'navigation/constants';
+import { ADD_COUNTDOWN } from 'navigation/constants';
 
 export interface ICountDownHeaderBarProps {
   setModalVisible: () => void;
@@ -45,7 +45,7 @@ const CountDownHeaderBar = ({
   }, [isModalShow, colors]);
 
   const onHandleAddReminderClick = () => {
-    navigation.navigate(ROUTE_NAME.ADD_COUNTDOWN);
+    navigation.navigate(ADD_COUNTDOWN);
   };
 
   return (

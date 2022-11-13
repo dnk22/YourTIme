@@ -3,7 +3,7 @@ import { SafeAreaView, View, Pressable, Text } from 'react-native';
 import { ThemeContext, useCustomTheme } from 'resources/theme';
 import styles from './styles';
 import CountDownHeaderBar from './CountDownHeaderBar';
-import { FlatListComponent, ReminderItem } from 'components/index';
+import { FlatListComponent } from 'components/index';
 import isEqual from 'react-fast-compare';
 import { NavigationProp } from '@react-navigation/native';
 import { useAppSelector, RootState, useAppDispatch } from 'store/index';
@@ -11,7 +11,8 @@ import { selectAllReminder } from 'store/reminder/reminder.selector';
 import { clearAllReminder } from 'store/reminder/reminder.slice';
 import { TReminder } from './type';
 import CountDownCategory from './CountDownCategory';
-import ExpandViewAnimated from 'resources/animations/ExpandViewAnimated';
+import { ExpandViewAnimated } from 'resources/animations';
+import CountDownItem from './CountDownItem';
 
 export interface ICountDownProps {
   navigation: NavigationProp<any, any>;
@@ -27,7 +28,7 @@ const CountDown = ({ navigation }: ICountDownProps) => {
   );
   const renderItem = useCallback(
     ({ item, index }: { item: TReminder; index: number }) => (
-      <ReminderItem item={item} isPin={index === 0} />
+      <CountDownItem item={item} isPin={index === 0} />
     ),
     [],
   );

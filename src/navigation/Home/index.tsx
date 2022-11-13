@@ -1,11 +1,11 @@
-import * as React from 'react';
+import React from 'react';
 import {
   BottomTabNavigationOptions,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
 import HomeBottomBar from './HomeBottomBar';
 import Lottie from 'lottie-react-native';
-import { ROUTE_NAME } from 'navigation/constants';
+import { DASHBOARD, RECORDS, SETTINGS } from 'navigation/constants';
 
 import Dashboard from 'features/CountDown';
 import Tools from 'features/Tools';
@@ -28,11 +28,11 @@ function HomeNavigation() {
   return (
     <Tab.Navigator
       screenOptions={homeOptions}
-      initialRouteName={ROUTE_NAME.DASHBOARD}
+      initialRouteName={DASHBOARD}
       tabBar={props => <HomeBottomBar {...props} />}
     >
       <Tab.Screen
-        name={ROUTE_NAME.RECORDS}
+        name={RECORDS}
         options={{
           // @ts-ignore
           tabBarIcon: ({ ref }) => (
@@ -49,7 +49,7 @@ function HomeNavigation() {
         component={Tools}
       />
       <Tab.Screen
-        name={ROUTE_NAME.DASHBOARD}
+        name={DASHBOARD}
         options={{
           // @ts-ignore
           tabBarIcon: ({ ref }) => (
@@ -65,7 +65,7 @@ function HomeNavigation() {
         component={Dashboard}
       />
       <Tab.Screen
-        name={ROUTE_NAME.SETTINGS}
+        name={SETTINGS}
         options={{
           // @ts-ignore
           tabBarIcon: ({ ref }) => (

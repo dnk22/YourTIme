@@ -13,6 +13,7 @@ type baseType = PressableProps & React.RefAttributes<View>;
 export interface IPressableHapticProps extends baseType {
   children: React.ReactNode;
   useHaptic?: boolean;
+  onPress?: (event: GestureResponderEvent) => void;
 }
 function PressableHaptic({
   children,

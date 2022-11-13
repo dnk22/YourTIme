@@ -5,11 +5,7 @@
  * @param id is string
  */
 
-export function findObjectInArrayById(array: any[], id: string) {
-  const idIndex = array
-    .map(function (x: any) {
-      return x.id;
-    })
-    .indexOf(id);
+export function findObjectInArrayById(array: any, id: string) {
+  const idIndex = array.map(x => x.id).indexOf(id);
   return array[idIndex];
 }

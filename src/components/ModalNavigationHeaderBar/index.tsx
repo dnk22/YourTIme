@@ -18,7 +18,7 @@ interface IModalNavigationHeaderBarProps {
     confirm?: string;
   };
   onBack: () => void;
-  onConfirm: () => void;
+  onConfirm?: () => void;
 }
 function ModalNavigationHeaderBar({
   text,
@@ -43,12 +43,14 @@ function ModalNavigationHeaderBar({
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={80}
       >
-        <Pressable
-          onPress={onConfirm}
-          style={[styles.actionConfirm, { backgroundColor: colors.primary }]}
-        >
-          <Text style={styles.textButtonConfirm}>Xác nhận</Text>
-        </Pressable>
+        {onConfirm && (
+          <Pressable
+            onPress={onConfirm}
+            style={[styles.actionConfirm, { backgroundColor: colors.primary }]}
+          >
+            <Text style={styles.textButtonConfirm}>Xác nhận</Text>
+          </Pressable>
+        )}
       </KeyboardAvoidingView>
     </>
   );
