@@ -1,16 +1,16 @@
 import React, { memo, useCallback, useState } from 'react';
 import { SafeAreaView, View, Pressable, Text } from 'react-native';
 import { ThemeContext, useCustomTheme } from 'resources/theme';
-import styles from './styles';
-import CountDownHeaderBar from './CountDownHeaderBar';
-import { FlatListComponent } from 'components/index';
-import isEqual from 'react-fast-compare';
 import { NavigationProp } from '@react-navigation/native';
-import { useAppSelector, RootState, useAppDispatch } from 'store/index';
+import isEqual from 'react-fast-compare';
+import styles from './styles';
+import { TReminder } from './type';
+import { FlatListComponent } from 'components/index';
+import CountDownHeaderBar from './CountDownHeaderBar';
+import CountDownCategory from './CountDownCategory';
 import { selectAllReminder } from 'store/reminder/reminder.selector';
 import { clearAllReminder } from 'store/reminder/reminder.slice';
-import { TReminder } from './type';
-import CountDownCategory from './CountDownCategory';
+import { useAppSelector, RootState, useAppDispatch } from 'store/index';
 import { ExpandViewAnimated } from 'resources/animations';
 import CountDownItem from './CountDownItem';
 
@@ -21,11 +21,11 @@ export interface ICountDownProps {
 const CountDown = ({ navigation }: ICountDownProps) => {
   const { colors } = useCustomTheme();
   const [isShowCategory, setIsShowCategory] = useState(false);
-
   const dispatch = useAppDispatch();
   const getAllReminder = useAppSelector((state: RootState) =>
     selectAllReminder(state),
   );
+
   const renderItem = useCallback(
     ({ item, index }: { item: TReminder; index: number }) => (
       <CountDownItem item={item} isPin={index === 0} />

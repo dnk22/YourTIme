@@ -88,6 +88,7 @@ const BottomBar = ({
               key={route.key}
               active={active}
               options={options}
+              colors={colors}
               onLayout={e => handleLayout(e, index)}
               onPress={() => navigation.navigate(route.name)}
             />

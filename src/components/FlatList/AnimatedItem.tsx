@@ -12,7 +12,6 @@ type AnimatedItemProps = {
 };
 
 function AnimatedItem({ item, viewableItems }: AnimatedItemProps) {
-  console.log(viewableItems, 'viewableItems');
   const rStyle = useAnimatedStyle(() => {
     const isVisible = Boolean(viewableItems);
 

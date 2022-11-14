@@ -24,7 +24,7 @@ export const DIMENSIONS = {
     iconDropDown: normalize(12),
     navbarHeight: normalize(40),
     title: normalize(16),
-    viewReminderItemPadding: normalize(15),
+    viewReminderItemPadding: normalize(16),
     reminderItem: {
       fontSizeDateTimeCount: normalize(30),
       itemMarginBottom: normalize(10),

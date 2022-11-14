@@ -1,6 +1,6 @@
 import React, { memo, useMemo } from 'react';
 import isEqual from 'react-fast-compare';
-import { View, Text } from 'react-native';
+import { View, Text, SafeAreaView } from 'react-native';
 import { ModalNavigationHeaderBar } from 'components/index';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import styles from './styles';
@@ -11,14 +11,17 @@ import PinCountDown from '../CountDownItem/CountDown/PinCountDown';
 import { useCustomTheme } from 'resources/theme';
 import { formatDateLocal } from '../../../utils/date/index';
 
-function CountDownDetails() {
+function CountDownDetails({ id }: { id?: string }) {
   const { colors } = useCustomTheme();
   const navigation = useNavigation();
   const { params } =
     useRoute<RootStackScreenProps<'countDownDetails'>['route']>();
+  if (params?.countDownId) {
+    id = params.countDownId;
+  }
 
   const getCountDownById = useAppSelector(state =>
-    selectCountDownById(state, params.countDownId),
+    selectCountDownById(state, id),
   );
 
   const { name, targetDateTime } = getCountDownById;
@@ -32,14 +35,14 @@ function CountDownDetails() {
     navigation.goBack();
   };
 
-  console.log('render');
-
   return (
-    <View>
-      <ModalNavigationHeaderBar
-        text={{ title: 'Chi tiết' }}
-        onBack={onNavigationBack}
-      />
+    <SafeAreaView>
+      {params?.countDownId && (
+        <ModalNavigationHeaderBar
+          text={{ title: 'Chi tiết' }}
+          onBack={onNavigationBack}
+        />
+      )}
       <View style={styles.container}>
         <Text style={[styles.name, styles.itemMargin]}>{name}</Text>
         <View style={[styles.dateTimeCount, styles.itemMargin]}>
@@ -58,7 +61,7 @@ function CountDownDetails() {
           </View>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

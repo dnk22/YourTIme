@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export const Text = ({
+const Text = ({
   t18n,
   text,
   flex,

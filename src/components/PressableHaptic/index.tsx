@@ -22,7 +22,9 @@ function PressableHaptic({
   ...rest
 }: IPressableHapticProps) {
   const onHandlePress = (event: GestureResponderEvent) => {
-    onPress && onPress(event);
+    if (onPress) {
+      onPress(event);
+    }
     if (useHaptic) {
       hapticFeedback();
     }

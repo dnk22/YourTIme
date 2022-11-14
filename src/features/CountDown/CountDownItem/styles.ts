@@ -2,18 +2,25 @@ import { StyleSheet } from 'react-native';
 import { DIMENSIONS } from 'share/scale';
 
 const styles = StyleSheet.create({
+  contextMenu: {
+    borderRadius: DIMENSIONS.home.reminderItem.itemBorderRadius,
+    marginBottom: DIMENSIONS.home.reminderItem.itemMarginBottom,
+  },
   container: {
     position: 'relative',
+    zIndex: 111,
     flexDirection: 'column',
     borderRadius: DIMENSIONS.home.reminderItem.itemBorderRadius,
     paddingVertical: DIMENSIONS.home.reminderItem.itemMarginBottom,
     paddingHorizontal: DIMENSIONS.home.reminderItem.itemMarginBottom * 2,
-    marginBottom: DIMENSIONS.home.reminderItem.itemMarginBottom,
   },
   pin: {
     position: 'absolute',
     top: 0,
     right: 10,
+  },
+  styleOfPinItem: {
+    alignItems: 'center',
   },
   reminderName: {
     fontSize: DIMENSIONS.home.reminderItem.reminderName,

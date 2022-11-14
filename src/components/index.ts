@@ -8,6 +8,8 @@ import ModalNavigationHeaderBar from 'components/ModalNavigationHeaderBar';
 import FlatListComponent from './FlatList/index';
 import ModalComponent from 'components/Modal';
 import PressableHaptic from 'components/PressableHaptic';
+import ContextMenu from 'components/ContextMenu';
+import SwipeableComponent from 'components/SwipeableComponent';
 
 export {
   DateTimeField,
@@ -20,4 +22,6 @@ export {
   FlatListComponent,
   ModalComponent,
   PressableHaptic,
+  ContextMenu,
+  SwipeableComponent,
 };

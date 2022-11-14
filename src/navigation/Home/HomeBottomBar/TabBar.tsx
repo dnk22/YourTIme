@@ -12,9 +12,16 @@ type ITabBarProps = {
   options: BottomTabNavigationOptions;
   onLayout: (e: LayoutChangeEvent) => void;
   onPress: () => void;
+  colors: any;
 };
 
-const TabBar = ({ active, options, onLayout, onPress }: ITabBarProps) => {
+const TabBar = ({
+  active,
+  options,
+  onLayout,
+  onPress,
+  colors,
+}: ITabBarProps) => {
   // handle lottie animation -----------------------------------------
   const ref = useRef(null);
 
@@ -51,7 +58,11 @@ const TabBar = ({ active, options, onLayout, onPress }: ITabBarProps) => {
       style={styles.component}
     >
       <Animated.View
-        style={[styles.componentCircle, animatedComponentCircleStyles]}
+        style={[
+          styles.componentCircle,
+          animatedComponentCircleStyles,
+          { backgroundColor: colors.primary },
+        ]}
       />
       <Animated.View
         style={[styles.iconContainer, animatedIconContainerStyles]}
