@@ -2,35 +2,35 @@ import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '../index';
 import { findObjectInArrayById } from 'utils/algorithm/index';
 
-const reminderState = (state: RootState) => state.reminder;
+const reminderState = (state: RootState) => state.countdown;
 
-export const getMapIdReminderCategory = createSelector(reminderState, item => {
+export const getMapIdCountDownCategory = createSelector(reminderState, item => {
   [...item.initCategory, ...item.category].map(x => x.id);
 });
 
-export const selectAllReminder = createSelector(
+export const selectAllCountDown = createSelector(
   reminderState,
   items => items.reminder,
 );
 
-export const selectAllReminderCategory = createSelector(
+export const selectAllCountDownCategory = createSelector(
   reminderState,
   item => item.initCategory,
 );
 
-export const selectReminderCategoryByUser = createSelector(
+export const selectCountDownCategoryByUser = createSelector(
   reminderState,
   item => item.category,
 );
 
-export const getMapIDCountDown = createSelector(selectAllReminder, item => {
+export const getMapIDCountDown = createSelector(selectAllCountDown, item => {
   return item.map(x => x.id);
 });
 
 export const selectCountDownById = createSelector(
   [
     // Usual first input - extract value from `state`
-    selectAllReminder,
+    selectAllCountDown,
     // Take the second arg, `countDownId`, and forward to the output selector
     (_, countDownId) => countDownId,
   ],

@@ -1,7 +1,6 @@
 import { AppRegistry, Platform } from 'react-native';
 import { name as appName } from './app.json';
 import App from './src/App';
-/* eslint-disable import/no-unused-modules */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 if (Platform.OS === 'ios') {

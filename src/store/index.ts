@@ -1,15 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { reduxPersistStorage } from 'share/storage';
-import {
-  persistReducer,
-  persistStore,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from 'redux-persist';
+import { persistReducer, persistStore } from 'redux-persist';
 import { useDispatch, useSelector } from 'react-redux';
 import type { TypedUseSelectorHook } from 'react-redux';
 import { allReducer } from './root.reducer';

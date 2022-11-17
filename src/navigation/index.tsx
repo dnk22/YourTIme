@@ -8,7 +8,6 @@ import CountDownDetails from 'features/CountDown/CountDownDetails';
 import { RootStackParamList } from './type';
 
 //set up routes
-
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 const appOptions: NativeStackNavigationOptions = {
   headerShown: false,

@@ -85,7 +85,8 @@ const CheckComponent: Checkbox = props => {
               { fontSize: scale(size - scale(5)), color: color },
               labelStyle,
               font(),
-            ]}>
+            ]}
+          >
             {label}
           </Text>
         )}

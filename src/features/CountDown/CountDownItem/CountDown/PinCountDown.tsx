@@ -4,9 +4,8 @@ import isEqual from 'react-fast-compare';
 import { getCountDownBetweenDate, getFormatDistanceToNow } from 'utils/date';
 import { useInterval } from 'share/hook.custom';
 import { compareAsc } from 'date-fns';
-import { DIMENSIONS } from 'share/scale';
+import { DIMENSIONS, normalize } from 'share/scale';
 import Loading from 'components/Loading';
-import { normalize } from '../../../../share/scale/index';
 
 type TItemProps = {
   item: any;

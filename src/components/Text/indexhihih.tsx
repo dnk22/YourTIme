@@ -96,7 +96,8 @@ const Text = ({
     <ReactNativeText
       allowFontScaling={false}
       {...rest}
-      style={[styleComponent, styleOverride]}>
+      style={[styleComponent, styleOverride]}
+    >
       {content}
     </ReactNativeText>
   );

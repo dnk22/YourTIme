@@ -1,4 +1,4 @@
-export interface TAddReminder {
+export interface TAddCountDown {
   name: string;
   description?: string;
   categoryId?: string;
@@ -13,15 +13,15 @@ export interface TAddReminder {
   isImportant?: boolean;
   dateCreated?: Date | number | string;
 }
-export interface TReminder extends TAddReminder {
+export interface TCountDown extends TAddCountDown {
   id: string;
 }
 
-export interface IAddReminderCategory {
+export interface IAddCountDownCategory {
   name: string;
   icon: string;
 }
-export interface IReminderCategory extends IAddReminderCategory {
+export interface ICountDownCategory extends IAddCountDownCategory {
   id: string;
 }
 

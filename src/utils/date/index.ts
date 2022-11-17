@@ -1,6 +1,5 @@
 import {
   format,
-  intlFormatDistance,
   formatDistanceToNow,
   differenceInMilliseconds,
 } from 'date-fns';
@@ -10,8 +9,8 @@ import { vi, enUS } from 'date-fns/locale';
 const ONE_MINUTE = 60;
 const ONE_HOUR = 60 * 60;
 const ONE_DAY = 60 * 60 * 24;
-const ONE_MONTH = 60 * 60 * 24 * 30;
-const ONE_YEAR = 60 * 60 * 24 * 365;
+// const ONE_MONTH = 60 * 60 * 24 * 30;
+// const ONE_YEAR = 60 * 60 * 24 * 365;
 
 /**
  * format local date by date-fns

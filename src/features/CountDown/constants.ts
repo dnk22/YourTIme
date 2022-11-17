@@ -21,7 +21,7 @@ export const REPEAT_DATA: { [key: string]: string } = {
   3: 'Hằng năm',
 };
 
-export const initReminderCategory: ICategory[] = [
+export const initCountDownCategory: ICategory[] = [
   {
     id: '0',
     name: 'Quan trọng',

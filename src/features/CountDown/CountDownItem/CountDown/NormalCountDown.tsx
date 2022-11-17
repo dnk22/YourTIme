@@ -1,5 +1,5 @@
 import { compareAsc } from 'date-fns';
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 import isEqual from 'react-fast-compare';
 import { StyleSheet, Text, View } from 'react-native';
 import { useInterval } from 'share/hook.custom';
@@ -89,13 +89,13 @@ function NormalCountDown({
 
 const RenderItem = memo(function ({ item, colors }: TItem) {
   const [key, value] = item;
-  const isBigNumber = value > 1;
+  // const isBigNumber = value > 1;
 
   // for cache key display
-  const typeKey = useMemo(
-    () => (value > 1 ? key : key.substring(0, key.length - 1)),
-    [isBigNumber],
-  );
+  // const typeKey = useMemo(
+  //   () => (value > 1 ? key : key.substring(0, key.length - 1)),
+  //   [isBigNumber],
+  // );
 
   // for cache value display
   const zeroPad = useCallback(

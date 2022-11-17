@@ -1,16 +1,16 @@
 import React, { memo, useCallback, useState, useMemo } from 'react';
 import { TouchableHighlight, View, Text } from 'react-native';
 import { RootState, useAppSelector } from 'store/index';
-import { selectAllReminderCategory } from 'store/reminder/reminder.selector';
+import { selectAllCountDownCategory } from 'store/countdown/countdown.selector';
 import { FlatListComponent } from 'components/index';
 import { useCustomTheme } from 'resources/theme';
-import { IReminderCategory } from '../type';
+import { ICountDownCategory } from '../type';
 import isEqual from 'react-fast-compare';
 import SVG from 'assets/svg/icon-search.svg';
 import styles from './style';
 
 interface ReminderCategoryProps {
-  onPressItem?: (item: IReminderCategory) => void;
+  onPressItem?: (item: ICountDownCategory) => void;
   isCurrentCategory?: string;
   isShowCheckbox?: boolean;
   isShowOtherCategory?: boolean;
@@ -25,7 +25,7 @@ function CountDownCategory({
   const { colors } = useCustomTheme();
   const [isSelected, setIsSelected] = useState(isCurrentCategory);
   const getAllReminderCategory = useAppSelector((state: RootState) =>
-    selectAllReminderCategory(state),
+    selectAllCountDownCategory(state),
   );
 
   const data = useMemo(
@@ -41,7 +41,7 @@ function CountDownCategory({
     [isSelected],
   );
 
-  const renderItem = ({ item }: { item: IReminderCategory }) => {
+  const renderItem = ({ item }: { item: ICountDownCategory }) => {
     const onPress = () => {
       setIsSelected(item.id);
       if (onPressItem) {

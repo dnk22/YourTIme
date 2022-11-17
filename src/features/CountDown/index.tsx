@@ -8,8 +8,8 @@ import { TReminder } from './type';
 import { FlatListComponent } from 'components/index';
 import CountDownHeaderBar from './CountDownHeaderBar';
 import CountDownCategory from './CountDownCategory';
-import { selectAllReminder } from 'store/reminder/reminder.selector';
-import { clearAllReminder } from 'store/reminder/reminder.slice';
+import { selectAllCountDown } from 'store/countdown/countdown.selector';
+import { clearAllCountDown } from 'store/countdown/countdown.slice';
 import { useAppSelector, RootState, useAppDispatch } from 'store/index';
 import { ExpandViewAnimated } from 'resources/animations';
 import CountDownItem from './CountDownItem';
@@ -23,7 +23,7 @@ const CountDown = ({ navigation }: ICountDownProps) => {
   const [isShowCategory, setIsShowCategory] = useState(false);
   const dispatch = useAppDispatch();
   const getAllReminder = useAppSelector((state: RootState) =>
-    selectAllReminder(state),
+    selectAllCountDown(state),
   );
 
   const renderItem = useCallback(
@@ -60,7 +60,7 @@ const CountDown = ({ navigation }: ICountDownProps) => {
           )}
           <Pressable
             style={{ alignItems: 'center', marginTop: 5 }}
-            onPress={() => dispatch(clearAllReminder())}
+            onPress={() => dispatch(clearAllCountDown())}
           >
             <Text>clear all</Text>
           </Pressable>

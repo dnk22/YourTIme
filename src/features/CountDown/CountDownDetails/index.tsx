@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 import isEqual from 'react-fast-compare';
 import { View, Text } from 'react-native';
 import { ModalNavigationHeaderBar } from 'components/index';
@@ -6,7 +6,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import styles from './styles';
 import { RootStackScreenProps } from 'navigation/type';
 import { useAppSelector } from 'store/index';
-import { selectCountDownById } from 'store/reminder/reminder.selector';
+import { selectCountDownById } from 'store/countdown/countdown.selector';
 import PinCountDown from '../CountDownItem/CountDown/PinCountDown';
 import { useCustomTheme } from 'resources/theme';
 import { formatDateLocal } from 'utils/date';

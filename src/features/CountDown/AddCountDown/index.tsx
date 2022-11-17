@@ -23,19 +23,19 @@ import AddIcon from 'assets/svg/icon-sound.svg';
 import Category from 'assets/svg/icon-view-card.svg';
 import { IconSize } from 'share/scale';
 import { useForm } from 'react-hook-form';
-import { IReminderCategory, TAddReminder, TReminder } from '../type';
+import { ICountDownCategory, TAddCountDown, TCountDown } from '../type';
 import { formatDateLocal, randomUniqueId } from 'utils/index';
 import { useAppDispatch } from 'store/index';
-import { addNewReminder } from 'store/reminder/reminder.slice';
+import { addNewCountDown } from 'store/countdown/countdown.slice';
 import { FIELD_NAME } from '../constants';
 import CountDownCategory from '../CountDownCategory';
 import { CREATE_MODE } from 'utils/constant';
 import ColorPicker from 'react-native-color-picker-ios';
 
-interface IAddReminderProps {
+interface IAddCountDownProps {
   navigation: NavigationProp<any, any>;
 }
-const defaultValues: TAddReminder = {
+const defaultValues: TAddCountDown = {
   name: '',
   description: '',
   targetDateTime: new Date(),
@@ -45,7 +45,7 @@ const defaultValues: TAddReminder = {
   repeat: '0',
 };
 
-function AddCountDown({ navigation }: IAddReminderProps) {
+function AddCountDown({ navigation }: IAddCountDownProps) {
   const { colors } = useCustomTheme();
   const dispatch = useAppDispatch();
   const [isModalShowType, setIsModalShowType] = useState<string>('');
@@ -70,7 +70,7 @@ function AddCountDown({ navigation }: IAddReminderProps) {
   );
 
   const { control, handleSubmit, getValues, setValue, watch } =
-    useForm<TReminder>({
+    useForm<TCountDown>({
       defaultValues,
     });
 
@@ -90,7 +90,7 @@ function AddCountDown({ navigation }: IAddReminderProps) {
     navigation.goBack();
   };
 
-  const onHandleConfirm = (data: TReminder) => {
+  const onHandleConfirm = (data: TCountDown) => {
     const result = {
       ...data,
       id: randomUniqueId(),
@@ -105,7 +105,7 @@ function AddCountDown({ navigation }: IAddReminderProps) {
   };
 
   const onHandleCategorySelect = useCallback(
-    ({ id, name }: IReminderCategory) => {
+    ({ id, name }: ICountDownCategory) => {
       setValue('categoryId', id);
       setValue('categoryName', name);
     },

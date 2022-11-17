@@ -34,7 +34,8 @@ const GlobalMessage = React.forwardRef((_props, ref) => {
       style={styles.main}
       visible={visible}
       animationType={'none'}
-      transparent>
+      transparent
+    >
       <StatusBar
         translucent
         backgroundColor={'rgba(0,0,0,0.6)'}
@@ -53,7 +54,8 @@ const GlobalMessage = React.forwardRef((_props, ref) => {
                 <Text
                   fontSize={15}
                   color={'black'}
-                  style={{ textAlign: 'center' }}>
+                  style={{ textAlign: 'center' }}
+                >
                   {content}
                 </Text>
               </View>

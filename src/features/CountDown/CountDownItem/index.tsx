@@ -4,7 +4,7 @@ import { Alert, GestureResponderEvent } from 'react-native';
 import Pin from 'assets/svg/pin.svg';
 import styles from './styles';
 import { normalize } from 'share/scale';
-import { TReminder } from '../type';
+import { TCountDown } from '../type';
 import Title from './Title';
 import DetailsView from './DetailsView';
 import { ThemeContext, ThemeType } from 'resources/theme';
@@ -18,7 +18,7 @@ import CountDownDetails from 'features/CountDown/CountDownDetails';
 import SwipeableComponent from 'components/SwipeableComponent';
 
 type ICountDownItemProps = {
-  item: TReminder;
+  item: TCountDown;
   isPin: boolean;
 };
 
