@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { normalize } from '../../../share/scale/index';
+import { normalize } from 'share/scale';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,12 +20,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  divider: {
+    width: '100%',
+    height: 1,
+    backgroundColor: '#eee',
+  },
   inputName: {
-    height: 30,
-    marginBottom: 10,
+    height: 40,
   },
   inputDesc: {
-    height: 40,
+    marginTop: 10,
+    height: 50,
   },
   groupChild: {
     padding: 10,
@@ -48,6 +53,19 @@ const styles = StyleSheet.create({
     width: normalize(50),
     height: normalize(50),
     justifyContent: 'center',
+  },
+  color: {
+    width: 30,
+    height: 30,
+    borderRadius: 30,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+    elevation: 6,
   },
   timeTitle: {
     flexDirection: 'row',
@@ -104,6 +122,7 @@ const styles = StyleSheet.create({
   },
   headerCategoryActionText: {
     fontSize: normalize(15),
+    color: 'white',
   },
 });
 export default styles;

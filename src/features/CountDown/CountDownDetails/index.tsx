@@ -1,6 +1,6 @@
-import React, { memo, useMemo } from 'react';
+import React, { memo, useEffect, useMemo } from 'react';
 import isEqual from 'react-fast-compare';
-import { View, Text, SafeAreaView } from 'react-native';
+import { View, Text } from 'react-native';
 import { ModalNavigationHeaderBar } from 'components/index';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import styles from './styles';
@@ -9,19 +9,17 @@ import { useAppSelector } from 'store/index';
 import { selectCountDownById } from 'store/reminder/reminder.selector';
 import PinCountDown from '../CountDownItem/CountDown/PinCountDown';
 import { useCustomTheme } from 'resources/theme';
-import { formatDateLocal } from '../../../utils/date/index';
+import { formatDateLocal } from 'utils/date';
 
 function CountDownDetails({ id }: { id?: string }) {
   const { colors } = useCustomTheme();
   const navigation = useNavigation();
   const { params } =
     useRoute<RootStackScreenProps<'countDownDetails'>['route']>();
-  if (params?.countDownId) {
-    id = params.countDownId;
-  }
 
+  const queryCountDownID = id || params.countDownId;
   const getCountDownById = useAppSelector(state =>
-    selectCountDownById(state, id),
+    selectCountDownById(state, queryCountDownID),
   );
 
   const { name, targetDateTime } = getCountDownById;
@@ -36,7 +34,7 @@ function CountDownDetails({ id }: { id?: string }) {
   };
 
   return (
-    <SafeAreaView>
+    <View>
       {params?.countDownId && (
         <ModalNavigationHeaderBar
           text={{ title: 'Chi tiết' }}
@@ -48,20 +46,45 @@ function CountDownDetails({ id }: { id?: string }) {
         <View style={[styles.dateTimeCount, styles.itemMargin]}>
           <PinCountDown colors={colors} targetDateTime={targetDateTime} />
         </View>
-        <View style={[styles.dateTime, styles.itemMargin]}>
+        <View style={[styles.box, styles.itemMargin]}>
           <Text style={styles.label}>Thời gian chi tiết</Text>
           <View
             style={[
               styles.dateTimeDetails,
-              styles.itemMargin,
               { backgroundColor: colors.surface },
             ]}
           >
             <Text>{targetDateTimeFormatted}</Text>
           </View>
         </View>
+        <View style={[styles.box, styles.grid, styles.itemMargin]}>
+          <View style={[styles.pinItem, { backgroundColor: colors.surface }]}>
+            <Text>Hằng ngày</Text>
+          </View>
+          <View style={[styles.pinItem, { backgroundColor: colors.surface }]}>
+            <Text>Hằng ngày</Text>
+          </View>
+          <View style={[styles.pinItem, { backgroundColor: colors.surface }]}>
+            <Text>Hằng ngày</Text>
+          </View>
+          <View style={[styles.pinItem, { backgroundColor: colors.surface }]}>
+            <Text>Hằng ngày</Text>
+          </View>
+          <View style={[styles.pinItem, { backgroundColor: colors.surface }]}>
+            <Text>Hằng ngày</Text>
+          </View>
+          <View style={[styles.pinItem, { backgroundColor: colors.surface }]}>
+            <Text>Hằng ngày</Text>
+          </View>
+          <View style={[styles.pinItem, { backgroundColor: colors.surface }]}>
+            <Text>Hằng ngày</Text>
+          </View>
+          <View style={[styles.pinItem, { backgroundColor: colors.surface }]}>
+            <Text>Hằng ngày</Text>
+          </View>
+        </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 

@@ -6,6 +6,7 @@ import { useInterval } from 'share/hook.custom';
 import { compareAsc } from 'date-fns';
 import { DIMENSIONS } from 'share/scale';
 import Loading from 'components/Loading';
+import { normalize } from '../../../../share/scale/index';
 
 type TItemProps = {
   item: any;
@@ -70,25 +71,15 @@ function PinCountDown({ colors, targetDateTime }: TPinCountDownProps) {
           return <RenderItem item={item} colors={colors} key={key} />;
         })
       ) : isCountType === 'now' ? (
-        <Text
-          style={[styles.itemCountValue, { color: colors.text, fontSize: 24 }]}
-        >
+        <Text style={[styles.textState, { color: colors.text }]}>
           Đang diễn ra
         </Text>
       ) : isCountType === 'passed' ? (
-        <Text
-          style={[styles.itemCountValue, { color: colors.text, fontSize: 24 }]}
-        >
+        <Text style={[styles.textState, { color: colors.text }]}>
           Đã kết thúc {timeRemaining}
         </Text>
       ) : null}
-      {!timeRemaining && (
-        <Text
-          style={[styles.itemCountValue, { color: colors.text, fontSize: 24 }]}
-        >
-          <Loading />
-        </Text>
-      )}
+      {!timeRemaining && <Loading />}
     </View>
   );
 }
@@ -109,7 +100,7 @@ const RenderItem = memo(function ({ item, colors }: TItemProps) {
     [],
   );
   return (
-    <View style={styles.itemCountDetail} key={key}>
+    <View style={styles.itemCount} key={key}>
       <Text style={[styles.itemCountValue, { color: colors.text }]}>
         {zeroPad(value)}
       </Text>
@@ -121,14 +112,18 @@ const RenderItem = memo(function ({ item, colors }: TItemProps) {
 const styles = StyleSheet.create({
   countdownView: {
     width: '80%',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginVertical: 10,
     flexDirection: 'row',
-    justifyContent: 'center',
   },
-  itemCountDetail: {
+  itemCount: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  textState: {
+    fontSize: normalize(24),
   },
   itemCountValue: {
     marginBottom: 5,

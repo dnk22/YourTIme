@@ -29,7 +29,7 @@ const ExpandViewAnimated = ({
     }
     return {
       height: withTiming(toValue, {
-        duration: 400,
+        duration: 600,
         easing: Easing.bezier(0.25, 0.1, 0.25, 1),
       }),
     };

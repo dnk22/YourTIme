@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { TReminder } from 'features/CountDown/type';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { initReminderCategory } from './reminder.data.default';
 import { IReminderCategory } from 'features/CountDown/type';
+import { initReminderCategory } from 'features/CountDown/constants';
 
 export interface ReminderState {
   reminder: TReminder[];

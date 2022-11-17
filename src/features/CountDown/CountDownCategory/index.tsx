@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useState } from 'react';
+import React, { memo, useCallback, useState, useMemo } from 'react';
 import { TouchableHighlight, View, Text } from 'react-native';
 import { RootState, useAppSelector } from 'store/index';
 import { selectAllReminderCategory } from 'store/reminder/reminder.selector';
@@ -13,17 +13,27 @@ interface ReminderCategoryProps {
   onPressItem?: (item: IReminderCategory) => void;
   isCurrentCategory?: string;
   isShowCheckbox?: boolean;
+  isShowOtherCategory?: boolean;
 }
 
 function CountDownCategory({
   isCurrentCategory = '',
   isShowCheckbox = false,
+  isShowOtherCategory = true,
   onPressItem,
 }: ReminderCategoryProps) {
   const { colors } = useCustomTheme();
   const [isSelected, setIsSelected] = useState(isCurrentCategory);
   const getAllReminderCategory = useAppSelector((state: RootState) =>
     selectAllReminderCategory(state),
+  );
+
+  const data = useMemo(
+    () =>
+      isShowOtherCategory
+        ? getAllReminderCategory
+        : getAllReminderCategory.filter(x => x.id !== '7'),
+    [getAllReminderCategory, isShowOtherCategory],
   );
 
   const currentSelected = useCallback(
@@ -72,10 +82,7 @@ function CountDownCategory({
   };
   return (
     <View style={styles.container}>
-      <FlatListComponent
-        data={getAllReminderCategory}
-        renderItem={renderItem}
-      />
+      <FlatListComponent data={data} renderItem={renderItem} />
     </View>
   );
 }

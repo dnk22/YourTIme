@@ -58,10 +58,8 @@ const CountDownHeaderBar = ({
         },
       ]}
     >
-      <View style={[styles.centerIcon, styles.left]}>
-        <Pressable onPress={onHandleAddReminderClick}>
-          <AddIcon {...IconSize.app} fill={colors.text} />
-        </Pressable>
+      <View style={[styles.left, styles.centerIcon]}>
+        <SearchIcon {...IconSize.app} color={colors.text} />
       </View>
       <View style={[styles.center, styles.centerIcon]}>
         <Pressable onPress={setModalVisible} style={styles.centerContent}>
@@ -78,7 +76,9 @@ const CountDownHeaderBar = ({
         </Pressable>
       </View>
       <View style={[styles.right, styles.centerIcon]}>
-        <SearchIcon {...IconSize.app} color={colors.text} />
+        <Pressable onPress={onHandleAddReminderClick}>
+          <AddIcon {...IconSize.app} fill={colors.text} />
+        </Pressable>
       </View>
     </View>
   );

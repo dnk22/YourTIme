@@ -24,3 +24,11 @@ export interface IAddReminderCategory {
 export interface IReminderCategory extends IAddReminderCategory {
   id: string;
 }
+
+export interface IAddCategory {
+  name: string;
+  icon: string;
+}
+export interface ICategory extends IAddCategory {
+  id: string;
+}

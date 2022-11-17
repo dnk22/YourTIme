@@ -19,19 +19,30 @@ const styles = StyleSheet.create({
     fontSize: normalize(20),
   },
   dateTimeCount: {
-    borderRadius: 10,
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  dateTime: {
-    width: '80%',
+  box: {
+    width: '90%',
     alignItems: 'center',
   },
   dateTimeDetails: {
     width: '100%',
     padding: 20,
     alignItems: 'center',
-    borderRadius: 10,
+    borderRadius: 5,
+  },
+  grid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  },
+  pinItem: {
+    maxWidth: '25%',
+    alignItems: 'center',
+    padding: 5,
+    margin: 2.5,
   },
 });
 export default styles;

@@ -1,5 +1,11 @@
 import React, { memo, useState, useMemo, useCallback } from 'react';
-import { View, Text, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Alert,
+} from 'react-native';
 import {
   SegmentedControlField,
   InputField,
@@ -23,6 +29,8 @@ import { useAppDispatch } from 'store/index';
 import { addNewReminder } from 'store/reminder/reminder.slice';
 import { FIELD_NAME } from '../constants';
 import CountDownCategory from '../CountDownCategory';
+import { CREATE_MODE } from 'utils/constant';
+import ColorPicker from 'react-native-color-picker-ios';
 
 interface IAddReminderProps {
   navigation: NavigationProp<any, any>;
@@ -34,13 +42,15 @@ const defaultValues: TAddReminder = {
   isRepeat: false,
   isReminder: true,
   reminder: 0,
-  repeat: 0,
+  repeat: '0',
 };
 
 function AddCountDown({ navigation }: IAddReminderProps) {
   const { colors } = useCustomTheme();
   const dispatch = useAppDispatch();
   const [isModalShowType, setIsModalShowType] = useState<string>('');
+  const [isMode] = useState(CREATE_MODE);
+  const isCreateMode = useMemo(() => isMode === CREATE_MODE, [isMode]);
 
   const isDateModal = useMemo(
     () => isModalShowType === 'date',
@@ -54,10 +64,10 @@ function AddCountDown({ navigation }: IAddReminderProps) {
     () => isModalShowType === 'category',
     [isModalShowType],
   );
-  // const isBellModal = useMemo(
-  //   () => isModalShowType === 'bell',
-  //   [isModalShowType],
-  // );
+  const isBellModal = useMemo(
+    () => isModalShowType === 'bell',
+    [isModalShowType],
+  );
 
   const { control, handleSubmit, getValues, setValue, watch } =
     useForm<TReminder>({
@@ -65,7 +75,7 @@ function AddCountDown({ navigation }: IAddReminderProps) {
     });
 
   // get form values
-  const { targetDateTime, categoryId, categoryName } = getValues();
+  const { targetDateTime, categoryId, categoryName, color } = getValues();
   const { isRepeat, isReminder } = watch();
   const targetDateRender = useMemo(
     () => formatDateLocal(targetDateTime, 'dd/MM/yyyy'),
@@ -85,8 +95,9 @@ function AddCountDown({ navigation }: IAddReminderProps) {
       ...data,
       id: randomUniqueId(),
     };
-    dispatch(addNewReminder(result));
-    navigation.goBack();
+    Alert.alert(JSON.stringify(result));
+    // dispatch(addNewReminder(result));
+    // navigation.goBack();
   };
 
   const onToggleModal = (type: string) => {
@@ -139,6 +150,7 @@ function AddCountDown({ navigation }: IAddReminderProps) {
           </PressableHaptic>
         </View>
         <CountDownCategory
+          isShowOtherCategory={false}
           onPressItem={onHandleCategorySelect}
           isCurrentCategory={categoryId}
           isShowCheckbox
@@ -147,24 +159,28 @@ function AddCountDown({ navigation }: IAddReminderProps) {
     );
   }, [categoryId, colors.primary, isCategoryModal, onHandleCategorySelect]);
 
-  // const renderBellPickerModal = useMemo(() => {
-  //   return (
-  //     <ModalComponent
-  //       isVisible={isBellModal}
-  //       onToggleModal={() => onToggleModal('')}
-  //       isShowClose={false}
-  //       height={'60%'}
-  //     >
-  //       <CountDownCategory />
-  //     </ModalComponent>
-  //   );
-  // }, [isBellModal]);
+  const renderBellPickerModal = useMemo(() => {
+    return (
+      <ModalComponent
+        isVisible={isBellModal}
+        onToggleModal={() => onToggleModal('')}
+        isShowClose={false}
+        height={'40%'}
+      />
+    );
+  }, [isBellModal]);
+
+  const onHandleColorPicker = () => {
+    ColorPicker.showColorPicker({ initialColor: 'cyan' }, value => {
+      setValue('color', value);
+    });
+  };
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       {renderDateTimePickerModal}
       {renderCategoryPickerModal}
-      {/* {renderBellPickerModal} */}
+      {renderBellPickerModal}
       <ModalNavigationHeaderBar
         text={{ title: 'Tạo mới đếm ngược' }}
         onBack={onHandleBack}
@@ -176,15 +192,20 @@ function AddCountDown({ navigation }: IAddReminderProps) {
             <InputField
               name={FIELD_NAME.NAME}
               control={control}
-              style={styles.inputName}
+              style={[styles.inputName]}
               placeholder="Tên"
+              clearButtonMode="always"
+              autoFocus={isCreateMode}
             />
+            <View style={styles.divider} />
             <InputField
               name={FIELD_NAME.DESCRIPTION}
               control={control}
-              style={styles.inputDesc}
+              style={[styles.inputDesc]}
               placeholder="Chi tiết"
+              maxLength={60}
               multiline
+              placeholderTextColor="#9999"
             />
           </View>
           <View style={[styles.group, styles.groupRow]}>
@@ -209,8 +230,9 @@ function AddCountDown({ navigation }: IAddReminderProps) {
                 styles.groupChild,
                 { backgroundColor: colors.surface },
               ]}
+              onPress={onHandleColorPicker}
             >
-              <Text style={[{ color: colors.text }]}>Hihi</Text>
+              <View style={[styles.color, { backgroundColor: color }]} />
             </PressableHaptic>
             <PressableHaptic
               style={[
@@ -260,22 +282,6 @@ function AddCountDown({ navigation }: IAddReminderProps) {
           <View style={[styles.group, { backgroundColor: colors.surface }]}>
             <View style={[styles.groupChildRow]}>
               <Text style={[{ color: colors.text }, styles.textTime]}>
-                Lặp lại?
-              </Text>
-              <SwitchField name={FIELD_NAME.IS_REPEAT} control={control} />
-            </View>
-            {isRepeat && (
-              <SegmentedControlField
-                name={FIELD_NAME.REPEAT}
-                control={control}
-                style={styles.segmentedControl}
-                values={['Hằng ngày', 'Hằng tuần', 'Hàng tháng', 'Hàng năm']}
-              />
-            )}
-          </View>
-          <View style={[styles.group, { backgroundColor: colors.surface }]}>
-            <View style={[styles.groupChildRow]}>
-              <Text style={[{ color: colors.text }, styles.textTime]}>
                 Nhắc nhở?
               </Text>
               <SwitchField name={FIELD_NAME.IS_REMINDER} control={control} />
@@ -286,6 +292,22 @@ function AddCountDown({ navigation }: IAddReminderProps) {
                 control={control}
                 style={styles.segmentedControl}
                 values={['Hằng ngày', 'Hằng tuần', 'Hàng tháng', 'Hàng tháng']}
+              />
+            )}
+          </View>
+          <View style={[styles.group, { backgroundColor: colors.surface }]}>
+            <View style={[styles.groupChildRow]}>
+              <Text style={[{ color: colors.text }, styles.textTime]}>
+                Lặp lại?
+              </Text>
+              <SwitchField name={FIELD_NAME.IS_REPEAT} control={control} />
+            </View>
+            {isRepeat && (
+              <SegmentedControlField
+                name={FIELD_NAME.REPEAT}
+                control={control}
+                style={styles.segmentedControl}
+                values={['Hằng ngày', 'Hằng tuần', 'Hàng tháng', 'Hàng năm']}
               />
             )}
           </View>

@@ -4,7 +4,7 @@ import { ADD_COUNTDOWN, HOME, COUNTDOWN_DETAILS } from './constants';
 export type RootStackParamList = {
   [HOME]: undefined;
   [ADD_COUNTDOWN]: undefined;
-  [COUNTDOWN_DETAILS]: { countDownId: string } | undefined;
+  [COUNTDOWN_DETAILS]: { countDownId: string };
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
