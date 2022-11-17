@@ -13,7 +13,7 @@ interface ILoadingProps extends ActivityIndicatorIOSProps {
 
 function Loading({
   size = 'small',
-  color = '#FEBE8C',
+  color = '#2D31FA',
   ...rest
 }: ILoadingProps) {
   return <ActivityIndicator size={size} color={color} {...rest} />;
