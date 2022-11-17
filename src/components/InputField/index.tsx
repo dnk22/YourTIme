@@ -1,10 +1,11 @@
 import React, { memo } from 'react';
-import { StyleProp, TextInput, TextStyle } from 'react-native';
+import { StyleProp, TextInput, TextInputProps, TextStyle } from 'react-native';
 import { Control, useController } from 'react-hook-form';
 import stylesInline from './styles';
 import isEqual from 'react-fast-compare';
+import { useCustomTheme } from 'resources/theme';
 
-interface IInputField {
+interface IInputField extends TextInputProps {
   name: string;
   defaultValue?: any;
   control: Control<any, any>;
@@ -19,6 +20,7 @@ function InputField({
   style,
   ...props
 }: IInputField) {
+  const { colors } = useCustomTheme();
   const {
     field: { value, onChange, onBlur },
   } = useController({
@@ -32,7 +34,7 @@ function InputField({
       value={value}
       onChangeText={onChange}
       onBlur={onBlur}
-      style={[stylesInline, style]}
+      style={[stylesInline, style, { color: colors.text }]}
       {...props}
     />
   );
