@@ -1,5 +1,10 @@
 import React from 'react';
-import { ActivityIndicator, StatusBar, useColorScheme } from 'react-native';
+import {
+  ActivityIndicator,
+  LogBox,
+  StatusBar,
+  useColorScheme,
+} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from 'react-redux';
 // import { navigationRef } from './navigation/utils';
@@ -7,6 +12,9 @@ import { persistor, store } from './store';
 import AppNavigators from 'navigation/index';
 import { MyAppTheme } from 'resources/theme';
 import { PersistGate } from 'redux-persist/integration/react';
+import { logBoxIgnore } from 'utils/constant';
+
+LogBox.ignoreLogs(logBoxIgnore);
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
