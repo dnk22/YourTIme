@@ -54,5 +54,20 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+
+  <!-- 🚨 Keep only the permissions used in your app 🚨 -->
+  <key>NSCalendarsUsageDescription</key>
+  <string></string>
+  <key>NSCameraUsageDescription</key>
+  <string></string>
+  <key>NSFaceIDUsageDescription</key>
+  <string></string>
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string></string>
+  <key>NSPhotoLibraryAddUsageDescription</key>
+  <string></string>
+  <key>NSRemindersUsageDescription</key>
+  <string></string>
+  <!-- … -->
 </dict>
 </plist>

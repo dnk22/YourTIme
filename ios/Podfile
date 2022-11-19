@@ -7,6 +7,21 @@ install! 'cocoapods', :deterministic_uuids => false
 use_frameworks! :linkage => :static
 $RNFirebaseAsStaticFramework = true
 
+# Convert all permission pods into static libraries
+pre_install do |installer|
+  Pod::Installer::Xcode::TargetValidator.send(:define_method, :verify_no_static_framework_transitive_dependencies) {}
+
+  installer.pod_targets.each do |pod|
+    if pod.name.eql?('RNPermissions') || pod.name.start_with?('Permission-')
+      def pod.build_type;
+        # Uncomment the line corresponding to your CocoaPods version
+        Pod::BuildType.static_library # >= 1.9
+        # Pod::Target::BuildType.static_library # < 1.9
+      end
+    end
+  end
+end
+
 target 'Count Down' do
   config = use_native_modules!
 
@@ -28,6 +43,15 @@ target 'Count Down' do
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
+
+  permissions_path = '../node_modules/react-native-permissions/ios'
+
+  pod 'Permission-Calendars', :path => "#{permissions_path}/Calendars"
+  pod 'Permission-FaceID', :path => "#{permissions_path}/FaceID"
+  pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications"
+  pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary"
+  pod 'Permission-PhotoLibraryAddOnly', :path => "#{permissions_path}/PhotoLibraryAddOnly"
+  pod 'Permission-Reminders', :path => "#{permissions_path}/Reminders"
 
   target 'Count DownTests' do
     inherit! :complete

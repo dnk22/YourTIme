@@ -5,10 +5,11 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "pod": "cd ios && pod install",
+    "pod": "cd ios && pod install --repo-update",
     "start": "react-native start --reset-cache",
     "test": "jest",
-    "lint": "eslint . --fix --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint . --fix --ext .js,.jsx,.ts,.tsx",
+    "list-devices" : "xcrun xctrace list devices"
   },
   "dependencies": {
     "@formatjs/intl-getcanonicallocales": "^2.0.4",
@@ -16,6 +17,7 @@
     "@formatjs/intl-numberformat": "^8.2.0",
     "@formatjs/intl-pluralrules": "^5.1.4",
     "@formatjs/intl-relativetimeformat": "^11.1.4",
+    "@notifee/react-native": "^7.1.0",
     "@react-native-community/datetimepicker": "^6.5.4",
     "@react-native-firebase/app": "^16.4.6",
     "@react-native-firebase/auth": "^16.4.6",
@@ -40,6 +42,7 @@
     "react-native-ios-context-menu": "^1.15.1",
     "react-native-mmkv": "^2.5.1",
     "react-native-modal": "^13.0.1",
+    "react-native-permissions": "^3.6.1",
     "react-native-reanimated": "^2.12.0",
     "react-native-safe-area-context": "^4.4.1",
     "react-native-screens": "^3.18.2",
