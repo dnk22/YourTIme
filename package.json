@@ -17,6 +17,7 @@
     "@formatjs/intl-pluralrules": "^5.1.4",
     "@formatjs/intl-relativetimeformat": "^11.1.4",
     "@react-native-community/datetimepicker": "^6.5.4",
+    "@react-native-firebase/app": "^16.4.5",
     "@react-native-segmented-control/segmented-control": "^2.4.0",
     "@react-navigation/bottom-tabs": "^6.4.0",
     "@react-navigation/native": "^6.0.13",
