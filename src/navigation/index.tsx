@@ -20,7 +20,6 @@ function AppNavigators() {
       <RootStack.Group
         screenOptions={{
           presentation: 'modal',
-          // animation: 'flip',
         }}
       >
         <RootStack.Screen name={ADD_COUNTDOWN} component={AddCountDown} />
