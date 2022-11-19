@@ -4,12 +4,12 @@ import { ThemeContext, useCustomTheme } from 'resources/theme';
 import { NavigationProp } from '@react-navigation/native';
 import isEqual from 'react-fast-compare';
 import styles from './styles';
-import { TReminder } from './type';
+import { TCountDown } from './type';
 import { FlatListComponent } from 'components/index';
 import CountDownHeaderBar from './CountDownHeaderBar';
 import CountDownCategory from './CountDownCategory';
-import { selectAllCountDown } from 'store/countdown/countdown.selector';
-import { clearAllCountDown } from 'store/countdown/countdown.slice';
+import { selectAllCountDown } from 'store/countDown/countDown.selector';
+import { clearAllCountDown } from 'store/countDown/countDown.slice';
 import { useAppSelector, RootState, useAppDispatch } from 'store/index';
 import { ExpandViewAnimated } from 'resources/animations';
 import CountDownItem from './CountDownItem';
@@ -27,7 +27,7 @@ const CountDown = ({ navigation }: ICountDownProps) => {
   );
 
   const renderItem = useCallback(
-    ({ item, index }: { item: TReminder; index: number }) => (
+    ({ item, index }: { item: TCountDown; index: number }) => (
       <CountDownItem item={item} isPin={index === 0} />
     ),
     [],

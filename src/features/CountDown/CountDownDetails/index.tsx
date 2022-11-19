@@ -6,7 +6,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import styles from './styles';
 import { RootStackScreenProps } from 'navigation/type';
 import { useAppSelector } from 'store/index';
-import { selectCountDownById } from 'store/countdown/countdown.selector';
+import { selectCountDownById } from 'store/countDown/countDown.selector';
 import PinCountDown from '../CountDownItem/CountDown/PinCountDown';
 import { useCustomTheme } from 'resources/theme';
 import { formatDateLocal } from 'utils/date';

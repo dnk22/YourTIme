@@ -26,7 +26,7 @@ import { useForm } from 'react-hook-form';
 import { ICountDownCategory, TAddCountDown, TCountDown } from '../type';
 import { formatDateLocal, randomUniqueId } from 'utils/index';
 import { useAppDispatch } from 'store/index';
-import { addNewCountDown } from 'store/countdown/countdown.slice';
+import { addNewCountDown } from 'store/countDown/countDown.slice';
 import { FIELD_NAME } from '../constants';
 import CountDownCategory from '../CountDownCategory';
 import { CREATE_MODE } from 'utils/constant';

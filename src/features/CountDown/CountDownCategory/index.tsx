@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useState, useMemo } from 'react';
 import { TouchableHighlight, View, Text } from 'react-native';
 import { RootState, useAppSelector } from 'store/index';
-import { selectAllCountDownCategory } from 'store/countdown/countdown.selector';
+import { selectAllCountDownCategory } from 'store/countDown/countDown.selector';
 import { FlatListComponent } from 'components/index';
 import { useCustomTheme } from 'resources/theme';
 import { ICountDownCategory } from '../type';
@@ -15,6 +15,9 @@ interface ReminderCategoryProps {
   isShowCheckbox?: boolean;
   isShowOtherCategory?: boolean;
 }
+
+// not select for editing
+const OTHER_CATEGORY = '7';
 
 function CountDownCategory({
   isCurrentCategory = '',
@@ -32,7 +35,7 @@ function CountDownCategory({
     () =>
       isShowOtherCategory
         ? getAllReminderCategory
-        : getAllReminderCategory.filter(x => x.id !== '7'),
+        : getAllReminderCategory.filter(x => x.id !== OTHER_CATEGORY),
     [getAllReminderCategory, isShowOtherCategory],
   );
 

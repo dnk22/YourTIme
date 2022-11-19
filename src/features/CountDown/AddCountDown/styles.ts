@@ -55,17 +55,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   color: {
+    borderWidth: 0.2,
+    borderColor: 'gray',
     width: 30,
     height: 30,
     borderRadius: 30,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 2,
-      height: 2,
-    },
-    shadowOpacity: 0.27,
-    shadowRadius: 4.65,
-    elevation: 6,
   },
   timeTitle: {
     flexDirection: 'row',
