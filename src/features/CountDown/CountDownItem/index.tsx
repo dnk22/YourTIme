@@ -3,19 +3,21 @@ import isEqual from 'react-fast-compare';
 import { Alert, GestureResponderEvent } from 'react-native';
 import Pin from 'assets/svg/pin.svg';
 import styles from './styles';
-import { normalize } from 'share/scale';
 import { TCountDown } from '../type';
-import Title from './Title';
-import DetailsView from './DetailsView';
 import { ThemeContext, ThemeType } from 'resources/theme';
-import PinCountDown from './CountDown/PinCountDown';
-import NormalCountDown from './CountDown/NormalCountDown';
-import PressableHaptic from 'components/PressableHaptic';
 import { useNavigation } from '@react-navigation/native';
 import { COUNTDOWN_DETAILS } from 'navigation/constants';
-import ContextMenu, { IMenuItemsProps } from 'components/ContextMenu';
+import { IMenuItemsProps } from 'components/ContextMenu';
+import {
+  PressableHaptic,
+  ContextMenu,
+  SwipeableComponent,
+} from 'components/index';
 import CountDownDetails from 'features/CountDown/CountDownDetails';
-import SwipeableComponent from 'components/SwipeableComponent';
+import DetailsView from './DetailsView';
+import PinCountDown from './CountDown/PinCountDown';
+import NormalCountDown from './CountDown/NormalCountDown';
+import Title from './Title';
 
 type ICountDownItemProps = {
   item: TCountDown;
@@ -79,10 +81,8 @@ function CountDownItem({ item, isPin }: ICountDownItemProps) {
   }, []);
 
   const renderPin = useMemo(() => {
-    return (
-      <Pin style={styles.pin} width={normalize(24)} height={normalize(24)} />
-    );
-  }, []);
+    return isPin && <Pin style={styles.pin} width={24} height={24} />;
+  }, [isPin]);
 
   return (
     <ContextMenu
@@ -112,7 +112,7 @@ function CountDownItem({ item, isPin }: ICountDownItemProps) {
           onPressIn={onHandleItemPressIn}
           onPressOut={onHandleItemPressOut}
         >
-          {isPin && renderPin}
+          {renderPin}
           <Title colors={colors} title={name} />
           {isPin && (
             <PinCountDown colors={colors} targetDateTime={targetDateTime} />

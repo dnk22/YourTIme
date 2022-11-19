@@ -1,93 +1,59 @@
-import { compareAsc } from 'date-fns';
-import React, { memo, useCallback, useEffect, useState } from 'react';
+import React, { memo, useCallback, useMemo, useState } from 'react';
 import isEqual from 'react-fast-compare';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { useInterval } from 'share/hook.custom';
-import { normalize } from 'share/scale';
 import { getCountDownBetweenDate, getFormatDistanceToNow } from 'utils/date';
+import { normalStyles as styles } from './style';
+import { TCountDownProps, TItemProps } from './type';
 
-type TItem = {
-  item: any;
-  colors: any;
-};
-
-function NormalCountDown({
-  colors,
-  targetDateTime,
-}: {
-  colors: any;
-  targetDateTime: Date | string | number;
-}) {
+const secondInterval = 1000;
+function NormalCountDown({ colors, targetDateTime }: TCountDownProps) {
   // set time count
-  const futureInterval = 1000;
-  const passedInterVal = 60000;
-  const [timeRemaining, setTimeRemaining] = useState<any>('');
-  const [isCountType, setIsCountType] = useState<string>('');
+  const [timeRemaining, setTimeRemaining] = useState<Object | string>(
+    getCountDownBetweenDate(targetDateTime),
+  );
 
-  const getCountType = useCallback(() => {
-    const result = compareAsc(new Date(), new Date(targetDateTime));
-    switch (result) {
-      case -1:
-        return 'future';
-      case 1:
-        setTimeRemaining(getFormatDistanceToNow(targetDateTime));
-        return 'passed';
-      default:
-        return 'now';
-    }
-  }, [targetDateTime]);
+  // result of countdown in future will be return a object
+  const futureMode = useMemo(
+    () => typeof timeRemaining === 'object',
+    [timeRemaining],
+  );
 
-  useEffect(() => {
-    setIsCountType(getCountType);
-  }, []);
+  const setPassTime = () => {
+    const time = getFormatDistanceToNow(targetDateTime);
+    setTimeRemaining(time);
+  };
 
+  // action for future time
   useInterval(
     () => {
       const time = getCountDownBetweenDate(targetDateTime);
       if (!time) {
-        setTimeRemaining(true);
-        setIsCountType('passed');
+        setPassTime();
         return;
       }
       setTimeRemaining(time);
     },
-    isCountType === 'future' ? futureInterval : null,
-  );
-
-  useInterval(
-    () => {
-      const time = getFormatDistanceToNow(targetDateTime);
-      setTimeRemaining(time);
-    },
-    isCountType === 'passed' ? passedInterVal : null,
+    futureMode ? secondInterval : null,
   );
 
   return (
     <View style={styles.countdownView}>
-      {isCountType === 'future' ? (
+      {futureMode ? (
         Object.entries(timeRemaining).map(item => {
           const [key] = item;
           return <RenderItem item={item} colors={colors} key={key} />;
         })
-      ) : isCountType === 'now' ? (
-        <Text style={[styles.itemCountValue, { color: colors.text }]}>
-          Đang diễn ra
-        </Text>
       ) : (
-        <Text style={[styles.itemCountValue, { color: colors.text }]}>
-          Đã kết thúc {timeRemaining}
-        </Text>
-      )}
-      {!timeRemaining && (
-        <Text style={[styles.itemCountValue, { color: colors.text }]}>
-          Loading
+        <Text style={[styles.itemCountDetail, { color: colors.text }]}>
+          Đã kết thúc
         </Text>
       )}
     </View>
   );
 }
 
-const RenderItem = memo(function ({ item, colors }: TItem) {
+const RenderItem = memo(function ({ item, colors }: TItemProps) {
   const [key, value] = item;
   // const isBigNumber = value > 1;
 
@@ -104,30 +70,12 @@ const RenderItem = memo(function ({ item, colors }: TItem) {
   );
   return (
     <View style={styles.itemCountDetail} key={key}>
-      {/* <ImageBackground source={require('assets/images/bg-timer.png')}> */}
       <Text style={[styles.itemCountValue, { color: colors.text }]}>
         {zeroPad(value)}
       </Text>
-      {/* </ImageBackground> */}
       <Text style={{ color: colors.text }}>{key}</Text>
     </View>
   );
 }, isEqual);
-
-const styles = StyleSheet.create({
-  countdownView: {
-    flexDirection: 'row',
-    marginTop: 10,
-  },
-  itemCountDetail: {
-    marginRight: 10,
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-  },
-  itemCountValue: {
-    marginRight: 3,
-    fontSize: normalize(14),
-  },
-});
 
 export default memo(NormalCountDown, isEqual);

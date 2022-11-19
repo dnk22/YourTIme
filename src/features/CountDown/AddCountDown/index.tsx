@@ -95,9 +95,8 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
       ...data,
       id: randomUniqueId(),
     };
-    Alert.alert(JSON.stringify(result));
-    // dispatch(addNewReminder(result));
-    // navigation.goBack();
+    dispatch(addNewCountDown(result));
+    navigation.goBack();
   };
 
   const onToggleModal = (type: string) => {
