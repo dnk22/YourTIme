@@ -28,7 +28,7 @@ const ModalComponent = (props: IModalComponentProps) => {
       onBackdropPress={onToggleModal}
       useNativeDriver
       useNativeDriverForBackdrop
-      animationIn="zoomInUp"
+      animationIn="zoomIn"
       animationOut="zoomOut"
       {...props}
     >

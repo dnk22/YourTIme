@@ -3,14 +3,13 @@ import { ICategory } from './type';
 export const FIELD_NAME = {
   NAME: 'name',
   DESCRIPTION: 'description',
-  CATEGORY: 'category',
+  CATEGORY_ID: 'categoryId',
+  CATEGORY_NAME: 'categoryName',
+  TARGET_DATE_TIME: 'targetDateTime',
+  IS_REMINDER: 'isReminder',
+  REMINDER: 'reminder',
   COLOR: 'color',
   BELL: 'bell',
-  TARGET_DATE_TIME: 'targetDateTime',
-  REPEAT: 'repeat',
-  IS_REPEAT: 'isRepeat',
-  REMINDER: 'reminder',
-  IS_REMINDER: 'isReminder',
   IS_IMPORTANT: 'isImportant',
 };
 

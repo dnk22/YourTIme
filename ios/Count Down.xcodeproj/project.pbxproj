@@ -565,7 +565,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.countdown;
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.timetool;
 				PRODUCT_NAME = "Count Down";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

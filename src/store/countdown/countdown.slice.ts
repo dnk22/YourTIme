@@ -23,14 +23,18 @@ export const countDownSlice = createSlice({
     addNewCountDown: (state, action: PayloadAction<TCountDown>) => {
       state.countDown = [...state.countDown, action.payload];
     },
+    deleteCountDownById: (state, action: PayloadAction<string>) => {
+      const { payload } = action;
+      state.countDown = state.countDown.filter(x => x.id !== payload);
+    },
     clearAllCountDown: state => {
       state.countDown = [];
-      // state.initCategory = [];
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addNewCountDown, clearAllCountDown } = countDownSlice.actions;
+export const { addNewCountDown, clearAllCountDown, deleteCountDownById } =
+  countDownSlice.actions;
 
 export default countDownSlice.reducer;

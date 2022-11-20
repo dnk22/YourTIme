@@ -18,6 +18,8 @@ import DetailsView from './DetailsView';
 import PinCountDown from './CountDown/PinCountDown';
 import NormalCountDown from './CountDown/NormalCountDown';
 import Title from './Title';
+import { useAppDispatch } from 'store/index';
+import { deleteCountDownById } from 'store/countDown/countDown.slice';
 
 type ICountDownItemProps = {
   item: TCountDown;
@@ -25,10 +27,11 @@ type ICountDownItemProps = {
 };
 
 function CountDownItem({ item, isPin }: ICountDownItemProps) {
-  const { name, targetDateTime, repeat, id } = item;
+  const { name, targetDateTime, id } = item;
   const { colors } = useContext(ThemeContext) as ThemeType;
   const { navigate } = useNavigation();
   const initCoordinates = useRef(0);
+  const dispatch = useAppDispatch();
 
   const menuItems: IMenuItemsProps = [
     {
@@ -53,6 +56,12 @@ function CountDownItem({ item, isPin }: ICountDownItemProps) {
     },
   ];
 
+  const renderPin = useMemo(() => {
+    return isPin && <Pin style={styles.pin} width={24} height={24} />;
+  }, [isPin]);
+
+  const renderPreview = useMemo(() => <CountDownDetails id={id} />, [id]);
+
   const onHandleMenuItemPress = ({ nativeEvent }: { nativeEvent: any }) => {
     switch (nativeEvent.actionKey) {
       case 'select':
@@ -63,8 +72,6 @@ function CountDownItem({ item, isPin }: ICountDownItemProps) {
         break;
     }
   };
-
-  const renderPreview = useMemo(() => <CountDownDetails id={id} />, [id]);
 
   const onHandleNavigateToDetailsScreen = () => {
     navigate(COUNTDOWN_DETAILS, { countDownId: item.id });
@@ -80,9 +87,9 @@ function CountDownItem({ item, isPin }: ICountDownItemProps) {
     }
   }, []);
 
-  const renderPin = useMemo(() => {
-    return isPin && <Pin style={styles.pin} width={24} height={24} />;
-  }, [isPin]);
+  const onHandleSwipeDelete = () => {
+    dispatch(deleteCountDownById(id));
+  };
 
   return (
     <ContextMenu
@@ -100,7 +107,7 @@ function CountDownItem({ item, isPin }: ICountDownItemProps) {
       renderPreview={() => renderPreview}
       onPressMenuPreview={onHandleNavigateToDetailsScreen}
     >
-      <SwipeableComponent>
+      <SwipeableComponent onSwipeableOpen={onHandleSwipeDelete}>
         <PressableHaptic
           style={[
             styles.container,
@@ -120,7 +127,6 @@ function CountDownItem({ item, isPin }: ICountDownItemProps) {
           <DetailsView
             isPin={isPin}
             colors={colors}
-            repeat={repeat}
             targetDateTime={targetDateTime}
           />
           {!isPin && (

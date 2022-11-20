@@ -5,13 +5,18 @@ import { RectButton, Swipeable } from 'react-native-gesture-handler';
 import { useCustomTheme } from 'resources/theme';
 import TrashIcon from 'assets/svg/icon-trash.svg';
 import styles from './styles';
+import { SwipeableProps } from 'react-native-gesture-handler/lib/typescript/components/Swipeable';
 
-interface ISwipeableComponentProps {
+interface ISwipeableComponentProps extends SwipeableProps {
   children: React.ReactNode;
 }
 const AnimatedView = Animated.createAnimatedComponent(View);
 
-function SwipeableComponent({ children }: ISwipeableComponentProps) {
+function SwipeableComponent({
+  children,
+  onSwipeableClose,
+  ...rest
+}: ISwipeableComponentProps) {
   const { colors } = useCustomTheme();
   const swipeableRef = useRef(null);
 
@@ -27,7 +32,6 @@ function SwipeableComponent({ children }: ISwipeableComponentProps) {
     return (
       <RectButton
         style={[styles.rightAction, { backgroundColor: colors.error }]}
-        onPress={close}
       >
         <AnimatedView style={[styles.actionIcon, { transform: [{ scale }] }]}>
           <TrashIcon color={'white'} />
@@ -36,9 +40,6 @@ function SwipeableComponent({ children }: ISwipeableComponentProps) {
     );
   };
 
-  const close = () => {
-    // swipeableRef?.close();
-  };
   return (
     <Swipeable
       ref={swipeableRef}
@@ -47,9 +48,8 @@ function SwipeableComponent({ children }: ISwipeableComponentProps) {
       enableTrackpadTwoFingerGesture
       rightThreshold={40}
       renderRightActions={renderRightActions}
-      onSwipeableClose={direction => {
-        console.log(`Closing swipeable to the ${direction}`);
-      }}
+      onSwipeableClose={onSwipeableClose}
+      {...rest}
     >
       {children}
     </Swipeable>

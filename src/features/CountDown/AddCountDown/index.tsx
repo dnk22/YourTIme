@@ -1,4 +1,4 @@
-import React, { memo, useState, useMemo, useCallback } from 'react';
+import React, { memo, useState, useMemo } from 'react';
 import {
   View,
   Text,
@@ -20,7 +20,7 @@ import isEqual from 'react-fast-compare';
 import { NavigationProp } from '@react-navigation/native';
 import { useCustomTheme } from 'resources/theme';
 import AddIcon from 'assets/svg/icon-sound.svg';
-import Category from 'assets/svg/icon-view-card.svg';
+import CategoryIcon from 'assets/svg/icon-view-card.svg';
 import { IconSize } from 'share/scale';
 import { useForm } from 'react-hook-form';
 import { ICountDownCategory, TAddCountDown, TCountDown } from '../type';
@@ -39,11 +39,11 @@ const defaultValues: TAddCountDown = {
   name: '',
   description: '',
   targetDateTime: new Date(),
-  isRepeat: false,
   isReminder: true,
   reminder: 0,
-  repeat: '0',
 };
+
+const OTHER_CATEGORY = '5';
 
 function AddCountDown({ navigation }: IAddCountDownProps) {
   const { colors } = useCustomTheme();
@@ -51,6 +51,10 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
   const [isModalShowType, setIsModalShowType] = useState<string>('');
   const [isMode] = useState(CREATE_MODE);
   const isCreateMode = useMemo(() => isMode === CREATE_MODE, [isMode]);
+  const { control, handleSubmit, getValues, setValue, watch } =
+    useForm<TCountDown>({
+      defaultValues,
+    });
 
   const isDateModal = useMemo(
     () => isModalShowType === 'date',
@@ -69,14 +73,9 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
     [isModalShowType],
   );
 
-  const { control, handleSubmit, getValues, setValue, watch } =
-    useForm<TCountDown>({
-      defaultValues,
-    });
-
   // get form values
   const { targetDateTime, categoryId, categoryName, color } = getValues();
-  const { isRepeat, isReminder } = watch();
+  const { isReminder } = watch();
   const targetDateRender = useMemo(
     () => formatDateLocal(targetDateTime, 'dd/MM/yyyy'),
     [targetDateTime],
@@ -93,6 +92,9 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
   const onHandleConfirm = (data: TCountDown) => {
     const result = {
       ...data,
+      name: data.name || 'Không có tên',
+      categoryId: data.categoryId || OTHER_CATEGORY,
+      categoryName: data.categoryName || 'Khác',
       id: randomUniqueId(),
     };
     dispatch(addNewCountDown(result));
@@ -103,13 +105,16 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
     setIsModalShowType(type);
   };
 
-  const onHandleCategorySelect = useCallback(
-    ({ id, name }: ICountDownCategory) => {
-      setValue('categoryId', id);
-      setValue('categoryName', name);
-    },
-    [setValue],
-  );
+  const onHandleCategorySelect = ({ id, name }: ICountDownCategory) => {
+    setValue('categoryId', id);
+    setValue('categoryName', name);
+  };
+
+  const onHandleColorPicker = () => {
+    ColorPicker.showColorPicker({ initialColor: 'cyan' }, value => {
+      setValue('color', value);
+    });
+  };
 
   const renderDateTimePickerModal = useMemo(() => {
     return (
@@ -124,6 +129,7 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
           value={new Date()}
           mode={isDateModal ? 'date' : 'time'}
           display={isDateModal ? 'inline' : 'spinner'}
+          accentColor={color || ''}
         />
       </ModalComponent>
     );
@@ -156,7 +162,7 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
         />
       </ModalComponent>
     );
-  }, [categoryId, colors.primary, isCategoryModal, onHandleCategorySelect]);
+  }, [categoryId, colors.primary, isCategoryModal]);
 
   const renderBellPickerModal = useMemo(() => {
     return (
@@ -168,12 +174,6 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
       />
     );
   }, [isBellModal]);
-
-  const onHandleColorPicker = () => {
-    ColorPicker.showColorPicker({ initialColor: 'cyan' }, value => {
-      setValue('color', value);
-    });
-  };
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
@@ -218,7 +218,10 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
                 setIsModalShowType('category');
               }}
             >
-              <Category {...IconSize.addReminder} fill={colors.text} />
+              <CategoryIcon
+                {...IconSize.addReminder}
+                fill={color || colors.text}
+              />
               <Text style={[styles.textSound, { color: colors.text }]}>
                 {categoryName || 'Danh mục'}
               </Text>
@@ -241,7 +244,7 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
               ]}
               onPress={() => setIsModalShowType('bell')}
             >
-              <AddIcon {...IconSize.addReminder} fill={colors.text} />
+              <AddIcon {...IconSize.addReminder} fill={color || colors.text} />
               <Text style={[styles.textSound, { color: colors.text }]}>
                 Âm báo
               </Text>
@@ -283,7 +286,11 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
               <Text style={[{ color: colors.text }, styles.textTime]}>
                 Nhắc nhở?
               </Text>
-              <SwitchField name={FIELD_NAME.IS_REMINDER} control={control} />
+              <SwitchField
+                name={FIELD_NAME.IS_REMINDER}
+                control={control}
+                trackColor={{ true: color || null }}
+              />
             </View>
             {isReminder && (
               <SegmentedControlField
@@ -291,22 +298,6 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
                 control={control}
                 style={styles.segmentedControl}
                 values={['Hằng ngày', 'Hằng tuần', 'Hàng tháng', 'Hàng tháng']}
-              />
-            )}
-          </View>
-          <View style={[styles.group, { backgroundColor: colors.surface }]}>
-            <View style={[styles.groupChildRow]}>
-              <Text style={[{ color: colors.text }, styles.textTime]}>
-                Lặp lại?
-              </Text>
-              <SwitchField name={FIELD_NAME.IS_REPEAT} control={control} />
-            </View>
-            {isRepeat && (
-              <SegmentedControlField
-                name={FIELD_NAME.REPEAT}
-                control={control}
-                style={styles.segmentedControl}
-                values={['Hằng ngày', 'Hằng tuần', 'Hàng tháng', 'Hàng năm']}
               />
             )}
           </View>

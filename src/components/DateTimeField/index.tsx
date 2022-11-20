@@ -9,6 +9,7 @@ function DateTimeField({
   control,
   mode = 'date',
   display,
+  ...rest
 }: IDateTimeFieldProps) {
   const {
     field: { value, onChange },
@@ -19,6 +20,7 @@ function DateTimeField({
 
   return (
     <DateTimePicker
+      {...rest}
       value={value}
       locale="vi"
       mode={mode}

@@ -5,7 +5,7 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "pod": "cd ios && pod install --repo-update",
+    "pod": "cd ios && pod install",
     "start": "react-native start --reset-cache",
     "test": "jest",
     "lint": "eslint . --fix --ext .js,.jsx,.ts,.tsx",

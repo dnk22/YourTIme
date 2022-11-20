@@ -4,8 +4,6 @@ export interface TAddCountDown {
   categoryId?: string;
   categoryName?: string;
   targetDateTime: Date | number | string;
-  isRepeat?: boolean;
-  repeat?: string;
   isReminder?: boolean;
   reminder?: string | number;
   color?: string;
@@ -13,6 +11,7 @@ export interface TAddCountDown {
   isImportant?: boolean;
   dateCreated?: Date | number | string;
 }
+
 export interface TCountDown extends TAddCountDown {
   id: string;
 }
