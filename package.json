@@ -9,7 +9,7 @@
     "start": "react-native start --reset-cache",
     "test": "jest",
     "lint": "eslint . --fix --ext .js,.jsx,.ts,.tsx",
-    "list-devices" : "xcrun xctrace list devices"
+    "list-devices": "xcrun xctrace list devices"
   },
   "dependencies": {
     "@formatjs/intl-getcanonicallocales": "^2.0.4",
@@ -47,7 +47,7 @@
     "react-native-safe-area-context": "^4.4.1",
     "react-native-screens": "^3.18.2",
     "react-native-sound": "^0.11.2",
-    "react-native-svg": "^13.4.0",
+    "react-native-svg": "^13.6.0",
     "react-redux": "^8.0.4",
     "redux": "^4.2.0",
     "redux-persist": "^6.0.0"
