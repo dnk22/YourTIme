@@ -1,3 +1,4 @@
+import SvgIcon from 'components/SvgIcon';
 import DateTimeField from 'components/DateTimeField';
 import InputField from 'components/InputField';
 import Text from './Text';
@@ -24,4 +25,5 @@ export {
   PressableHaptic,
   ContextMenu,
   SwipeableComponent,
+  SvgIcon,
 };
