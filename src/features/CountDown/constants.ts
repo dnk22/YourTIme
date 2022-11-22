@@ -34,12 +34,12 @@ export const initCountDownCategory: ICategory[] = [
   {
     id: '2',
     name: 'Tình yêu',
-    icon: 'love',
+    icon: 'heart',
   },
   {
     id: '3',
     name: 'Ngày lễ',
-    icon: 'holiday',
+    icon: 'calendarHoliday',
   },
   {
     id: '4',
@@ -49,11 +49,11 @@ export const initCountDownCategory: ICategory[] = [
   {
     id: '5',
     name: 'Khác',
-    icon: 'other',
+    icon: 'work',
   },
   {
     id: '6',
     name: 'Đã kết thúc',
-    icon: 'over',
+    icon: 'doneCircle',
   },
 ];

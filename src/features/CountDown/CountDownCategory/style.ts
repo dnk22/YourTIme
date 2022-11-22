@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
   },
   itemContent: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   itemActive: {
     padding: 2,

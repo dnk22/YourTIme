@@ -2,11 +2,10 @@ import React, { memo, useCallback, useState, useMemo } from 'react';
 import { TouchableHighlight, View, Text } from 'react-native';
 import { RootState, useAppSelector } from 'store/index';
 import { selectAllCountDownCategory } from 'store/countDown/countDown.selector';
-import { FlatListComponent } from 'components/index';
+import { FlatListComponent, SvgIcon } from 'components/index';
 import { useCustomTheme } from 'resources/theme';
 import { ICountDownCategory } from '../type';
 import isEqual from 'react-fast-compare';
-import SVG from 'assets/svg/icon-search.svg';
 import styles from './style';
 
 interface ReminderCategoryProps {
@@ -51,6 +50,7 @@ function CountDownCategory({
         onPressItem(item);
       }
     };
+
     return (
       <TouchableHighlight
         onPress={onPress}
@@ -61,7 +61,7 @@ function CountDownCategory({
         <View style={styles.item}>
           <View style={styles.itemContent}>
             <View style={styles.itemIcon}>
-              <SVG color={colors.text} />
+              <SvgIcon name={item.icon} preset="categoryIconSize" />
             </View>
             <Text style={[styles.title, { color: colors.text }]}>
               {item.name}

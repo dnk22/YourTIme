@@ -14,14 +14,12 @@ import {
   ModalComponent,
   SwitchField,
   PressableHaptic,
+  SvgIcon,
 } from 'components/index';
 import styles from './styles';
 import isEqual from 'react-fast-compare';
 import { NavigationProp } from '@react-navigation/native';
 import { useCustomTheme } from 'resources/theme';
-import AddIcon from 'assets/svg/icon-sound.svg';
-import CategoryIcon from 'assets/svg/icon-view-card.svg';
-import { IconSize } from 'share/scale';
 import { useForm } from 'react-hook-form';
 import { ICountDownCategory, TAddCountDown, TCountDown } from '../type';
 import { formatDateLocal, randomUniqueId } from 'utils/index';
@@ -218,10 +216,7 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
                 setIsModalShowType('category');
               }}
             >
-              <CategoryIcon
-                {...IconSize.addReminder}
-                fill={color || colors.text}
-              />
+              <SvgIcon name="category" size={20} />
               <Text style={[styles.textSound, { color: colors.text }]}>
                 {categoryName || 'Danh mục'}
               </Text>
@@ -244,7 +239,7 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
               ]}
               onPress={() => setIsModalShowType('bell')}
             >
-              <AddIcon {...IconSize.addReminder} fill={color || colors.text} />
+              <SvgIcon name="bellBadge" size={20} />
               <Text style={[styles.textSound, { color: colors.text }]}>
                 Âm báo
               </Text>

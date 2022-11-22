@@ -1,13 +1,10 @@
 import { Dimensions } from 'react-native';
-
 // prettier-ignore
 export const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
-
 // Scale item base on screen width and screen height
 // Guideline sizes are based on standard ~5" screen mobile device
 // prettier-ignore
 const [shortDimension, longDimension] = SCREEN_WIDTH < SCREEN_HEIGHT ? [SCREEN_WIDTH, SCREEN_HEIGHT] : [SCREEN_HEIGHT, SCREEN_WIDTH];
-
 const guidelineBaseWidth = 350;
 const guidelineBaseHeight = 680;
 // prettier-ignore
@@ -17,11 +14,12 @@ export const verticalScale = (size : number) => longDimension / guidelineBaseHei
 // prettier-ignore
 export const normalize = (size: number, factor = 0.5) => size + (scale(size) - size) * factor;
 
-// system icon scale
+// -----------------------------------------------------------
+
+// begin system icon scale
 export const DIMENSIONS = {
   bottomBarHeight: 90,
   home: {
-    iconDropDown: normalize(12),
     navbarHeight: normalize(40),
     title: normalize(16),
     viewReminderItemPadding: normalize(16),
@@ -38,14 +36,11 @@ export const DIMENSIONS = {
 };
 
 export const IconSize = {
-  app: {
-    width: normalize(24),
-    height: normalize(24),
-  },
-  addReminder: {
-    width: normalize(22),
-    height: normalize(22),
-  },
+  default: normalize(24),
+  expandIcon: normalize(12),
+  categoryIconSize: normalize(18),
+  forwardLink: normalize(12),
+  settingsIcon: normalize(16),
 };
 
 export const ModalNavigationHeaderBarDimensions = {

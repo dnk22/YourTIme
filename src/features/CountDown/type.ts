@@ -1,3 +1,5 @@
+import { IconProps } from 'components/SvgIcon/const';
+
 export interface TAddCountDown {
   name: string;
   description?: string;
@@ -18,16 +20,8 @@ export interface TCountDown extends TAddCountDown {
 
 export interface IAddCountDownCategory {
   name: string;
-  icon: string;
+  icon: IconProps;
 }
 export interface ICountDownCategory extends IAddCountDownCategory {
-  id: string;
-}
-
-export interface IAddCategory {
-  name: string;
-  icon: string;
-}
-export interface ICategory extends IAddCategory {
   id: string;
 }

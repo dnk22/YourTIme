@@ -8,9 +8,9 @@ import {
   Platform,
 } from 'react-native';
 import isEqual from 'react-fast-compare';
-import IconCloseCircle from 'assets/svg/icon-close-circle.svg';
 import { useCustomTheme } from 'resources/theme';
 import styles from './styles';
+import SvgIcon from '../SvgIcon';
 
 interface IModalNavigationHeaderBarProps {
   text: {
@@ -20,6 +20,7 @@ interface IModalNavigationHeaderBarProps {
   onBack: () => void;
   onConfirm?: () => void;
 }
+
 function ModalNavigationHeaderBar({
   text,
   onBack,
@@ -35,7 +36,7 @@ function ModalNavigationHeaderBar({
           </Text>
         </View>
         <TouchableOpacity style={styles.right} onPress={onBack}>
-          <IconCloseCircle width={24} height={24} fill={colors.text} />
+          <SvgIcon name="closeCircle" />
         </TouchableOpacity>
       </View>
       <KeyboardAvoidingView

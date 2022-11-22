@@ -1,15 +1,12 @@
 import React, { memo, useContext, useMemo } from 'react';
 import { View, Text, Pressable } from 'react-native';
-import SearchIcon from 'assets/svg/icon-search.svg';
-import AddIcon from 'assets/svg/icon-add.svg';
-import IconDown from 'assets/svg/icon-down.svg';
-import IconUp from 'assets/svg/icon-up.svg';
-import { DIMENSIONS, IconSize } from 'share/scale';
+import { DIMENSIONS } from 'share/scale';
 import isEqual from 'react-fast-compare';
 import { ThemeContext, ThemeType } from 'resources/theme';
 import { NavigationProp } from '@react-navigation/native';
 import styles from './style';
 import { ADD_COUNTDOWN } from 'navigation/constants';
+import SVGIcon from 'components/SvgIcon';
 
 export interface ICountDownHeaderBarProps {
   setModalVisible: () => void;
@@ -26,20 +23,8 @@ const CountDownHeaderBar = ({
   const renderIcon = useMemo(() => {
     return (
       <>
-        {isModalShow && (
-          <IconUp
-            width={DIMENSIONS.home.iconDropDown}
-            height={DIMENSIONS.home.iconDropDown}
-            color={colors.text}
-          />
-        )}
-        {!isModalShow && (
-          <IconDown
-            width={DIMENSIONS.home.iconDropDown}
-            height={DIMENSIONS.home.iconDropDown}
-            color={colors.text}
-          />
-        )}
+        {isModalShow && <SVGIcon name="arrowUp" preset="expandIcon" />}
+        {!isModalShow && <SVGIcon name="arrowDown" preset="expandIcon" />}
       </>
     );
   }, [isModalShow, colors]);
@@ -59,7 +44,7 @@ const CountDownHeaderBar = ({
       ]}
     >
       <View style={[styles.left, styles.centerIcon]}>
-        <SearchIcon {...IconSize.app} color={colors.text} />
+        <SVGIcon name="search" />
       </View>
       <View style={[styles.center, styles.centerIcon]}>
         <Pressable onPress={setModalVisible} style={styles.centerContent}>
@@ -77,7 +62,7 @@ const CountDownHeaderBar = ({
       </View>
       <View style={[styles.right, styles.centerIcon]}>
         <Pressable onPress={onHandleAddReminderClick}>
-          <AddIcon {...IconSize.app} fill={colors.text} />
+          <SVGIcon name="add" />
         </Pressable>
       </View>
     </View>
