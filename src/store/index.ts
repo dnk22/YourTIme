@@ -1,18 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { reduxPersistStorage } from 'share/storage';
-import { persistReducer, persistStore } from 'redux-persist';
+import { persistStore } from 'redux-persist';
 import { useDispatch, useSelector } from 'react-redux';
 import type { TypedUseSelectorHook } from 'react-redux';
-import { allReducer } from './root.reducer';
+import { persistedReducer } from './reducer.root';
 
-const persistConfig = {
-  key: 'root',
-  version: 1,
-  storage: reduxPersistStorage,
-  blacklist: ['initCategory'],
-};
-
-const persistedReducer = persistReducer(persistConfig, allReducer);
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: getDefaultMiddleware =>
