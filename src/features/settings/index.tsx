@@ -1,44 +1,58 @@
-import React from 'react';
+import React, { memo } from 'react';
 import {
-  Button,
-  SafeAreaView,
-  StatusBar,
   Text,
-  useColorScheme,
   View,
+  SafeAreaView,
+  ScrollView,
+  TouchableOpacity,
 } from 'react-native';
+import isEqual from 'react-fast-compare';
+import styles from './styles';
+import SvgIcon from 'components/SvgIcon';
+import { settingRoutes } from './constants';
 
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-
-const Setting = ({ navigation }) => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-  console.log(navigation);
-
+function Settings() {
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <View
-        style={{
-          height: '100%',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <Text>Coming soon</Text>
-        <Button
-          title="Go to Home"
-          onPress={() => navigation.navigate('dashboard')}
-        />
-      </View>
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView style={styles.container}>
+        <Text style={styles.title}>Cài đặt</Text>
+        <TouchableOpacity activeOpacity={0.5}>
+          <View style={[styles.group, styles.premium]}>
+            <Text style={styles.premiumSubTitle}>Mở khóa tất cả tính năng</Text>
+            <Text style={styles.premiumTitle}>Your Time Pro</Text>
+          </View>
+        </TouchableOpacity>
+        {Object.values(settingRoutes).map(({ key, child }) => (
+          <View style={styles.group} key={key}>
+            {child.map(({ link, name, icon }, index) => (
+              <TouchableOpacity activeOpacity={0.5} key={link}>
+                <View
+                  style={[
+                    styles.item,
+                    index !== child.length - 1 && styles.itemBorderBottom,
+                  ]}
+                >
+                  <SvgIcon
+                    name={icon}
+                    preset="settingsIcon"
+                    style={styles.itemIcon}
+                  />
+                  <Text style={styles.itemText}>{name}</Text>
+                  <SvgIcon
+                    name="forward"
+                    color="gray"
+                    preset="forwardLink"
+                    style={styles.itemNavigation}
+                  />
+                </View>
+              </TouchableOpacity>
+            ))}
+          </View>
+        ))}
+        <Text style={styles.version}>Version 1.0</Text>
+      </ScrollView>
     </SafeAreaView>
   );
-};
+}
 
-export default Setting;
+export default memo(Settings, isEqual);
