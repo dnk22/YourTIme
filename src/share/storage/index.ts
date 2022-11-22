@@ -78,11 +78,6 @@ export async function remove(key: string) {
   } catch {}
 }
 
-// interface Storage {
-//   setItem(key: string, value: any, ...args: Array<any>): any;
-//   getItem(key: string, ...args: Array<any>): any;
-//   removeItem(key: string, ...args: Array<any>): any;
-// }
 export const reduxPersistStorage: Storage = {
   setItem: (key: string, value: string): Promise<boolean> => {
     AppStorage.set(key, value);
