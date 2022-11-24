@@ -24,6 +24,8 @@ export const formatDateLocal = (
   if (local === 'en') {
     localString = enUS;
   }
+  console.log(date);
+
   return format(new Date(date), formatType, { locale: localString });
 };
 

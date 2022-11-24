@@ -1,11 +1,5 @@
 import React, { memo, useState, useMemo } from 'react';
-import {
-  View,
-  Text,
-  TouchableWithoutFeedback,
-  Keyboard,
-  Alert,
-} from 'react-native';
+import { View, Text, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import {
   SegmentedControlField,
   InputField,
@@ -18,22 +12,24 @@ import {
 } from 'components/index';
 import styles from './styles';
 import isEqual from 'react-fast-compare';
-import { NavigationProp } from '@react-navigation/native';
+import { NavigationProp, useRoute } from '@react-navigation/native';
 import { useCustomTheme } from 'resources/theme';
 import { useForm } from 'react-hook-form';
 import { ICountDownCategory, TAddCountDown, TCountDown } from '../type';
-import { formatDateLocal, randomUniqueId } from 'utils/index';
-import { useAppDispatch } from 'store/index';
-import { addNewCountDown } from 'store/countDown/countDown.slice';
+import { formatDateLocal } from 'utils/index';
+import { useAppDispatch, useAppSelector } from 'store/index';
+import { addOrEditCountDown } from 'store/countDown/countDown.slice';
 import { FIELD_NAME } from '../constants';
 import CountDownCategory from '../CountDownCategory';
 import { CREATE_MODE } from 'utils/constant';
 import ColorPicker from 'react-native-color-picker-ios';
+import { RootStackScreenProps } from 'navigation/type';
+import { selectCountDownById } from 'store/countDown/countDown.selector';
 
 interface IAddCountDownProps {
   navigation: NavigationProp<any, any>;
 }
-const defaultValues: TAddCountDown = {
+const initialAddFormValues: TAddCountDown = {
   name: '',
   description: '',
   targetDateTime: new Date(),
@@ -46,13 +42,25 @@ const OTHER_CATEGORY = '5';
 function AddCountDown({ navigation }: IAddCountDownProps) {
   const { colors } = useCustomTheme();
   const dispatch = useAppDispatch();
-  const [isModalShowType, setIsModalShowType] = useState<string>('');
   const [isMode] = useState(CREATE_MODE);
+  const [isModalShowType, setIsModalShowType] = useState<string>('');
   const isCreateMode = useMemo(() => isMode === CREATE_MODE, [isMode]);
+  const { params } =
+    useRoute<RootStackScreenProps<'countDownDetails'>['route']>();
+  const getCountDownById: TCountDown =
+    useAppSelector(state => selectCountDownById(state, params?.countDownId)) ||
+    {};
   const { control, handleSubmit, getValues, setValue, watch } =
     useForm<TCountDown>({
-      defaultValues,
+      defaultValues: {
+        ...initialAddFormValues,
+        ...getCountDownById,
+      },
     });
+
+  const title = params?.countDownId
+    ? 'Chỉnh sửa đếm ngược'
+    : 'Tạo mới đếm ngược';
 
   const isDateModal = useMemo(
     () => isModalShowType === 'date',
@@ -87,15 +95,14 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
     navigation.goBack();
   };
 
-  const onHandleConfirm = (data: TCountDown) => {
+  const onHandleSubmit = (data: TCountDown) => {
     const result = {
       ...data,
       name: data.name || 'Không có tên',
       categoryId: data.categoryId || OTHER_CATEGORY,
       categoryName: data.categoryName || 'Khác',
-      id: randomUniqueId(),
     };
-    dispatch(addNewCountDown(result));
+    dispatch(addOrEditCountDown(result));
     navigation.goBack();
   };
 
@@ -179,9 +186,9 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
       {renderCategoryPickerModal}
       {renderBellPickerModal}
       <ModalNavigationHeaderBar
-        text={{ title: 'Tạo mới đếm ngược' }}
+        text={{ title }}
         onBack={onHandleBack}
-        onConfirm={handleSubmit(onHandleConfirm)}
+        onConfirm={handleSubmit(onHandleSubmit)}
       />
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.form}>
@@ -216,7 +223,7 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
                 setIsModalShowType('category');
               }}
             >
-              <SvgIcon name="category" size={20} />
+              <SvgIcon name="category" size={20} color={color} />
               <Text style={[styles.textSound, { color: colors.text }]}>
                 {categoryName || 'Danh mục'}
               </Text>
@@ -239,7 +246,7 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
               ]}
               onPress={() => setIsModalShowType('bell')}
             >
-              <SvgIcon name="bellBadge" size={20} />
+              <SvgIcon name="bellBadge" size={20} color={color} />
               <Text style={[styles.textSound, { color: colors.text }]}>
                 Âm báo
               </Text>

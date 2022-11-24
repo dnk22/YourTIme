@@ -20,6 +20,7 @@ import cloudSync from 'assets/svg/icon-cloud-sync.svg';
 import settings from 'assets/svg/icon-settings.svg';
 import claim from 'assets/svg/icon-claim.svg';
 import text from 'assets/svg/icon-text.svg';
+import pencil from 'assets/svg/icon-pencil.svg';
 
 const icon = {
   add,
@@ -43,7 +44,8 @@ const icon = {
   cloudSync,
   settings,
   claim,
-  text
+  text,
+  pencil,
 };
 export type IconProps = keyof typeof icon;
 export default icon;

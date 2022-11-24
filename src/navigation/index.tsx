@@ -23,14 +23,8 @@ function AppNavigators() {
         }}
       >
         <RootStack.Screen name={ADD_COUNTDOWN} component={AddCountDown} />
-        <RootStack.Screen
-          name={COUNTDOWN_DETAILS}
-          // options={{
-          //   presentation: 'containedModal',
-          // }}
-          component={CountDownDetails}
-        />
       </RootStack.Group>
+      <RootStack.Screen name={COUNTDOWN_DETAILS} component={CountDownDetails} />
     </RootStack.Navigator>
   );
 }

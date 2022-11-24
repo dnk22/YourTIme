@@ -17,7 +17,7 @@ interface IModalNavigationHeaderBarProps {
     title?: string;
     confirm?: string;
   };
-  onBack: () => void;
+  onBack?: () => void;
   onConfirm?: () => void;
 }
 
@@ -27,17 +27,25 @@ function ModalNavigationHeaderBar({
   onConfirm,
 }: IModalNavigationHeaderBarProps) {
   const { colors } = useCustomTheme();
+  const titleStyle = !onBack ? 'center' : 'left';
   return (
     <>
       <View style={styles.container}>
         <View style={styles.center}>
-          <Text style={[{ color: colors.text }, styles.titleText]}>
+          <Text
+            style={[
+              { color: colors.text, textAlign: titleStyle },
+              styles.titleText,
+            ]}
+          >
             {text.title || 'Modal'}
           </Text>
         </View>
-        <TouchableOpacity style={styles.right} onPress={onBack}>
-          <SvgIcon name="closeCircle" />
-        </TouchableOpacity>
+        {onBack && (
+          <TouchableOpacity style={styles.right} onPress={onBack}>
+            <SvgIcon name="closeCircle" />
+          </TouchableOpacity>
+        )}
       </View>
       <KeyboardAvoidingView
         style={styles.actionContainer}

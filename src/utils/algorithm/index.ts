@@ -7,5 +7,8 @@
 
 export function findObjectInArrayById(array: any, id: string) {
   const idIndex = array.map(x => x.id).indexOf(id);
-  return array[idIndex];
+  return {
+    idx: idIndex,
+    value: array[idIndex],
+  };
 }

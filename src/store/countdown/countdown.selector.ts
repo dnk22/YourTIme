@@ -39,6 +39,6 @@ export const selectCountDownById = createSelector(
   ],
   // Output selector gets (`items, countdownId)` as args
   (items, countdownId) => {
-    return findObjectInArrayById(items, countdownId);
+    return findObjectInArrayById(items, countdownId).value;
   },
 );

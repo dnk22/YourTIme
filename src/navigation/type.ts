@@ -3,7 +3,7 @@ import { ADD_COUNTDOWN, HOME, COUNTDOWN_DETAILS } from './constants';
 
 export type RootStackParamList = {
   [HOME]: undefined;
-  [ADD_COUNTDOWN]: undefined;
+  [ADD_COUNTDOWN]: { countDownId?: string };
   [COUNTDOWN_DETAILS]: { countDownId: string };
 };
 

@@ -3,10 +3,18 @@ import { normalize } from 'share/scale';
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     padding: 10,
     flexDirection: 'column',
-    justifyContent: 'center',
     alignItems: 'center',
+  },
+  editButton: {
+    position: 'absolute',
+    bottom: 40,
+    right: 40,
+    backgroundColor: 'red',
+    padding: 20,
+    borderRadius: 50,
   },
   itemMargin: {
     marginBottom: 20,

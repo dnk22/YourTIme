@@ -21,7 +21,7 @@ function DateTimeField({
   return (
     <DateTimePicker
       {...rest}
-      value={value}
+      value={new Date(value)}
       locale="vi"
       mode={mode}
       display={display}

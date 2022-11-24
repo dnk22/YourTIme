@@ -8,5 +8,5 @@ const options = {
 };
 
 export const hapticFeedback = (type?: HapticFeedbackTypes) => {
-  ReactNativeHapticFeedback.trigger(type || 'impactMedium', options);
+  ReactNativeHapticFeedback.trigger(type || 'selection', options);
 };
