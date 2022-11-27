@@ -1,4 +1,4 @@
-import { ICategory } from './type';
+import { ICountDownCategory } from './type';
 
 export const FIELD_NAME = {
   NAME: 'name',
@@ -20,7 +20,7 @@ export const REPEAT_DATA: { [key: string]: string } = {
   3: 'Hằng năm',
 };
 
-export const initCountDownCategory: ICategory[] = [
+export const initCountDownCategory: ICountDownCategory[] = [
   {
     id: '0',
     name: 'Quan trọng',
@@ -57,3 +57,10 @@ export const initCountDownCategory: ICategory[] = [
     icon: 'doneCircle',
   },
 ];
+
+export const initReminderTime = {
+  0: '15m',
+  1: '30m',
+  2: '1h',
+  3: '2h',
+};

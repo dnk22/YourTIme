@@ -18,13 +18,15 @@ import { useForm } from 'react-hook-form';
 import { ICountDownCategory, TAddCountDown, TCountDown } from '../type';
 import { formatDateLocal } from 'utils/index';
 import { useAppDispatch, useAppSelector } from 'store/index';
-import { addOrEditCountDown } from 'store/countDown/countDown.slice';
-import { FIELD_NAME } from '../constants';
+import {
+  addOrUpdateCountDown,
+  countDownSelectors,
+} from 'store/countDown/countDown.slice';
+import { FIELD_NAME, initReminderTime } from '../constants';
 import CountDownCategory from '../CountDownCategory';
 import { CREATE_MODE } from 'utils/constant';
 import ColorPicker from 'react-native-color-picker-ios';
 import { RootStackScreenProps } from 'navigation/type';
-import { selectCountDownById } from 'store/countDown/countDown.selector';
 
 interface IAddCountDownProps {
   navigation: NavigationProp<any, any>;
@@ -37,8 +39,6 @@ const initialAddFormValues: TAddCountDown = {
   reminder: 0,
 };
 
-const OTHER_CATEGORY = '5';
-
 function AddCountDown({ navigation }: IAddCountDownProps) {
   const { colors } = useCustomTheme();
   const dispatch = useAppDispatch();
@@ -47,9 +47,16 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
   const isCreateMode = useMemo(() => isMode === CREATE_MODE, [isMode]);
   const { params } =
     useRoute<RootStackScreenProps<'countDownDetails'>['route']>();
-  const getCountDownById: TCountDown =
-    useAppSelector(state => selectCountDownById(state, params?.countDownId)) ||
-    {};
+
+  const title = params?.countDownId
+    ? 'Chỉnh sửa đếm ngược'
+    : 'Tạo mới đếm ngược';
+
+  const getCountDownById =
+    useAppSelector(state =>
+      countDownSelectors.selectById(state, params?.countDownId),
+    ) || {};
+
   const { control, handleSubmit, getValues, setValue, watch } =
     useForm<TCountDown>({
       defaultValues: {
@@ -57,10 +64,6 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
         ...getCountDownById,
       },
     });
-
-  const title = params?.countDownId
-    ? 'Chỉnh sửa đếm ngược'
-    : 'Tạo mới đếm ngược';
 
   const isDateModal = useMemo(
     () => isModalShowType === 'date',
@@ -96,13 +99,7 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
   };
 
   const onHandleSubmit = (data: TCountDown) => {
-    const result = {
-      ...data,
-      name: data.name || 'Không có tên',
-      categoryId: data.categoryId || OTHER_CATEGORY,
-      categoryName: data.categoryName || 'Khác',
-    };
-    dispatch(addOrEditCountDown(result));
+    dispatch(addOrUpdateCountDown(data));
     navigation.goBack();
   };
 
@@ -116,7 +113,7 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
   };
 
   const onHandleColorPicker = () => {
-    ColorPicker.showColorPicker({ initialColor: 'cyan' }, value => {
+    ColorPicker.showColorPicker({ initialColor: colors.primary }, value => {
       setValue('color', value);
     });
   };
@@ -299,7 +296,7 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
                 name={FIELD_NAME.REMINDER}
                 control={control}
                 style={styles.segmentedControl}
-                values={['Hằng ngày', 'Hằng tuần', 'Hàng tháng', 'Hàng tháng']}
+                values={Object.values(initReminderTime)}
               />
             )}
           </View>

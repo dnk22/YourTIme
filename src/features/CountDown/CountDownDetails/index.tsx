@@ -6,11 +6,11 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import styles from './styles';
 import { RootStackScreenProps } from 'navigation/type';
 import { useAppSelector } from 'store/index';
-import { selectCountDownById } from 'store/countDown/countDown.selector';
 import PinCountDown from '../CountDownItem/CountDown/PinCountDown';
 import { useCustomTheme } from 'resources/theme';
 import { formatDateLocal } from 'utils/date';
 import { ADD_COUNTDOWN } from 'navigation/constants';
+import { countDownSelectors } from 'store/countDown/countDown.slice';
 
 function CountDownDetails({ id }: { id?: string }) {
   const { colors } = useCustomTheme();
@@ -18,15 +18,18 @@ function CountDownDetails({ id }: { id?: string }) {
   const { params } =
     useRoute<RootStackScreenProps<'countDownDetails'>['route']>();
 
+  // if preview : no countDownId param available , get countDownId via prop
+  const isPreview = !params?.countDownId;
+
   const queryCountDownID = id || params.countDownId;
   const getCountDownById = useAppSelector(state =>
-    selectCountDownById(state, queryCountDownID),
+    countDownSelectors.selectById(state, queryCountDownID),
   );
 
   const { name, targetDateTime } = getCountDownById;
 
   const targetDateTimeFormatted = useMemo(
-    () => formatDateLocal(targetDateTime, 'eeee, dd/MM/yyyy'),
+    () => formatDateLocal(targetDateTime, "eeee, dd/MM/yyyy 'lúc' HH:mm"),
     [targetDateTime],
   );
 
@@ -36,16 +39,16 @@ function CountDownDetails({ id }: { id?: string }) {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      {params?.countDownId && (
-        <ModalNavigationHeaderBar text={{ title: 'Chi tiết' }} />
-      )}
+      {!isPreview && <ModalNavigationHeaderBar text={{ title: 'Chi tiết' }} />}
       <View style={styles.container}>
-        <Pressable
-          style={[styles.editButton, { backgroundColor: colors.primary }]}
-          onPress={onHandleEdit}
-        >
-          <SvgIcon name="pencil" color="#fff" />
-        </Pressable>
+        {!isPreview && (
+          <Pressable
+            style={[styles.editButton, { backgroundColor: colors.primary }]}
+            onPress={onHandleEdit}
+          >
+            <SvgIcon name="pencil" color="#fff" />
+          </Pressable>
+        )}
         <Text style={[styles.name, styles.itemMargin]}>{name}</Text>
         <View style={[styles.dateTimeCount, styles.itemMargin]}>
           <PinCountDown colors={colors} targetDateTime={targetDateTime} />

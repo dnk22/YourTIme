@@ -8,8 +8,10 @@ import { TCountDown } from './type';
 import { FlatListComponent } from 'components/index';
 import CountDownHeaderBar from './CountDownHeaderBar';
 import CountDownCategory from './CountDownCategory';
-import { selectAllCountDown } from 'store/countDown/countDown.selector';
-import { clearAllCountDown } from 'store/countDown/countDown.slice';
+import {
+  clearAllCountDown,
+  countDownSelectors,
+} from 'store/countDown/countDown.slice';
 import { useAppSelector, RootState, useAppDispatch } from 'store/index';
 import { ExpandViewAnimated } from 'resources/animations';
 import CountDownItem from './CountDownItem';
@@ -22,8 +24,8 @@ const CountDown = ({ navigation }: ICountDownProps) => {
   const { colors } = useCustomTheme();
   const [isShowCategory, setIsShowCategory] = useState(false);
   const dispatch = useAppDispatch();
-  const getAllReminder = useAppSelector((state: RootState) =>
-    selectAllCountDown(state),
+  const getAllCountDown = useAppSelector((state: RootState) =>
+    countDownSelectors.selectAll(state),
   );
 
   const renderItem = useCallback(
@@ -66,7 +68,7 @@ const CountDown = ({ navigation }: ICountDownProps) => {
           </Pressable>
           <View style={[styles.contentView]}>
             <FlatListComponent
-              data={getAllReminder}
+              data={getAllCountDown}
               renderItem={renderItem}
               maxToRenderPerBatch={5}
               initialNumToRender={5}

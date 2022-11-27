@@ -1,53 +1,58 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { TCountDown } from 'features/CountDown/type';
-import type { PayloadAction } from '@reduxjs/toolkit';
-import { ICountDownCategory } from 'features/CountDown/type';
-import { initCountDownCategory } from 'features/CountDown/constants';
-import { randomUniqueId } from 'utils/string';
-import { findObjectInArrayById } from 'utils/algorithm';
+import {
+  createEntityAdapter,
+  createSlice,
+  nanoid,
+  PayloadAction,
+} from '@reduxjs/toolkit';
+import { TCountDown, ICountDownCategory } from 'features/CountDown/type';
 
-export interface CountDownState {
-  countDown: TCountDown[];
-  initCategory: ICountDownCategory[];
-  category: ICountDownCategory[];
-}
-
-const initialState: CountDownState = {
-  countDown: [],
-  initCategory: initCountDownCategory,
-  category: [],
-};
+const OTHER_CATEGORY = '5';
+export const countDownAdapter = createEntityAdapter<TCountDown>();
+export const categoryAdapter = createEntityAdapter<ICountDownCategory>();
 
 export const countDownSlice = createSlice({
   name: 'countDown',
-  initialState,
+  initialState: {
+    countDown: countDownAdapter.getInitialState(),
+    category: categoryAdapter.getInitialState(),
+  },
   reducers: {
-    addOrEditCountDown: (state, action: PayloadAction<TCountDown>) => {
-      const { payload } = action;
-      if (payload?.id) {
-        const { idx, value } = findObjectInArrayById(
-          state.countDown,
-          payload.id,
-        );
-        const result = { ...value, ...payload };
-        state.countDown[idx] = result;
-      } else {
-        payload.id = randomUniqueId();
-        state.countDown = [...state.countDown, payload];
-      }
+    addOrUpdateCountDown: (state, { payload }: PayloadAction<TCountDown>) => {
+      const data = {
+        ...payload,
+        name: payload.name || 'Không có tên',
+        categoryId: payload.categoryId || OTHER_CATEGORY,
+        categoryName: payload.categoryName || 'Khác',
+        id: payload.id || nanoid(),
+      };
+      countDownAdapter.upsertOne(state.countDown, data);
     },
-    deleteCountDownById: (state, action: PayloadAction<string>) => {
-      const { payload } = action;
-      state.countDown = state.countDown.filter(x => x.id !== payload);
+    deleteCountDownById(state, { payload }: PayloadAction<string>) {
+      countDownAdapter.removeOne(state.countDown, payload);
     },
     clearAllCountDown: state => {
-      state.countDown = [];
+      countDownAdapter.removeAll(state.countDown);
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addOrEditCountDown, clearAllCountDown, deleteCountDownById } =
+export const { addOrUpdateCountDown, clearAllCountDown, deleteCountDownById } =
   countDownSlice.actions;
 
+export type TCountDownSlice = {
+  [countDownSlice.name]: ReturnType<typeof countDownSlice['reducer']>;
+};
+
 export default countDownSlice.reducer;
+
+// export selectors
+export const countDownSelectors =
+  countDownAdapter.getSelectors<TCountDownSlice>(
+    state => state[countDownSlice.name].countDown,
+  );
+
+export const countDownCategorySelectors =
+  categoryAdapter.getSelectors<TCountDownSlice>(
+    state => state[countDownSlice.name].category,
+  );

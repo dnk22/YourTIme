@@ -30,13 +30,19 @@ export async function cancel(notificationId: string) {
   await notifee.cancelNotification(notificationId);
 }
 
+export async function getAllTriggerNotifications() {
+  return await notifee.getTriggerNotifications();
+}
+
+export async function getTriggerNotificationById(id: string) {
+  return await notifee.getTriggerNotificationIds(id);
+}
+
 export async function createTriggerNotification({
   timestamp,
   title,
   body,
 }: ICreateTriggerNotification) {
-  console.log(timestamp, 'timestamp');
-
   // Create a time-based trigger
   const trigger: TimestampTrigger = {
     type: TriggerType.TIMESTAMP,
