@@ -14,9 +14,6 @@ PODS:
     - FirebaseAuth (~> 10.2.0)
   - Firebase/CoreOnly (10.2.0):
     - FirebaseCore (= 10.2.0)
-  - Firebase/Messaging (10.2.0):
-    - Firebase/CoreOnly
-    - FirebaseMessaging (~> 10.2.0)
   - FirebaseAuth (10.2.0):
     - FirebaseCore (~> 10.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
@@ -26,30 +23,10 @@ PODS:
     - FirebaseCoreInternal (~> 10.0)
     - GoogleUtilities/Environment (~> 7.8)
     - GoogleUtilities/Logger (~> 7.8)
-  - FirebaseCoreExtension (10.2.0):
-    - FirebaseCore (~> 10.0)
   - FirebaseCoreInternal (10.2.0):
     - "GoogleUtilities/NSData+zlib (~> 7.8)"
-  - FirebaseInstallations (10.2.0):
-    - FirebaseCore (~> 10.0)
-    - GoogleUtilities/Environment (~> 7.8)
-    - GoogleUtilities/UserDefaults (~> 7.8)
-    - PromisesObjC (~> 2.1)
-  - FirebaseMessaging (10.2.0):
-    - FirebaseCore (~> 10.0)
-    - FirebaseInstallations (~> 10.0)
-    - GoogleDataTransport (~> 9.2)
-    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
-    - GoogleUtilities/Environment (~> 7.8)
-    - GoogleUtilities/Reachability (~> 7.8)
-    - GoogleUtilities/UserDefaults (~> 7.8)
-    - nanopb (< 2.30910.0, >= 2.30908.0)
   - fmt (6.2.1)
   - glog (0.3.5)
-  - GoogleDataTransport (9.2.0):
-    - GoogleUtilities/Environment (~> 7.7)
-    - nanopb (< 2.30910.0, >= 2.30908.0)
-    - PromisesObjC (< 3.0, >= 1.2)
   - GoogleUtilities/AppDelegateSwizzler (7.10.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -65,8 +42,6 @@ PODS:
   - "GoogleUtilities/NSData+zlib (7.10.0)"
   - GoogleUtilities/Reachability (7.10.0):
     - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (7.10.0):
-    - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (3.0.0)
   - hermes-engine (0.70.4)
   - libevent (2.1.12)
@@ -77,11 +52,6 @@ PODS:
   - MMKV (1.2.14):
     - MMKVCore (~> 1.2.14)
   - MMKVCore (1.2.14)
-  - nanopb (2.30909.0):
-    - nanopb/decode (= 2.30909.0)
-    - nanopb/encode (= 2.30909.0)
-  - nanopb/decode (2.30909.0)
-  - nanopb/encode (2.30909.0)
   - Permission-Calendars (3.6.1):
     - RNPermissions
   - Permission-FaceID (3.6.1):
@@ -411,11 +381,6 @@ PODS:
     - Firebase/Auth (= 10.2.0)
     - React-Core
     - RNFBApp
-  - RNFBMessaging (16.4.6):
-    - Firebase/Messaging (= 10.2.0)
-    - FirebaseCoreExtension (= 10.2.0)
-    - React-Core
-    - RNFBApp
   - RNGestureHandler (2.8.0):
     - React-Core
   - RNNotifee (7.1.0):
@@ -517,7 +482,6 @@ DEPENDENCIES:
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
-  - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - "RNNotifee (from `../node_modules/@notifee/react-native`)"
   - RNPermissions (from `../node_modules/react-native-permissions`)
@@ -533,19 +497,14 @@ SPEC REPOS:
     - Firebase
     - FirebaseAuth
     - FirebaseCore
-    - FirebaseCoreExtension
     - FirebaseCoreInternal
-    - FirebaseInstallations
-    - FirebaseMessaging
     - fmt
-    - GoogleDataTransport
     - GoogleUtilities
     - GTMSessionFetcher
     - libevent
     - lottie-ios
     - MMKV
     - MMKVCore
-    - nanopb
     - PromisesObjC
 
 EXTERNAL SOURCES:
@@ -645,8 +604,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBAuth:
     :path: "../node_modules/@react-native-firebase/auth"
-  RNFBMessaging:
-    :path: "../node_modules/@react-native-firebase/messaging"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNNotifee:
@@ -674,13 +631,9 @@ SPEC CHECKSUMS:
   Firebase: a3ea7eba4382afd83808376edb99acdaff078dcf
   FirebaseAuth: 08e7739244eeae5216d0a3f8d9f16a76be9c252e
   FirebaseCore: 813838072b797b64f529f3c2ee35e696e5641dd1
-  FirebaseCoreExtension: d08b424832917cf13612021574399afbbedffeef
   FirebaseCoreInternal: 091bde13e47bb1c5e9fe397634f3593dc390430f
-  FirebaseInstallations: 004915af170935e3a583faefd5f8bc851afc220f
-  FirebaseMessaging: cc9f40f5b7494680f3844d08e517e92aa4e8d9f7
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 04b94705f318337d7ead9e6d17c019bd9b1f6b1b
-  GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
   GoogleUtilities: bad72cb363809015b1f7f19beb1f1cd23c589f95
   GTMSessionFetcher: c1edebe64e9fb4e8f6415d018edf1fd3eac074a1
   hermes-engine: 3623325e0d0676a45fbc544d72c57dd79fce7446
@@ -689,7 +642,6 @@ SPEC CHECKSUMS:
   lottie-react-native: b702fab740cdb952a8e2354713d3beda63ff97b0
   MMKV: 9c4663aa7ca255d478ff10f2f5cb7d17c1651ccd
   MMKVCore: 89f5c8a66bba2dcd551779dea4d412eeec8ff5bb
-  nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   Permission-Calendars: dd55f36958c398a487f141d4c89119907e34dca8
   Permission-FaceID: e70223280292a1a5e4b8ad943b70cd9229a7d2c3
   Permission-Notifications: 150484ae586eb9be4e32217582a78350a9bb31c3
@@ -732,7 +684,6 @@ SPEC CHECKSUMS:
   RNDateTimePicker: 93b9659fbd0fd91a4fb568bf8f5c00b0175aa1ba
   RNFBApp: a61f530d08a0f5996b1fbdcbd1b8bb077d5d61a1
   RNFBAuth: 4ca816efc990ef69e9ca9fed57348a876470b821
-  RNFBMessaging: f7a90ac199e1bc771e9e09058ed0354efd047182
   RNGestureHandler: 62232ba8f562f7dea5ba1b3383494eb5bf97a4d3
   RNNotifee: 8527a2b9ffc6d0abfd907027e22962a809e39eee
   RNPermissions: dcdb7b99796bbeda6975a6e79ad519c41b251b1c

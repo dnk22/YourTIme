@@ -12,16 +12,10 @@
     "list-devices": "xcrun xctrace list devices"
   },
   "dependencies": {
-    "@formatjs/intl-getcanonicallocales": "^2.0.4",
-    "@formatjs/intl-locale": "^3.0.7",
-    "@formatjs/intl-numberformat": "^8.2.0",
-    "@formatjs/intl-pluralrules": "^5.1.4",
-    "@formatjs/intl-relativetimeformat": "^11.1.4",
     "@notifee/react-native": "^7.1.0",
     "@react-native-community/datetimepicker": "^6.5.4",
     "@react-native-firebase/app": "^16.4.6",
     "@react-native-firebase/auth": "^16.4.6",
-    "@react-native-firebase/messaging": "^16.4.6",
     "@react-native-segmented-control/segmented-control": "^2.4.0",
     "@react-navigation/bottom-tabs": "^6.4.0",
     "@react-navigation/native": "^6.0.13",
