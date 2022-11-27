@@ -6,8 +6,8 @@ import { useCustomTheme } from 'resources/theme';
 import { ICountDownCategory } from '../type';
 import isEqual from 'react-fast-compare';
 import styles from './style';
-import { countDownCategorySelectors } from 'store/countDown/countDown.slice';
 import { initCountDownCategory } from 'features/CountDown/constants';
+import { countDownCategorySelectors } from 'store/countDown/countDown.selector';
 
 interface ReminderCategoryProps {
   onPressItem?: (item: ICountDownCategory) => void;
@@ -17,7 +17,7 @@ interface ReminderCategoryProps {
 }
 
 // not select for editing
-const OTHER_CATEGORY = '7';
+const DONE_CATEGORY = '6';
 
 function CountDownCategory({
   isCurrentCategory = '',
@@ -31,18 +31,18 @@ function CountDownCategory({
     countDownCategorySelectors.selectAll(state),
   );
 
-  const categoryWithInitData = [
-    ...initCountDownCategory,
-    ...getAllReminderCategory,
-  ];
-
-  const data = useMemo(
+  const initDataWithoutDoneCategory = useMemo(
     () =>
       isShowOtherCategory
-        ? categoryWithInitData
-        : categoryWithInitData.filter(x => x.id !== OTHER_CATEGORY),
+        ? initCountDownCategory
+        : initCountDownCategory.filter(x => x.id !== DONE_CATEGORY),
     [getAllReminderCategory, isShowOtherCategory],
   );
+
+  const categoryWithInitData = [
+    ...initDataWithoutDoneCategory,
+    ...getAllReminderCategory,
+  ];
 
   const currentSelected = useCallback(
     (itemId: string) => isSelected === itemId,
@@ -91,7 +91,7 @@ function CountDownCategory({
   };
   return (
     <View style={styles.container}>
-      <FlatListComponent data={data} renderItem={renderItem} />
+      <FlatListComponent data={categoryWithInitData} renderItem={renderItem} />
     </View>
   );
 }

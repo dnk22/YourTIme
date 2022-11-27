@@ -74,6 +74,13 @@ export const getCountDownBetweenDate = (
   return { Ngày: days, Giờ: hours, Phút: minutes, Giây: seconds };
 };
 
+/**
+ * Return today or not
+ */
+
+export const isPassedDate = (date: string | Date | number) => {
+  return new Date(date).getTime() <= new Date().getTime();
+};
 // export const dayBetweenRange = ({
 //   endDate,
 //   startDate,

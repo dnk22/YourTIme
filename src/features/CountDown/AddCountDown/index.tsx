@@ -9,6 +9,7 @@ import {
   SwitchField,
   PressableHaptic,
   SvgIcon,
+  SoundAlert,
 } from 'components/index';
 import styles from './styles';
 import isEqual from 'react-fast-compare';
@@ -18,15 +19,13 @@ import { useForm } from 'react-hook-form';
 import { ICountDownCategory, TAddCountDown, TCountDown } from '../type';
 import { formatDateLocal } from 'utils/index';
 import { useAppDispatch, useAppSelector } from 'store/index';
-import {
-  addOrUpdateCountDown,
-  countDownSelectors,
-} from 'store/countDown/countDown.slice';
+import { addOrUpdateCountDown } from 'store/countDown/countDown.slice';
 import { FIELD_NAME, initReminderTime } from '../constants';
 import CountDownCategory from '../CountDownCategory';
 import { CREATE_MODE } from 'utils/constant';
 import ColorPicker from 'react-native-color-picker-ios';
 import { RootStackScreenProps } from 'navigation/type';
+import { countDownSelectors } from 'store/countDown/countDown.selector';
 
 interface IAddCountDownProps {
   navigation: NavigationProp<any, any>;
@@ -147,14 +146,14 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
       >
         <View style={styles.modalCategoryHeader}>
           <Text style={styles.headerCategoryTitle}>Danh mục của tôi</Text>
-          <PressableHaptic
+          {/* <PressableHaptic
             style={[
               styles.headerCategoryActionButton,
               { backgroundColor: colors.primary },
             ]}
           >
             <Text style={styles.headerCategoryActionText}>Chỉnh sửa</Text>
-          </PressableHaptic>
+          </PressableHaptic> */}
         </View>
         <CountDownCategory
           isShowOtherCategory={false}
@@ -173,7 +172,12 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
         onToggleModal={() => onToggleModal('')}
         isShowClose={false}
         height={'40%'}
-      />
+      >
+        <View style={styles.modalCategoryHeader}>
+          <Text style={styles.headerCategoryTitle}>Chọn âm báo</Text>
+        </View>
+        <SoundAlert />
+      </ModalComponent>
     );
   }, [isBellModal]);
 

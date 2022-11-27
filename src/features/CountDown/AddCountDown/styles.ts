@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   },
   // category modal style
   modalCategoryHeader: {
-    marginBottom: 10,
+    marginVertical: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

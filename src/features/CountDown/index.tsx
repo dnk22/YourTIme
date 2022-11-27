@@ -8,10 +8,8 @@ import { TCountDown } from './type';
 import { FlatListComponent } from 'components/index';
 import CountDownHeaderBar from './CountDownHeaderBar';
 import CountDownCategory from './CountDownCategory';
-import {
-  clearAllCountDown,
-  countDownSelectors,
-} from 'store/countDown/countDown.slice';
+import { clearAllCountDown } from 'store/countDown/countDown.slice';
+import { countDownSelectors } from 'store/countDown/countDown.selector';
 import { useAppSelector, RootState, useAppDispatch } from 'store/index';
 import { ExpandViewAnimated } from 'resources/animations';
 import CountDownItem from './CountDownItem';

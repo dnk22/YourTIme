@@ -43,7 +43,7 @@ function ModalNavigationHeaderBar({
         </View>
         {onBack && (
           <TouchableOpacity style={styles.right} onPress={onBack}>
-            <SvgIcon name="closeCircle" />
+            <SvgIcon name="closeCircle" color={colors.primary} />
           </TouchableOpacity>
         )}
       </View>

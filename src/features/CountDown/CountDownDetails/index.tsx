@@ -10,7 +10,7 @@ import PinCountDown from '../CountDownItem/CountDown/PinCountDown';
 import { useCustomTheme } from 'resources/theme';
 import { formatDateLocal } from 'utils/date';
 import { ADD_COUNTDOWN } from 'navigation/constants';
-import { countDownSelectors } from 'store/countDown/countDown.slice';
+import { countDownSelectors } from 'store/countDown/countDown.selector';
 
 function CountDownDetails({ id }: { id?: string }) {
   const { colors } = useCustomTheme();

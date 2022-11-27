@@ -7,6 +7,7 @@ import {
 import { TCountDown, ICountDownCategory } from 'features/CountDown/type';
 
 const OTHER_CATEGORY = '5';
+
 export const countDownAdapter = createEntityAdapter<TCountDown>();
 export const categoryAdapter = createEntityAdapter<ICountDownCategory>();
 
@@ -45,14 +46,3 @@ export type TCountDownSlice = {
 };
 
 export default countDownSlice.reducer;
-
-// export selectors
-export const countDownSelectors =
-  countDownAdapter.getSelectors<TCountDownSlice>(
-    state => state[countDownSlice.name].countDown,
-  );
-
-export const countDownCategorySelectors =
-  categoryAdapter.getSelectors<TCountDownSlice>(
-    state => state[countDownSlice.name].category,
-  );

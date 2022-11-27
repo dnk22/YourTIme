@@ -11,6 +11,7 @@ import ModalComponent from 'components/Modal';
 import PressableHaptic from 'components/PressableHaptic';
 import ContextMenu from 'components/ContextMenu';
 import SwipeableComponent from 'components/SwipeableComponent';
+import SoundAlert from 'components/SoundAlert';
 
 export {
   DateTimeField,
@@ -26,4 +27,5 @@ export {
   ContextMenu,
   SwipeableComponent,
   SvgIcon,
+  SoundAlert,
 };
