@@ -1,15 +1,12 @@
 import React, { memo, useState, useMemo } from 'react';
 import { View, Text, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import {
-  SegmentedControlField,
   InputField,
   DateTimeField,
   ModalNavigationHeaderBar,
   ModalComponent,
-  SwitchField,
   PressableHaptic,
   SvgIcon,
-  SoundAlert,
 } from 'components/index';
 import styles from './styles';
 import isEqual from 'react-fast-compare';
@@ -20,12 +17,13 @@ import { ICountDownCategory, TAddCountDown, TCountDown } from '../type';
 import { formatDateLocal } from 'utils/index';
 import { useAppDispatch, useAppSelector } from 'store/index';
 import { addOrUpdateCountDown } from 'store/countDown/countDown.slice';
-import { FIELD_NAME, initReminderTime } from '../constants';
-import CountDownCategory from '../CountDownCategory';
+import { FIELD_NAME } from '../constants';
 import { CREATE_MODE } from 'utils/constant';
 import ColorPicker from 'react-native-color-picker-ios';
 import { RootStackScreenProps } from 'navigation/type';
 import { countDownSelectors } from 'store/countDown/countDown.selector';
+import AlertSelections from 'components/AlertSelections';
+import { BellModel, CategoryModal } from './Modal';
 
 interface IAddCountDownProps {
   navigation: NavigationProp<any, any>;
@@ -82,8 +80,8 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
   );
 
   // get form values
-  const { targetDateTime, categoryId, categoryName, color } = getValues();
-  const { isReminder } = watch();
+  const { color } = watch();
+  const { targetDateTime, categoryId, categoryName } = getValues();
   const targetDateRender = useMemo(
     () => formatDateLocal(targetDateTime, 'dd/MM/yyyy'),
     [targetDateTime],
@@ -102,8 +100,8 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
     navigation.goBack();
   };
 
-  const onToggleModal = (type: string) => {
-    setIsModalShowType(type);
+  const onToggleModal = (type?: string) => {
+    setIsModalShowType(type || '');
   };
 
   const onHandleCategorySelect = ({ id, name }: ICountDownCategory) => {
@@ -136,61 +134,23 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
     );
   }, [control, isDateModal, isTimeModal]);
 
-  const renderCategoryPickerModal = useMemo(() => {
-    return (
-      <ModalComponent
-        isVisible={isCategoryModal}
-        onToggleModal={() => onToggleModal('')}
-        isShowClose={false}
-        height={'60%'}
-      >
-        <View style={styles.modalCategoryHeader}>
-          <Text style={styles.headerCategoryTitle}>Danh mục của tôi</Text>
-          {/* <PressableHaptic
-            style={[
-              styles.headerCategoryActionButton,
-              { backgroundColor: colors.primary },
-            ]}
-          >
-            <Text style={styles.headerCategoryActionText}>Chỉnh sửa</Text>
-          </PressableHaptic> */}
-        </View>
-        <CountDownCategory
-          isShowOtherCategory={false}
-          onPressItem={onHandleCategorySelect}
-          isCurrentCategory={categoryId}
-          isShowCheckbox
-        />
-      </ModalComponent>
-    );
-  }, [categoryId, colors.primary, isCategoryModal]);
-
-  const renderBellPickerModal = useMemo(() => {
-    return (
-      <ModalComponent
-        isVisible={isBellModal}
-        onToggleModal={() => onToggleModal('')}
-        isShowClose={false}
-        height={'40%'}
-      >
-        <View style={styles.modalCategoryHeader}>
-          <Text style={styles.headerCategoryTitle}>Chọn âm báo</Text>
-        </View>
-        <SoundAlert />
-      </ModalComponent>
-    );
-  }, [isBellModal]);
-
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      {renderDateTimePickerModal}
-      {renderCategoryPickerModal}
-      {renderBellPickerModal}
       <ModalNavigationHeaderBar
         text={{ title }}
         onBack={onHandleBack}
         onConfirm={handleSubmit(onHandleSubmit)}
       />
+      {/* modal render */}
+      {renderDateTimePickerModal}
+      <CategoryModal
+        isVisible={isCategoryModal}
+        onToggleModal={onToggleModal}
+        categoryId={categoryId}
+        onHandleCategorySelect={onHandleCategorySelect}
+      />
+      <BellModel isVisible={isBellModal} onToggleModal={onToggleModal} />
+      {/* end modal render */}
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.form}>
           <View style={[styles.group, { backgroundColor: colors.surface }]}>
@@ -202,7 +162,9 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
               clearButtonMode="always"
               autoFocus={isCreateMode}
             />
-            <View style={styles.divider} />
+            <View
+              style={[styles.divider, { backgroundColor: colors.divider }]}
+            />
             <InputField
               name={FIELD_NAME.DESCRIPTION}
               control={control}
@@ -216,49 +178,57 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
           <View style={[styles.group, styles.groupRow]}>
             <PressableHaptic
               style={[
-                styles.category,
                 styles.groupChild,
+                styles.categoryAndSoundView,
                 { backgroundColor: colors.surface },
               ]}
               onPress={() => {
                 setIsModalShowType('category');
               }}
             >
-              <SvgIcon name="category" size={20} color={color} />
-              <Text style={[styles.textSound, { color: colors.text }]}>
+              <SvgIcon
+                name="category"
+                style={styles.icon}
+                size={20}
+                color={color}
+              />
+              <Text style={[styles.label, { color: colors.text }]}>
                 {categoryName || 'Danh mục'}
               </Text>
             </PressableHaptic>
             <PressableHaptic
               style={[
-                styles.colorPicker,
                 styles.groupChild,
+                styles.colorView,
                 { backgroundColor: colors.surface },
               ]}
               onPress={onHandleColorPicker}
             >
-              <View style={[styles.color, { backgroundColor: color }]} />
+              <View style={[styles.colorPicker, { backgroundColor: color }]} />
             </PressableHaptic>
             <PressableHaptic
               style={[
-                styles.sound,
                 styles.groupChild,
+                styles.categoryAndSoundView,
                 { backgroundColor: colors.surface },
               ]}
               onPress={() => setIsModalShowType('bell')}
             >
-              <SvgIcon name="bellBadge" size={20} color={color} />
-              <Text style={[styles.textSound, { color: colors.text }]}>
-                Âm báo
-              </Text>
+              <SvgIcon
+                name="bellBadge"
+                style={styles.icon}
+                size={20}
+                color={color}
+              />
+              <Text style={[styles.label, { color: colors.text }]}>Âm báo</Text>
             </PressableHaptic>
           </View>
           <View style={[styles.group, { backgroundColor: colors.surface }]}>
             <View style={styles.groupChildRow}>
-              <Text style={[{ color: colors.text }, styles.textTime]}>
+              <Text style={[styles.label, { color: colors.text }]}>
                 Thời gian?
               </Text>
-              <View style={styles.dateTimeArea}>
+              <View style={styles.groupChildRow}>
                 <PressableHaptic
                   style={[
                     styles.dateTimePicker,
@@ -284,26 +254,7 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
               </View>
             </View>
           </View>
-          <View style={[styles.group, { backgroundColor: colors.surface }]}>
-            <View style={[styles.groupChildRow]}>
-              <Text style={[{ color: colors.text }, styles.textTime]}>
-                Nhắc nhở?
-              </Text>
-              <SwitchField
-                name={FIELD_NAME.IS_REMINDER}
-                control={control}
-                trackColor={{ true: color || null }}
-              />
-            </View>
-            {isReminder && (
-              <SegmentedControlField
-                name={FIELD_NAME.REMINDER}
-                control={control}
-                style={styles.segmentedControl}
-                values={Object.values(initReminderTime)}
-              />
-            )}
-          </View>
+          <AlertSelections />
         </View>
       </TouchableWithoutFeedback>
     </View>

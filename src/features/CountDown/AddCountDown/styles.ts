@@ -1,14 +1,15 @@
 import { StyleSheet } from 'react-native';
 import { normalize } from 'share/scale';
 
+const groupHeight = normalize(50);
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
   form: {
     flex: 1,
-    paddingHorizontal: 10,
-    paddingVertical: 15,
+    padding: 15,
   },
   group: {
     padding: 10,
@@ -20,10 +21,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  groupChild: {
+    padding: 10,
+    borderRadius: 10,
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  groupChildRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   divider: {
     width: '100%',
     height: 1,
-    backgroundColor: '#eee',
+  },
+  label: {
+    fontSize: normalize(15),
+    fontWeight: '500',
   },
   inputName: {
     height: 40,
@@ -32,55 +47,29 @@ const styles = StyleSheet.create({
     marginTop: 10,
     height: 50,
   },
-  groupChild: {
-    padding: 10,
-    borderRadius: 10,
-    alignItems: 'center',
-    flexDirection: 'row',
+  icon: {
+    marginRight: 5,
   },
-  sound: {
-    height: normalize(50),
-    width: normalize(140),
+  categoryAndSoundView: {
+    flex: 2,
   },
-  category: {
-    height: normalize(50),
-    width: normalize(140),
-  },
-  textSound: {
-    marginLeft: 5,
-  },
-  colorPicker: {
-    width: normalize(50),
-    height: normalize(50),
+  colorView: {
+    marginHorizontal: 10,
+    width: groupHeight,
+    height: groupHeight,
     justifyContent: 'center',
   },
-  color: {
-    borderWidth: 0.2,
+  colorPicker: {
+    borderWidth: 0.4,
     borderColor: 'gray',
     width: 30,
     height: 30,
     borderRadius: 30,
   },
-  timeTitle: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  textTime: {
-    fontSize: normalize(14),
-    fontWeight: '500',
-  },
-  groupChildRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  dateTimeArea: {
-    flexDirection: 'row',
-  },
   dateTimePicker: {
     paddingVertical: 10,
-    paddingHorizontal: 20,
-    marginLeft: normalize(5),
+    paddingHorizontal: 15,
+    marginLeft: 10,
     borderRadius: normalize(7),
     justifyContent: 'center',
     alignItems: 'center',
@@ -90,14 +79,11 @@ const styles = StyleSheet.create({
       height: 1,
     },
     shadowOpacity: 0.1,
-    shadowRadius: 4,
+    shadowRadius: 2,
     elevation: 2,
   },
   dateTimeText: {
     fontSize: normalize(15),
-  },
-  segmentedControl: {
-    marginTop: 10,
   },
   // category modal style
   modalCategoryHeader: {
@@ -119,4 +105,5 @@ const styles = StyleSheet.create({
     color: 'white',
   },
 });
+
 export default styles;
