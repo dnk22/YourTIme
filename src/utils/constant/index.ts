@@ -107,3 +107,23 @@ export const logBoxIgnore = [
 ];
 
 export const CREATE_MODE = 'create';
+
+export const alertInitialState = [
+  {
+    name: 'Khi bắt đầu',
+    value: 0,
+    default: true,
+  },
+  {
+    name: 'Trước 15 phút',
+    value: 15,
+  },
+  {
+    name: 'Trước 30 phút',
+    value: 30,
+  },
+  {
+    name: 'Trước 60 phút',
+    value: 60,
+  },
+];

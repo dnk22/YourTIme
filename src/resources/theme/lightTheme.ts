@@ -12,4 +12,5 @@ export default {
   notification: 'rgb(255, 59, 48)',
   error: 'rgb(255, 59, 48)',
   info: '#ffd700',
+  divider: '#eee',
 };

@@ -1,31 +1,37 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { alertInitialState } from 'utils/constant/index';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { AlertItemProps } from 'utils/types';
 
-export interface AppState {
-  value: number;
-}
+export const alertAdapter = createEntityAdapter<AlertItemProps>({
+  selectId: item => item.value,
+});
 
-const initialState: AppState = {
-  value: 0,
-};
+const getAlertInitialState = alertAdapter.upsertMany(
+  alertAdapter.getInitialState(),
+  alertInitialState,
+);
 
 export const appSlice = createSlice({
   name: 'app',
-  initialState,
+  initialState: {
+    alertSettings: getAlertInitialState,
+  },
   reducers: {
-    increment: state => {
-      state.value += 1;
+    addOrEditAlert: (state, { payload }: PayloadAction<AlertItemProps>) => {
+      alertAdapter.upsertOne(state.alertSettings, payload);
     },
-    decrement: state => {
-      state.value -= 1;
-    },
-    incrementByAmount: (state, action: PayloadAction<number>) => {
-      state.value += action.payload;
+    deleteAlertByValue: (state, { payload }: PayloadAction<string>) => {
+      alertAdapter.removeOne(state.alertSettings, payload);
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount } = appSlice.actions;
+export const { addOrEditAlert, deleteAlertByValue } = appSlice.actions;
+
+export type TAppSlice = {
+  [appSlice.name]: ReturnType<typeof appSlice['reducer']>;
+};
 
 export default appSlice.reducer;
