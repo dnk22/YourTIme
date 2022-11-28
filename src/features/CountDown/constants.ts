@@ -13,13 +13,6 @@ export const FIELD_NAME = {
   IS_IMPORTANT: 'isImportant',
 };
 
-export const REPEAT_DATA: { [key: string]: string } = {
-  0: 'Hằng ngày',
-  1: 'Hằng tuần',
-  2: 'Hằng tháng',
-  3: 'Hằng năm',
-};
-
 export const initCountDownCategory: ICountDownCategory[] = [
   {
     id: '0',
@@ -57,10 +50,3 @@ export const initCountDownCategory: ICountDownCategory[] = [
     icon: 'doneCircle',
   },
 ];
-
-export const initReminderTime = {
-  0: '15m',
-  1: '30m',
-  2: '1h',
-  3: '2h',
-};
