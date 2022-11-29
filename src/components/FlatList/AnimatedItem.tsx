@@ -41,5 +41,3 @@ function AnimatedItem({ item, viewableItems }: AnimatedItemProps) {
     />
   );
 }
-
-export default memo(AnimatedItem, isEqual);

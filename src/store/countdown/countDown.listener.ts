@@ -3,10 +3,9 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { TCountDown } from 'features/CountDown/type';
 import { createTriggerNotification } from 'share/notifications';
 
-export async function onAddOrUpdateCountDown(
-  { payload }: PayloadAction<TCountDown>,
-  listenerApi,
-) {
+export async function onAddOrUpdateCountDown({
+  payload,
+}: PayloadAction<TCountDown>) {
   const { name, isReminder, reminder, targetDateTime } = payload;
   if (!isPassedDate(targetDateTime) && isReminder) {
     // config alarm when date fire
