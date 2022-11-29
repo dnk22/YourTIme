@@ -1,2 +1,3 @@
-import ExpandViewAnimated from './ExpandViewAnimated';
-export { ExpandViewAnimated };
+import DynamicIsland from './DynamicIsland';
+
+export { DynamicIsland };

@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { forwardRef, memo, useImperativeHandle } from 'react';
 import { View } from 'react-native';
 import isEqual from 'react-fast-compare';
 import Animated, {
@@ -22,7 +22,7 @@ interface AlertSelectionProps {
   children: React.ReactNode;
 }
 
-function AlertSelection({ children }: AlertSelectionProps) {
+const AlertSelection = forwardRef(({ children }: AlertSelectionProps, ref) => {
   const { onTouchStart, onTouchEnd } = useSwipe(onSwipeUp);
 
   const widthAnimated = useSharedValue(init.width);
@@ -31,7 +31,7 @@ function AlertSelection({ children }: AlertSelectionProps) {
   const borderRadiusAnimated = useSharedValue(init.borderRadius);
 
   function onSwipeUp() {
-    toggle();
+    onToggle();
   }
 
   const animatedStyles = useAnimatedStyle(() => {
@@ -55,7 +55,7 @@ function AlertSelection({ children }: AlertSelectionProps) {
     };
   });
 
-  const toggle = () => {
+  const onToggle = () => {
     widthAnimated.value =
       widthAnimated.value === init.width ? SCREEN_WIDTH - 20 : init.width;
     heightAnimated.value =
@@ -65,6 +65,10 @@ function AlertSelection({ children }: AlertSelectionProps) {
     borderRadiusAnimated.value =
       borderRadiusAnimated.value === init.borderRadius ? 17 : init.borderRadius;
   };
+
+  useImperativeHandle(ref, () => ({
+    onToggle,
+  }));
 
   return (
     <View style={[styles.headerBar, { width: SCREEN_WIDTH }]}>
@@ -77,6 +81,6 @@ function AlertSelection({ children }: AlertSelectionProps) {
       </Animated.View>
     </View>
   );
-}
+});
 
 export default memo(AlertSelection, isEqual);

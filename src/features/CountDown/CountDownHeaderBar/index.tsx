@@ -1,33 +1,32 @@
-import React, { memo, useContext, useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { View, Text, Pressable } from 'react-native';
-import { DIMENSIONS } from 'share/scale';
 import isEqual from 'react-fast-compare';
-import { ThemeContext, ThemeType } from 'resources/theme';
 import { NavigationProp } from '@react-navigation/native';
 import styles from './style';
 import { ADD_COUNTDOWN } from 'navigation/constants';
 import SVGIcon from 'components/SvgIcon';
+import { useCustomTheme } from 'resources/theme';
 
 export interface ICountDownHeaderBarProps {
-  setModalVisible: () => void;
-  isModalShow: boolean;
   navigation: NavigationProp<any, any>;
+  onToggle: () => void;
 }
 
 const CountDownHeaderBar = ({
-  setModalVisible,
-  isModalShow = false,
   navigation,
+  onToggle,
 }: ICountDownHeaderBarProps) => {
-  const { colors } = useContext(ThemeContext) as ThemeType;
+  const { colors } = useCustomTheme();
+
   const renderIcon = useMemo(() => {
     return (
-      <>
-        {isModalShow && <SVGIcon name="arrowUp" preset="expandIcon" />}
-        {!isModalShow && <SVGIcon name="arrowDown" preset="expandIcon" />}
-      </>
+      <SVGIcon name="arrowUp" preset="expandIcon" />
+      // <>
+      //   {isModalShow && }
+      //   {!isModalShow && <SVGIcon name="arrowDown" preset="expandIcon" />}
+      // </>
     );
-  }, [isModalShow, colors]);
+  }, []);
 
   const onHandleAddReminderClick = () => {
     navigation.navigate(ADD_COUNTDOWN);
@@ -39,7 +38,6 @@ const CountDownHeaderBar = ({
         styles.container,
         {
           backgroundColor: colors.surface,
-          height: DIMENSIONS.home.navbarHeight,
         },
       ]}
     >
@@ -47,12 +45,9 @@ const CountDownHeaderBar = ({
         <SVGIcon name="search" />
       </View>
       <View style={[styles.center, styles.centerIcon]}>
-        <Pressable onPress={setModalVisible} style={styles.centerContent}>
+        <Pressable style={styles.centerContent} onPress={onToggle}>
           <Text
-            style={[
-              styles.textStyle,
-              { color: colors.text, fontSize: DIMENSIONS.home.title },
-            ]}
+            style={[styles.textStyle, { color: colors.text }]}
             numberOfLines={1}
           >
             Tất cả sự kiện
