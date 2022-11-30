@@ -43,5 +43,4 @@ const MyAppTheme = {
 
 const useCustomTheme = useTheme as () => ThemeType;
 
-export const ThemeContext = React.createContext({});
 export { MyAppTheme, useCustomTheme, ThemeEnum };
