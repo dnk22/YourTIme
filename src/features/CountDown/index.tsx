@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useRef } from 'react';
 import { SafeAreaView, View, Pressable, Text } from 'react-native';
-import { ThemeContext, useCustomTheme } from 'resources/theme';
+import { useCustomTheme } from 'resources/theme';
 import { NavigationProp } from '@react-navigation/native';
 import isEqual from 'react-fast-compare';
 import styles from './styles';
@@ -41,32 +41,28 @@ const CountDown = ({ navigation }: ICountDownProps) => {
     <SafeAreaView
       style={[styles.container, { backgroundColor: colors.surface }]}
     >
-      <ThemeContext.Provider value={{ colors }}>
-        <DynamicIsland ref={dynamicIsland}>
-          <CountDownCategory />
-        </DynamicIsland>
-        <View
-          style={[styles.container, { backgroundColor: colors.background }]}
+      <DynamicIsland ref={dynamicIsland}>
+        <CountDownCategory />
+      </DynamicIsland>
+      <View style={[styles.container, { backgroundColor: colors.background }]}>
+        <CountDownHeaderBar navigation={navigation} onToggle={onToggle} />
+        <Pressable
+          style={{ alignItems: 'center', marginTop: 5 }}
+          onPress={() => dispatch(clearAllCountDown())}
         >
-          <CountDownHeaderBar navigation={navigation} onToggle={onToggle} />
-          <Pressable
-            style={{ alignItems: 'center', marginTop: 5 }}
-            onPress={() => dispatch(clearAllCountDown())}
-          >
-            <Text>clear all</Text>
-          </Pressable>
-          <View style={[styles.contentView]}>
-            <FlatListComponent
-              data={getAllCountDown}
-              renderItem={renderItem}
-              maxToRenderPerBatch={5}
-              initialNumToRender={5}
-              showsVerticalScrollIndicator={false}
-              showsHorizontalScrollIndicator={false}
-            />
-          </View>
+          <Text>clear all</Text>
+        </Pressable>
+        <View style={[styles.contentView]}>
+          <FlatListComponent
+            data={getAllCountDown}
+            renderItem={renderItem}
+            maxToRenderPerBatch={5}
+            initialNumToRender={5}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+          />
         </View>
-      </ThemeContext.Provider>
+      </View>
     </SafeAreaView>
   );
 };

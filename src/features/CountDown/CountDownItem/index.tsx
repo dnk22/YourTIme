@@ -1,10 +1,10 @@
-import React, { memo, useContext, useMemo, useRef, useCallback } from 'react';
+import React, { memo, useMemo, useRef, useCallback } from 'react';
 import isEqual from 'react-fast-compare';
 import { Alert, GestureResponderEvent } from 'react-native';
 import Pin from 'assets/svg/pin.svg';
 import styles from './styles';
 import { TCountDown } from '../type';
-import { ThemeContext, ThemeType } from 'resources/theme';
+import { useCustomTheme } from 'resources/theme';
 import { useNavigation } from '@react-navigation/native';
 import { COUNTDOWN_DETAILS } from 'navigation/constants';
 import { IMenuItemsProps } from 'components/ContextMenu';
@@ -28,7 +28,7 @@ type ICountDownItemProps = {
 
 function CountDownItem({ item, isPin }: ICountDownItemProps) {
   const { name, targetDateTime, id } = item;
-  const { colors } = useContext(ThemeContext) as ThemeType;
+  const { colors } = useCustomTheme();
   const { navigate } = useNavigation();
   const initCoordinates = useRef(0);
   const dispatch = useAppDispatch();
