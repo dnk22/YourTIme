@@ -21,6 +21,10 @@ import settings from 'assets/svg/icon-settings.svg';
 import claim from 'assets/svg/icon-claim.svg';
 import text from 'assets/svg/icon-text.svg';
 import pencil from 'assets/svg/icon-pencil.svg';
+import bellSlashFill from 'assets/svg/icon-bell-slash-fill.svg';
+import bellSlash from 'assets/svg/icon-bell-slash.svg';
+import bellWaves from 'assets/svg/icon-bell-waves.svg';
+import bell from 'assets/svg/icon-bell.svg';
 
 const icon = {
   add,
@@ -46,6 +50,11 @@ const icon = {
   claim,
   text,
   pencil,
+  bellSlashFill,
+  bellSlash,
+  bellWaves,
+  bell,
 };
+
 export type IconProps = keyof typeof icon;
 export default icon;

@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   useTheme,
   Theme,
@@ -14,7 +13,7 @@ enum ThemeEnum {
   DARK = 'dark',
 }
 
-type ThemeColors = typeof lightTheme;
+export type ThemeColors = typeof lightTheme;
 
 export type ThemeType = {
   colors: ThemeColors;

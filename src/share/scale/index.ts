@@ -35,14 +35,6 @@ export const DIMENSIONS = {
   },
 };
 
-export const IconSize = {
-  default: normalize(24),
-  expandIcon: normalize(12),
-  categoryIconSize: normalize(18),
-  forwardLink: normalize(12),
-  settingsIcon: normalize(16),
-};
-
 export const ModalNavigationHeaderBarDimensions = {
   headerBarHeight: normalize(50),
   titleFontSize: normalize(20),

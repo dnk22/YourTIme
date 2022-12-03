@@ -15,6 +15,7 @@ const FlatListComponent: PropsFlatList = props => {
     showsHorizontalScrollIndicator = false,
   } = props;
   const keyExtractor = useCallback((item: any) => item.id, []);
+
   const renderRefreshControl = useMemo(
     () => (
       <RefreshControl
@@ -27,10 +28,6 @@ const FlatListComponent: PropsFlatList = props => {
     [onRefresh],
   );
 
-  // const viewConfigRef = useRef({
-  //   waitForInteraction: true,
-  //   viewAreaCoveragePercentThreshold: 95,
-  // });
   return (
     <FlatList
       {...props}
@@ -42,7 +39,6 @@ const FlatListComponent: PropsFlatList = props => {
       refreshControl={renderRefreshControl}
       onEndReachedThreshold={0.5}
       onEndReached={() => onLoadMore && onLoadMore()}
-      // viewabilityConfig={viewConfigRef.current}
       maxToRenderPerBatch={maxToRenderPerBatch}
       initialNumToRender={initialNumToRender}
       showsVerticalScrollIndicator={showsVerticalScrollIndicator}

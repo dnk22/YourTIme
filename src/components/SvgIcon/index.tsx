@@ -2,8 +2,8 @@ import React, { memo } from 'react';
 import isEqual from 'react-fast-compare';
 import { NumberProp, SvgProps } from 'react-native-svg';
 import { useCustomTheme } from 'resources/theme';
-import { IconSize } from 'share/scale';
 import icon, { IconProps } from './const';
+import { IconSize } from './preset';
 
 interface SvgIconProps extends SvgProps {
   name: IconProps;

@@ -20,6 +20,7 @@ import NormalCountDown from './CountDown/NormalCountDown';
 import Title from './Title';
 import { useAppDispatch } from 'store/index';
 import { deleteCountDownById } from 'store/countDown/countDown.slice';
+import Animated, { StretchInY, StretchOutY } from 'react-native-reanimated';
 
 type ICountDownItemProps = {
   item: TCountDown;
@@ -92,49 +93,54 @@ function CountDownItem({ item, isPin }: ICountDownItemProps) {
   };
 
   return (
-    <ContextMenu
-      style={[styles.contextMenu]}
-      menuItems={menuItems}
-      menuVisible={true}
-      mountPreview={true}
-      previewConfig={{
-        previewType: 'CUSTOM',
-        previewSize: 'STRETCH',
-        backgroundColor: colors.background,
-        preferredCommitStyle: 'pop',
-      }}
-      onPressMenuItem={onHandleMenuItemPress}
-      renderPreview={() => renderPreview}
-      onPressMenuPreview={onHandleNavigateToDetailsScreen}
-    >
-      <SwipeableComponent onSwipeableOpen={onHandleSwipeDelete}>
-        <PressableHaptic
-          style={[
-            styles.container,
-            { backgroundColor: colors.surface },
-            isPin && styles.styleOfPinItem,
-          ]}
-          delayLongPress={100} // Leave room for a user to be able to click
-          onLongPress={() => (initCoordinates.current = 0)} // A callback that does nothing
-          onPressIn={onHandleItemPressIn}
-          onPressOut={onHandleItemPressOut}
-        >
-          {renderPin}
-          <Title colors={colors} title={name} />
-          {isPin && (
-            <PinCountDown colors={colors} targetDateTime={targetDateTime} />
-          )}
-          <DetailsView
-            isPin={isPin}
-            colors={colors}
-            targetDateTime={targetDateTime}
-          />
-          {!isPin && (
-            <NormalCountDown colors={colors} targetDateTime={targetDateTime} />
-          )}
-        </PressableHaptic>
-      </SwipeableComponent>
-    </ContextMenu>
+    <Animated.View exiting={StretchOutY.duration(200)} entering={StretchInY}>
+      <ContextMenu
+        style={[styles.contextMenu]}
+        menuItems={menuItems}
+        menuVisible={true}
+        mountPreview={true}
+        previewConfig={{
+          previewType: 'CUSTOM',
+          previewSize: 'STRETCH',
+          backgroundColor: colors.background,
+          preferredCommitStyle: 'pop',
+        }}
+        onPressMenuItem={onHandleMenuItemPress}
+        renderPreview={() => renderPreview}
+        onPressMenuPreview={onHandleNavigateToDetailsScreen}
+      >
+        <SwipeableComponent onSwipeableOpen={onHandleSwipeDelete}>
+          <PressableHaptic
+            style={[
+              styles.container,
+              { backgroundColor: colors.surface },
+              isPin && styles.styleOfPinItem,
+            ]}
+            delayLongPress={100} // Leave room for a user to be able to click
+            onLongPress={() => (initCoordinates.current = 0)} // A callback that does nothing
+            onPressIn={onHandleItemPressIn}
+            onPressOut={onHandleItemPressOut}
+          >
+            {renderPin}
+            <Title colors={colors} title={name} />
+            {isPin && (
+              <PinCountDown colors={colors} targetDateTime={targetDateTime} />
+            )}
+            <DetailsView
+              isPin={isPin}
+              colors={colors}
+              targetDateTime={targetDateTime}
+            />
+            {!isPin && (
+              <NormalCountDown
+                colors={colors}
+                targetDateTime={targetDateTime}
+              />
+            )}
+          </PressableHaptic>
+        </SwipeableComponent>
+      </ContextMenu>
+    </Animated.View>
   );
 }
 

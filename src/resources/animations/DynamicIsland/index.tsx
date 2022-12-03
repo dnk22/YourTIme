@@ -33,7 +33,7 @@ const target = {
 };
 
 type DynamicIslandProps = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   height?: number;
 };
 

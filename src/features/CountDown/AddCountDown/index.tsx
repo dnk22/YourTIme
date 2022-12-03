@@ -1,5 +1,11 @@
 import React, { memo, useState, useMemo } from 'react';
-import { View, Text, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableWithoutFeedback,
+  Keyboard,
+  SafeAreaView,
+} from 'react-native';
 import {
   InputField,
   DateTimeField,
@@ -24,6 +30,7 @@ import { RootStackScreenProps } from 'navigation/type';
 import { countDownSelectors } from 'store/countDown/countDown.selector';
 import AlertSelections from 'components/AlertSelections';
 import { BellModel, CategoryModal } from './Modal';
+import { ScrollView } from 'react-native-gesture-handler';
 
 interface IAddCountDownProps {
   navigation: NavigationProp<any, any>;
@@ -135,7 +142,9 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
   }, [control, isDateModal, isTimeModal]);
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: colors.background }]}
+    >
       <ModalNavigationHeaderBar
         text={{ title }}
         onBack={onHandleBack}
@@ -152,7 +161,7 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
       <BellModel isVisible={isBellModal} onToggleModal={onToggleModal} />
       {/* end modal render */}
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.form}>
+        <ScrollView style={styles.form}>
           <View style={[styles.group, { backgroundColor: colors.surface }]}>
             <InputField
               name={FIELD_NAME.NAME}
@@ -215,9 +224,9 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
               onPress={() => setIsModalShowType('bell')}
             >
               <SvgIcon
-                name="bellBadge"
+                name="bellWaves"
                 style={styles.icon}
-                size={20}
+                size={26}
                 color={color}
               />
               <Text style={[styles.label, { color: colors.text }]}>Âm báo</Text>
@@ -255,9 +264,10 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
             </View>
           </View>
           <AlertSelections />
-        </View>
+          <View style={{ height: 200 }} />
+        </ScrollView>
       </TouchableWithoutFeedback>
-    </View>
+    </SafeAreaView>
   );
 }
 

@@ -3,10 +3,9 @@ import { TouchableOpacity, View } from 'react-native';
 import Modal from 'react-native-modal';
 import { IModalComponentProps } from './type';
 import { styles } from './styles';
-import IconCloseCircle from 'assets/svg/icon-close-circle.svg';
-import { IconSize } from 'share/scale';
 import { useCustomTheme } from 'resources/theme';
 import isEqual from 'react-fast-compare';
+import SvgIcon from 'components/SvgIcon';
 
 const defaultProps = {
   isVisible: false,
@@ -37,7 +36,7 @@ const ModalComponent = (props: IModalComponentProps) => {
       >
         {isShowClose && (
           <TouchableOpacity style={styles.modalAction} onPress={onToggleModal}>
-            <IconCloseCircle {...IconSize.addReminder} fill={colors.text} />
+            <SvgIcon name="closeCircle" preset="closeModal" />
           </TouchableOpacity>
         )}
         {children}
