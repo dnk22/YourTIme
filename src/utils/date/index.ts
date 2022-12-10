@@ -3,7 +3,7 @@ import {
   formatDistanceToNow,
   differenceInMilliseconds,
 } from 'date-fns';
-import { vi, enUS } from 'date-fns/locale';
+import { vi } from 'date-fns/locale';
 
 // define variable
 const ONE_MINUTE = 60;
@@ -16,15 +16,11 @@ const ONE_DAY = 60 * 60 * 24;
  * format local date by date-fns
  */
 export const formatDateLocal = (
-  date: Date | number | string,
+  date: Date | number,
   formatType: string = 'dd/MM/yyyy',
   local: any = vi,
 ) => {
-  let localString: any = local;
-  if (local === 'en') {
-    localString = enUS;
-  }
-  return format(new Date(date), formatType, { locale: localString });
+  return format(new Date(date), formatType, { locale: local });
 };
 
 /**
@@ -39,7 +35,7 @@ type TTimeAgo = {
 };
 
 export const getFormatDistanceToNow = (
-  date: Date | number | string,
+  date: Date | number,
   options?: TTimeAgo,
 ): string => {
   return formatDistanceToNow(new Date(date), {

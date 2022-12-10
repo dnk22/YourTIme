@@ -1,4 +1,4 @@
-import { alertInitialState } from 'utils/constant/index';
+import { alertInitialState } from 'utils/constant';
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { AlertItemProps } from 'utils/types';

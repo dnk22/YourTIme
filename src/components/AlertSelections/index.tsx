@@ -1,5 +1,5 @@
 import React, { memo, useState } from 'react';
-import { View, Text, Pressable, ScrollView } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import isEqual from 'react-fast-compare';
 import styles from './styles';
 import Item from './Item';
@@ -7,20 +7,23 @@ import { AlertItemProps } from 'utils/types';
 import { RootState, useAppSelector } from 'store/index';
 import { alertSelectors } from 'store/app/app.selector';
 import { useCustomTheme } from 'resources/theme';
-import Form from './Form';
+// import Form from './Form';
 
 export interface AlertSelectionsProps {
   values?: number[];
+  dateValidation: Date | number;
   onValuesChange?: (item: AlertItemProps) => void;
 }
 
 function AlertSelections({
   values = [0],
+  dateValidation,
   onValuesChange,
 }: AlertSelectionsProps) {
   const { colors } = useCustomTheme();
   const [alert, setAlert] = useState<number[]>(values);
-  const [isShowForm, setIsShowForm] = useState<boolean>(false);
+
+  const isItemActive = (value: number) => alert.includes(value);
   const alertSettings = useAppSelector((state: RootState) =>
     alertSelectors.selectAll(state),
   );
@@ -33,16 +36,6 @@ function AlertSelections({
     } else {
       setAlert([...alert, value]);
     }
-  };
-
-  const isItemActive = (value: number) => alert.includes(value);
-
-  const onHandleAddAlert = () => {
-    setIsShowForm(!isShowForm);
-  };
-
-  const onDateTimeChanges = value => {
-    console.log(value);
   };
 
   return (
@@ -63,15 +56,7 @@ function AlertSelections({
           ))}
         </ScrollView>
       </View>
-      {isShowForm && (
-        <Form onValueChange={onDateTimeChanges} borderColor={colors.divider} />
-      )}
-      <Pressable
-        style={[styles.addItem, { borderColor: colors.divider }]}
-        onPress={onHandleAddAlert}
-      >
-        <Text style={{ color: colors.text }}>Thêm thông báo khác</Text>
-      </Pressable>
+      {/* <Form dateValidation={dateValidation} /> */}
     </View>
   );
 }

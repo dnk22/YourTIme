@@ -51,13 +51,37 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: '50%',
   },
-  formInput: {
-    height: 50,
-    padding: 5,
-    marginHorizontal: 10,
+  formContainer: {
     marginBottom: 10,
+  },
+  form: {
+    flex: 1,
+    width: '100%',
+    flexDirection: 'row',
+    paddingHorizontal: 10,
+  },
+  formBorder: {
     borderRadius: 10,
-    borderWidth: 0.2,
+    borderWidth: 0.3,
+  },
+  formInput: {
+    flex: 3,
+    height: 40,
+    padding: 5,
+    marginRight: 10,
+  },
+  formSelect: {
+    flex: 1,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+  },
+  alertText: {
+    color: 'red',
+  },
+  alertView: {
+    marginHorizontal: 10,
   },
 });
 export default styles;

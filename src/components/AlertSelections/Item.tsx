@@ -1,5 +1,5 @@
 import React, { memo, useEffect } from 'react';
-import { Pressable, View, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import Animated, {
   useSharedValue,
   withTiming,
@@ -7,7 +7,7 @@ import Animated, {
   Easing,
 } from 'react-native-reanimated';
 import { AlertItemProps } from 'utils/types';
-import SvgIcon from 'components/SvgIcon';
+import { SvgIcon, PressableHaptic } from 'components/index';
 import styles from './styles';
 import isEqual from 'react-fast-compare';
 import { ThemeColors } from 'resources/theme';
@@ -21,7 +21,7 @@ export interface ItemProps {
 
 function Item({ item, onPress, isActive, colors }: ItemProps) {
   const { name } = item;
-  const bellIcon = isActive ? 'bellSlash' : 'bellSlash';
+  const bellIcon = isActive ? 'bell' : 'bellSlash';
   const rotationIconValue = useSharedValue('0deg');
   const strikeWidthAnimatedValue = useSharedValue('0%');
 
@@ -49,21 +49,22 @@ function Item({ item, onPress, isActive, colors }: ItemProps) {
 
   useEffect(() => {
     strikeWidthAnimatedValue.value = isActive ? '0%' : '100%';
-    rotationIconValue.value = isActive ? '0deg' : '45deg';
+    rotationIconValue.value = isActive ? '45deg' : '0deg';
   }, [isActive]);
 
   const onHandlePressItem = () => {
     onPress(item);
   };
+  console.log('render ', item.value);
 
   return (
-    <Pressable
+    <PressableHaptic
       style={[styles.alertItem, { backgroundColor: colors.background }]}
       onPress={onHandlePressItem}
     >
       <View style={styles.alertItemContent}>
         <SvgIcon
-          name="bellSlash"
+          name={bellIcon}
           preset="alertIcon"
           style={styles.alertItemIcon}
         />
@@ -86,7 +87,7 @@ function Item({ item, onPress, isActive, colors }: ItemProps) {
       <Animated.View style={rotationAnimatedStyle}>
         <SvgIcon name="add" preset="alertIcon" />
       </Animated.View>
-    </Pressable>
+    </PressableHaptic>
   );
 }
 

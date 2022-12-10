@@ -7,26 +7,19 @@ import { useCustomTheme } from 'resources/theme';
 
 interface IInputField extends TextInputProps {
   name: string;
-  defaultValue?: any;
   control: Control<any, any>;
   style?: StyleProp<TextStyle> | any;
   [key: string]: any;
 }
 
-function InputField({
-  name,
-  defaultValue,
-  control,
-  style,
-  ...props
-}: IInputField) {
+function InputField({ name, control, style, ...props }: IInputField) {
   const { colors } = useCustomTheme();
+
   const {
     field: { value, onChange, onBlur },
   } = useController({
     name,
     control,
-    defaultValue,
   });
 
   return (
@@ -34,6 +27,7 @@ function InputField({
       value={value}
       onChangeText={onChange}
       onBlur={onBlur}
+      placeholderTextColor="#9999"
       style={[stylesInline, style, { color: colors.text }]}
       {...props}
     />

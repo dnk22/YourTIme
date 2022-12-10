@@ -1,6 +1,8 @@
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
 import isEqual from 'react-fast-compare';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePicker, {
+  DateTimePickerEvent,
+} from '@react-native-community/datetimepicker';
 import { useController } from 'react-hook-form';
 import { IDateTimeFieldProps } from './type';
 
@@ -18,6 +20,10 @@ function DateTimeField({
     control,
   });
 
+  const setDate = useCallback((event: DateTimePickerEvent, date?: Date) => {
+    onChange(date);
+  }, []);
+
   return (
     <DateTimePicker
       {...rest}
@@ -25,7 +31,7 @@ function DateTimeField({
       locale="vi"
       mode={mode}
       display={display}
-      onChange={(e, date) => onChange(date)}
+      onChange={setDate}
     />
   );
 }

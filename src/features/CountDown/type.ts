@@ -5,13 +5,13 @@ export interface TAddCountDown {
   description?: string;
   categoryId?: string;
   categoryName?: string;
-  targetDateTime: Date | number | string;
+  targetDateTime: Date | number;
   isReminder?: boolean;
   reminder?: string | number;
   color?: string;
   bell?: string;
   isImportant?: boolean;
-  dateCreated?: Date | number | string;
+  dateCreated?: Date | number;
 }
 
 export interface TCountDown extends TAddCountDown {
