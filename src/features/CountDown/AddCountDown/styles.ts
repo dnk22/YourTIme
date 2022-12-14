@@ -100,10 +100,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
   },
-  headerCategoryActionText: {
-    fontSize: normalize(15),
-    color: 'white',
-  },
   actionContainer: {
     flex: 1,
     flexDirection: 'row',
