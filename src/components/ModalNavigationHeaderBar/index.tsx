@@ -1,12 +1,5 @@
 import React, { memo } from 'react';
-import {
-  KeyboardAvoidingView,
-  Text,
-  TouchableOpacity,
-  View,
-  Pressable,
-  Platform,
-} from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import isEqual from 'react-fast-compare';
 import { useCustomTheme } from 'resources/theme';
 import styles from './styles';
@@ -18,13 +11,11 @@ interface IModalNavigationHeaderBarProps {
     confirm?: string;
   };
   onBack?: () => void;
-  onConfirm?: () => void;
 }
 
 function ModalNavigationHeaderBar({
   text,
   onBack,
-  onConfirm,
 }: IModalNavigationHeaderBarProps) {
   const { colors } = useCustomTheme();
   const titleStyle = !onBack ? 'center' : 'left';
@@ -47,20 +38,6 @@ function ModalNavigationHeaderBar({
           </TouchableOpacity>
         )}
       </View>
-      <KeyboardAvoidingView
-        style={styles.actionContainer}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={80}
-      >
-        {onConfirm && (
-          <Pressable
-            onPress={onConfirm}
-            style={[styles.actionConfirm, { backgroundColor: colors.primary }]}
-          >
-            <Text style={styles.textButtonConfirm}>Xác nhận</Text>
-          </Pressable>
-        )}
-      </KeyboardAvoidingView>
     </>
   );
 }
