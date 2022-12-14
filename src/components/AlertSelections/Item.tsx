@@ -55,7 +55,6 @@ function Item({ item, onPress, isActive, colors }: ItemProps) {
   const onHandlePressItem = () => {
     onPress(item);
   };
-  console.log('render ', item.value);
 
   return (
     <PressableHaptic
