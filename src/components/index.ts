@@ -1,5 +1,5 @@
 import SvgIcon from 'components/SvgIcon';
-import DateTimeField from 'components/DateTimeField';
+import DateTimePicker from 'components/DateTimePicker';
 import InputField from 'components/InputField';
 import Text from './Text';
 import Switch from 'components/Switch';
@@ -12,9 +12,10 @@ import PressableHaptic from 'components/PressableHaptic';
 import ContextMenu from 'components/ContextMenu';
 import SwipeableComponent from 'components/SwipeableComponent';
 import SoundAlert from 'components/SoundAlert';
+import DateTimeModalPicker from 'components/DateTimeModalPicker';
 
 export {
-  DateTimeField,
+  DateTimePicker,
   InputField,
   Text,
   Switch,
@@ -28,4 +29,5 @@ export {
   SwipeableComponent,
   SvgIcon,
   SoundAlert,
+  DateTimeModalPicker,
 };
