@@ -9,7 +9,6 @@ interface IInputField extends TextInputProps {
   name: string;
   control: Control<any, any>;
   style?: StyleProp<TextStyle> | any;
-  [key: string]: any;
 }
 
 function InputField({ name, control, style, ...props }: IInputField) {
