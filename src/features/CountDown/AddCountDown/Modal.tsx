@@ -1,11 +1,10 @@
 import React, { memo } from 'react';
-import { DateTimeField, ModalComponent, SoundAlert } from 'components/index';
+import { ModalComponent, SoundAlert } from 'components/index';
 import { Text, View } from 'react-native';
 import CountDownCategory from '../CountDownCategory';
 import styles from './styles';
 import isEqual from 'react-fast-compare';
 import { ICountDownCategory } from '../type';
-import { FIELD_NAME } from '../constants';
 
 interface ModalProps {
   isVisible?: boolean;
@@ -34,12 +33,7 @@ export const BellModel = memo(({ isVisible, onToggleModal }: ModalProps) => {
 }, isEqual);
 
 export const CategoryModal = memo(
-  ({
-    isVisible,
-    onToggleModal,
-    onHandleCategorySelect,
-    categoryId,
-  }: CategoryModalProps) => {
+  ({ isVisible, onToggleModal, onHandleCategorySelect, categoryId }: CategoryModalProps) => {
     return (
       <ModalComponent
         isVisible={isVisible}

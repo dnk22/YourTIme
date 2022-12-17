@@ -3,11 +3,9 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { TCountDown } from 'features/CountDown/type';
 import { createTriggerNotification } from 'share/notifications';
 
-export async function onAddOrUpdateCountDown({
-  payload,
-}: PayloadAction<TCountDown>) {
-  const { name, isReminder, reminder, targetDateTime } = payload;
-  if (!isPassedDate(targetDateTime) && isReminder) {
+export async function onAddOrUpdateCountDown({ payload }: PayloadAction<TCountDown>) {
+  const { name, alerts, targetDateTime } = payload;
+  if (!isPassedDate(targetDateTime)) {
     // config alarm when date fire
     const timestamp = new Date(targetDateTime).getTime();
     await createTriggerNotification({
@@ -16,7 +14,7 @@ export async function onAddOrUpdateCountDown({
       body: `${name} đã đến.`,
     });
     // config alarm for alert soon ( eg : 15m before date fire )
-    if (reminder) {
+    if (alerts) {
     }
   }
 }

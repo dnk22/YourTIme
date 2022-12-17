@@ -32,8 +32,7 @@ const initialAddFormValues: TAddCountDown = {
   name: '',
   description: '',
   targetDateTime: new Date(),
-  isReminder: true,
-  reminder: 0,
+  alerts: [],
 };
 
 const marginBottom = SCREEN_HEIGHT * 0.4;
@@ -41,14 +40,14 @@ const marginBottom = SCREEN_HEIGHT * 0.4;
 function AddCountDown({ navigation }: IAddCountDownProps) {
   const { colors } = useCustomTheme();
   const dispatch = useAppDispatch();
+  const { params } = useRoute<RootStackScreenProps<'countDownDetails'>['route']>();
   const [isModalShowType, setIsModalShowType] = useState<string | undefined>(undefined);
   const [isDateTimeModalType, setIsDateTimeModalType] = useState<'date' | 'time' | undefined>(
     undefined,
   );
-  const { params } = useRoute<RootStackScreenProps<'countDownDetails'>['route']>();
-  const getCountDownById =
-    useAppSelector(state => countDownSelectors.selectById(state, params?.countDownId)) || {};
-
+  const getCountDownById = params?.countDownId
+    ? useAppSelector(state => countDownSelectors.selectById(state, params?.countDownId))
+    : {};
   //init form
   const { control, handleSubmit, getValues, setValue, watch } = useForm<TCountDown>({
     defaultValues: {
@@ -57,7 +56,7 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
     },
   });
   // get form values
-  const { categoryId, categoryName, targetDateTime } = getValues();
+  const { categoryId, categoryName, targetDateTime, alerts } = getValues();
 
   const onHandleBack = useCallback(() => {
     navigation.goBack();
@@ -72,12 +71,18 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
   }, []);
 
   const onHandleCategorySelect = useCallback(({ id, name }: ICountDownCategory) => {
+    console.log(id, name);
+
     setValue('categoryId', id);
     setValue('categoryName', name);
   }, []);
 
   const onDateTimePicker = useCallback((date: Date) => {
     setValue('targetDateTime', date);
+  }, []);
+
+  const onHandleAlertChange = useCallback((data: number[]) => {
+    setValue('alerts', data);
   }, []);
 
   const isShowDateTimeModal = isDateTimeModalType === 'date' || isDateTimeModalType === 'time';
@@ -95,8 +100,6 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
       setValue('color', value);
     });
   };
-
-  console.log('index render');
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
@@ -122,7 +125,7 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
       <ScrollView style={styles.form}>
         <View style={[styles.group, { backgroundColor: colors.surface }]}>
           <InputField
-            name={'FIELD_NAME.NAME'}
+            name={FIELD_NAME.NAME}
             control={control}
             style={[styles.inputName]}
             placeholder="Tên"
@@ -195,7 +198,11 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
             </View>
           </View>
         </View>
-        <AlertSelections dateValidation={targetDateTime} />
+        <AlertSelections
+          values={alerts}
+          dateValidation={targetDateTime}
+          onValuesChange={onHandleAlertChange}
+        />
         <View style={{ height: marginBottom }} />
       </ScrollView>
       <KeyboardAvoidingView

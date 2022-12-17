@@ -6,8 +6,7 @@ export interface TAddCountDown {
   categoryId?: string;
   categoryName?: string;
   targetDateTime: Date | number;
-  isReminder?: boolean;
-  reminder?: string | number;
+  alerts?: number[];
   color?: string;
   bell?: string;
   isImportant?: boolean;
