@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import isEqual from 'react-fast-compare';
 import styles from './styles';
@@ -12,21 +12,19 @@ import { useCustomTheme } from 'resources/theme';
 export interface AlertSelectionsProps {
   values?: number[];
   dateValidation: Date | number;
-  onValuesChange?: (item: AlertItemProps) => void;
+  onValuesChange?: (item: number[]) => void;
 }
 
-function AlertSelections({
-  values = [0],
-  dateValidation,
-  onValuesChange,
-}: AlertSelectionsProps) {
+function AlertSelections({ values = [0], dateValidation, onValuesChange }: AlertSelectionsProps) {
   const { colors } = useCustomTheme();
   const [alert, setAlert] = useState<number[]>(values);
 
   const isItemActive = (value: number) => alert.includes(value);
-  const alertSettings = useAppSelector((state: RootState) =>
-    alertSelectors.selectAll(state),
-  );
+  const alertSettings = useAppSelector((state: RootState) => alertSelectors.selectAll(state));
+
+  useEffect(() => {
+    onValuesChange && onValuesChange(alert);
+  }, [alert]);
 
   const onHandlePressItem = (item: AlertItemProps) => {
     const { value } = item;
