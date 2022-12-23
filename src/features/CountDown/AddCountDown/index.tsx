@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useState } from 'react';
-import { View, Text, SafeAreaView, KeyboardAvoidingView, Platform, Pressable } from 'react-native';
+import { View, Text } from 'react-native';
 import {
   InputField,
   ModalNavigationHeaderBar,
@@ -22,8 +22,8 @@ import { RootStackScreenProps } from 'navigation/type';
 import { countDownSelectors } from 'store/countDown/countDown.selector';
 import AlertSelections from 'components/AlertSelections';
 import { BellModel, CategoryModal } from './Modal';
-import { ScrollView } from 'react-native-gesture-handler';
 import { SCREEN_HEIGHT } from 'share/scale';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 interface IAddCountDownProps {
   navigation: NavigationProp<any, any>;
@@ -71,8 +71,6 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
   }, []);
 
   const onHandleCategorySelect = useCallback(({ id, name }: ICountDownCategory) => {
-    console.log(id, name);
-
     setValue('categoryId', id);
     setValue('categoryName', name);
   }, []);
@@ -102,9 +100,8 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
       <ModalNavigationHeaderBar text={{ title }} onBack={onHandleBack} />
-
       {/* modal render */}
       <CategoryModal
         isVisible={isCategoryModal}
@@ -121,8 +118,12 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
         onDateTimePicker={onDateTimePicker}
       />
       {/* end modal render */}
-
-      <ScrollView style={styles.form}>
+      <KeyboardAwareScrollView
+        style={styles.scroll}
+        showsVerticalScrollIndicator={false}
+        extraScrollHeight={60}
+      >
+        {/* <ScrollView style={styles.scroll}> */}
         <View style={[styles.group, { backgroundColor: colors.surface }]}>
           <InputField
             name={FIELD_NAME.NAME}
@@ -204,8 +205,9 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
           onValuesChange={onHandleAlertChange}
         />
         <View style={{ height: marginBottom }} />
-      </ScrollView>
-      <KeyboardAvoidingView
+        {/* </ScrollView> */}
+      </KeyboardAwareScrollView>
+      {/* <KeyboardAvoidingView
         style={styles.actionContainer}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={80}
@@ -216,8 +218,8 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
         >
           <Text style={styles.textButtonConfirm}>Xác nhận</Text>
         </Pressable>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+      </KeyboardAvoidingView> */}
+    </View>
   );
 }
 

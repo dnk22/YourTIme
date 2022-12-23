@@ -7,7 +7,7 @@ import { AlertItemProps } from 'utils/types';
 import { RootState, useAppSelector } from 'store/index';
 import { alertSelectors } from 'store/app/app.selector';
 import { useCustomTheme } from 'resources/theme';
-// import Form from './Form';
+import Form from './Form';
 
 export interface AlertSelectionsProps {
   values?: number[];
@@ -54,7 +54,7 @@ function AlertSelections({ values = [0], dateValidation, onValuesChange }: Alert
           ))}
         </ScrollView>
       </View>
-      {/* <Form dateValidation={dateValidation} /> */}
+      <Form dateValidation={dateValidation} />
     </View>
   );
 }

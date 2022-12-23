@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   addItem: {
+    flex: 1,
     height: 40,
     flexDirection: 'row',
     alignItems: 'center',
@@ -76,6 +77,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
+  },
+  formAction: {
+    width: '100%',
+    flexDirection: 'row',
+    marginHorizontal: 10,
   },
   alertText: {
     color: 'red',

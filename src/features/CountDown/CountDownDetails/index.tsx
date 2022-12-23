@@ -15,8 +15,7 @@ import { countDownSelectors } from 'store/countDown/countDown.selector';
 function CountDownDetails({ id }: { id?: string }) {
   const { colors } = useCustomTheme();
   const { navigate } = useNavigation();
-  const { params } =
-    useRoute<RootStackScreenProps<'countDownDetails'>['route']>();
+  const { params } = useRoute<RootStackScreenProps<'countDownDetails'>['route']>();
 
   // if preview : no countDownId param available , get countDownId via prop
   const isPreview = !params?.countDownId;
@@ -26,7 +25,7 @@ function CountDownDetails({ id }: { id?: string }) {
     countDownSelectors.selectById(state, queryCountDownID),
   );
 
-  const { name, targetDateTime } = getCountDownById;
+  const { name, targetDateTime, categoryName, color, alerts } = getCountDownById;
 
   const targetDateTimeFormatted = useMemo(
     () => formatDateLocal(targetDateTime, "eeee, dd/MM/yyyy 'lúc' HH:mm"),
@@ -43,7 +42,7 @@ function CountDownDetails({ id }: { id?: string }) {
       <View style={styles.container}>
         {!isPreview && (
           <Pressable
-            style={[styles.editButton, { backgroundColor: colors.primary }]}
+            style={[styles.editButton, { backgroundColor: color || colors.primary }]}
             onPress={onHandleEdit}
           >
             <SvgIcon name="pencil" color="#fff" />
@@ -55,28 +54,21 @@ function CountDownDetails({ id }: { id?: string }) {
         </View>
         <View style={[styles.box, styles.itemMargin]}>
           <Text style={styles.label}>Thời gian chi tiết</Text>
-          <View
-            style={[
-              styles.dateTimeDetails,
-              { backgroundColor: colors.surface },
-            ]}
-          >
+          <View style={[styles.dateTimeDetails, { backgroundColor: colors.surface }]}>
             <Text>{targetDateTimeFormatted}</Text>
           </View>
         </View>
         <View style={[styles.box, styles.grid, styles.itemMargin]}>
-          <View style={[styles.pinItem, { backgroundColor: colors.surface }]}>
-            <Text>Hằng ngày</Text>
-          </View>
-          <View style={[styles.pinItem, { backgroundColor: colors.surface }]}>
-            <Text>Hằng ngày</Text>
-          </View>
-          <View style={[styles.pinItem, { backgroundColor: colors.surface }]}>
-            <Text>Hằng ngày</Text>
-          </View>
-          <View style={[styles.pinItem, { backgroundColor: colors.surface }]}>
-            <Text>Hằng ngày</Text>
-          </View>
+          {categoryName && (
+            <View style={[styles.pinItem, { backgroundColor: colors.surface }]}>
+              <Text>Danh mục: {categoryName}</Text>
+            </View>
+          )}
+          {alerts && (
+            <View style={[styles.pinItem, { backgroundColor: colors.surface }]}>
+              <Text>Thông báo: {}</Text>
+            </View>
+          )}
         </View>
       </View>
     </SafeAreaView>

@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  form: {
+  scroll: {
     padding: 15,
   },
   group: {

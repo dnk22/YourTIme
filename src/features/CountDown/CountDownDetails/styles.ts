@@ -47,10 +47,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   pinItem: {
-    maxWidth: '25%',
+    // maxWidth: '25%',
     alignItems: 'center',
     padding: 5,
     margin: 2.5,
+    borderRadius: 5,
   },
 });
 export default styles;
