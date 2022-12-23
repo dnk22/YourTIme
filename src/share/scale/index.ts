@@ -38,5 +38,4 @@ export const DIMENSIONS = {
 export const ModalNavigationHeaderBarDimensions = {
   headerBarHeight: normalize(50),
   titleFontSize: normalize(20),
-  actionFontSize: normalize(16),
 };

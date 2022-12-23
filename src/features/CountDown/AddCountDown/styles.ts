@@ -1,4 +1,3 @@
-import { ModalNavigationHeaderBarDimensions } from './../../../share/scale/index';
 import { StyleSheet } from 'react-native';
 import { normalize } from 'share/scale';
 
@@ -70,7 +69,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 15,
     marginLeft: 10,
-    borderRadius: normalize(7),
+    borderRadius: 7,
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: 'gray',
@@ -100,22 +99,22 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
   },
-  actionContainer: {
+  submitContainer: {
     flex: 1,
     flexDirection: 'row',
     position: 'absolute',
     bottom: normalize(40),
     zIndex: 100,
   },
-  actionConfirm: {
+  submit: {
     width: '90%',
-    borderRadius: normalize(10),
+    borderRadius: 10,
     alignItems: 'center',
-    paddingVertical: normalize(15),
-    marginHorizontal: normalize(20),
+    paddingVertical: 15,
+    marginHorizontal: 20,
   },
-  textButtonConfirm: {
-    fontSize: ModalNavigationHeaderBarDimensions.actionFontSize,
+  textSubmit: {
+    fontSize: 16,
     color: 'white',
   },
 });

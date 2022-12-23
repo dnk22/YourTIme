@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import {
   InputField,
   ModalNavigationHeaderBar,
@@ -34,8 +34,6 @@ const initialAddFormValues: TAddCountDown = {
   targetDateTime: new Date(),
   alerts: [],
 };
-
-const marginBottom = SCREEN_HEIGHT * 0.4;
 
 function AddCountDown({ navigation }: IAddCountDownProps) {
   const { colors } = useCustomTheme();
@@ -123,7 +121,6 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
         showsVerticalScrollIndicator={false}
         extraScrollHeight={60}
       >
-        {/* <ScrollView style={styles.scroll}> */}
         <View style={[styles.group, { backgroundColor: colors.surface }]}>
           <InputField
             name={FIELD_NAME.NAME}
@@ -204,21 +201,15 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
           dateValidation={targetDateTime}
           onValuesChange={onHandleAlertChange}
         />
-        <View style={{ height: marginBottom }} />
-        {/* </ScrollView> */}
       </KeyboardAwareScrollView>
-      {/* <KeyboardAvoidingView
-        style={styles.actionContainer}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={80}
-      >
+      <View style={styles.submitContainer}>
         <Pressable
           onPress={handleSubmit(onHandleSubmit)}
-          style={[styles.actionConfirm, { backgroundColor: colors.primary }]}
+          style={[styles.submit, { backgroundColor: colors.primary }]}
         >
-          <Text style={styles.textButtonConfirm}>Xác nhận</Text>
+          <Text style={styles.textSubmit}>Xác nhận</Text>
         </Pressable>
-      </KeyboardAvoidingView> */}
+      </View>
     </View>
   );
 }
