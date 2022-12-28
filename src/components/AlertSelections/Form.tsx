@@ -1,19 +1,15 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import styles from './styles';
 import { Pressable, Text, TextInput, View } from 'react-native';
 import { MenuAction, MenuView as RNMenuView, NativeActionEvent } from '@react-native-menu/menu';
 import { useCustomTheme } from 'resources/theme';
 import { differenceInDays, differenceInHours, differenceInMinutes } from 'date-fns';
-import Animated, {
-  Easing,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-  ZoomIn,
-} from 'react-native-reanimated';
+import Animated, { ZoomIn } from 'react-native-reanimated';
+import { AddAlertItemProps } from 'utils/types';
 
 type FormType = {
   dateValidation: Date | number;
+  onChange?: (data: AddAlertItemProps) => void;
 };
 
 const MINUTE = 'minute';
@@ -41,22 +37,12 @@ const dropDownDefault: MenuAction[] = [
   },
 ];
 
-export default function Form({ dateValidation }: FormType) {
+export default function Form({ dateValidation, onChange }: FormType) {
   const { colors } = useCustomTheme();
+  const value = useRef<any>(null);
   const [limit, setLimit] = useState<number>(0);
   const [isSelect, setIsSelect] = useState<string>('minute');
   const [isShowForm, setIsShowForm] = useState<boolean>(false);
-
-  const formInputAnimated = useSharedValue(0);
-
-  const styleFormInputAnimated = useAnimatedStyle(() => {
-    return {
-      height: withTiming(formInputAnimated.value, {
-        duration: 500,
-        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
-      }),
-    };
-  });
 
   useEffect(() => {
     validateDateNumberInput();
@@ -95,13 +81,20 @@ export default function Form({ dateValidation }: FormType) {
   };
 
   const onHandleInputChange = (text: string) => {
-    console.log(text);
+    value.current = text;
   };
 
   const onHandleAddAlert = () => {
     if (!isShowForm) {
-      onToggleForm();
+      setIsShowForm(!isShowForm);
+      return;
     }
+    onChange &&
+      value.current &&
+      onChange({
+        value: value.current,
+        type: isSelect,
+      });
   };
 
   const onToggleForm = () => {

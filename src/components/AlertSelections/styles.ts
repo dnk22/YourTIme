@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
     flex: 3,
     height: 40,
     padding: 5,
+    paddingHorizontal: 10,
     marginRight: 10,
   },
   formSelect: {

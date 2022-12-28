@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useState } from 'react';
 import isEqual from 'react-fast-compare';
-import { Text, View } from 'react-native';
+import { Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import ModalComponent from 'components/Modal';
 import DateTimePicker from 'components/DateTimePicker';
 import PressableHaptic from 'components/PressableHaptic';
@@ -108,9 +108,11 @@ function DateTimeModalPicker({
           mode={isMode}
           display={isMode === 'date' ? 'inline' : 'spinner'}
         />
-        <PressableHaptic style={styles.bottomBar} onPress={getCurrentDateTime}>
-          <Text style={[styles.actionDate, { color: colors.primary }]}>{actionName}</Text>
-        </PressableHaptic>
+        <TouchableOpacity activeOpacity={0.6}>
+          <PressableHaptic style={styles.bottomBar} onPress={getCurrentDateTime}>
+            <Text style={[styles.actionDate, { color: colors.primary }]}>{actionName}</Text>
+          </PressableHaptic>
+        </TouchableOpacity>
       </View>
       <View style={[styles.bright, styles.brightLeft, { backgroundColor: colors.primary }]} />
       <View style={[styles.bright, styles.brightRight, { backgroundColor: colors.primary }]} />

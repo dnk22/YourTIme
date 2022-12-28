@@ -14,7 +14,14 @@ export type TDimensionsType = {
 };
 
 export interface AlertItemProps {
-  name: string;
+  id: string;
+  name?: string;
   value: number;
+  type: string;
   default?: boolean;
+}
+
+export interface AddAlertItemProps {
+  value: number;
+  type: string;
 }

@@ -22,7 +22,6 @@ import { RootStackScreenProps } from 'navigation/type';
 import { countDownSelectors } from 'store/countDown/countDown.selector';
 import AlertSelections from 'components/AlertSelections';
 import { BellModel, CategoryModal } from './Modal';
-import { SCREEN_HEIGHT } from 'share/scale';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 interface IAddCountDownProps {
@@ -201,6 +200,7 @@ function AddCountDown({ navigation }: IAddCountDownProps) {
           dateValidation={targetDateTime}
           onValuesChange={onHandleAlertChange}
         />
+        <View style={{ height: 200 }} />
       </KeyboardAwareScrollView>
       <View style={styles.submitContainer}>
         <Pressable

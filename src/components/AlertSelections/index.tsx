@@ -4,10 +4,11 @@ import isEqual from 'react-fast-compare';
 import styles from './styles';
 import Item from './Item';
 import { AlertItemProps } from 'utils/types';
-import { RootState, useAppSelector } from 'store/index';
+import { RootState, useAppDispatch, useAppSelector } from 'store/index';
 import { alertSelectors } from 'store/app/app.selector';
 import { useCustomTheme } from 'resources/theme';
-import Form from './Form';
+import Form, { onChangeType } from './Form';
+import { addOrEditAlert } from 'store/app/app.slice';
 
 export interface AlertSelectionsProps {
   values?: number[];
@@ -17,10 +18,11 @@ export interface AlertSelectionsProps {
 
 function AlertSelections({ values = [0], dateValidation, onValuesChange }: AlertSelectionsProps) {
   const { colors } = useCustomTheme();
+  const dispatch = useAppDispatch();
   const [alert, setAlert] = useState<number[]>(values);
 
   const isItemActive = (value: number) => alert.includes(value);
-  const alertSettings = useAppSelector((state: RootState) => alertSelectors.selectAll(state));
+  const alertSettingsData = useAppSelector((state: RootState) => alertSelectors.selectAll(state));
 
   useEffect(() => {
     onValuesChange && onValuesChange(alert);
@@ -36,6 +38,12 @@ function AlertSelections({ values = [0], dateValidation, onValuesChange }: Alert
     }
   };
 
+  const onHandleFormChange = (data: onChangeType) => {
+    if (alertSettingsData && alertSettingsData.length <= 5) {
+      dispatch(addOrEditAlert(data));
+    }
+  };
+
   return (
     <View style={[styles.container, { backgroundColor: colors.surface }]}>
       <View style={[styles.header, { borderColor: colors.divider }]}>
@@ -43,7 +51,7 @@ function AlertSelections({ values = [0], dateValidation, onValuesChange }: Alert
       </View>
       <View style={styles.content}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {alertSettings.map(item => (
+          {alertSettingsData.map(item => (
             <Item
               item={item}
               onPress={onHandlePressItem}
@@ -54,7 +62,7 @@ function AlertSelections({ values = [0], dateValidation, onValuesChange }: Alert
           ))}
         </ScrollView>
       </View>
-      <Form dateValidation={dateValidation} />
+      <Form dateValidation={dateValidation} onChange={onHandleFormChange} />
     </View>
   );
 }

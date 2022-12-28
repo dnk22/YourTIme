@@ -110,20 +110,28 @@ export const CREATE_MODE = 'create';
 
 export const alertInitialState = [
   {
+    id: '0',
     name: 'Khi bắt đầu',
     value: 0,
+    type: 'minute',
     default: true,
   },
   {
+    id: '1',
     name: 'Trước 15 phút',
     value: 15,
+    type: 'minute',
   },
   {
+    id: '2',
     name: 'Trước 30 phút',
     value: 30,
+    type: 'minute',
   },
   {
+    id: '3',
     name: 'Trước 60 phút',
     value: 60,
+    type: 'minute',
   },
 ];

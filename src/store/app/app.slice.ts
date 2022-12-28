@@ -3,9 +3,7 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { AlertItemProps } from 'utils/types';
 
-export const alertAdapter = createEntityAdapter<AlertItemProps>({
-  selectId: item => item.value,
-});
+export const alertAdapter = createEntityAdapter<AlertItemProps>();
 
 const getAlertInitialState = alertAdapter.upsertMany(
   alertAdapter.getInitialState(),

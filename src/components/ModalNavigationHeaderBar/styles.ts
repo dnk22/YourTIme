@@ -16,6 +16,6 @@ const styles = StyleSheet.create({
     fontSize: ModalNavigationHeaderBarDimensions.titleFontSize,
     fontWeight: '700',
   },
-  right: { flex: 1, alignItems: 'flex-end' },
+  right: { alignItems: 'flex-end' },
 });
 export default styles;
