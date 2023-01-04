@@ -14,6 +14,11 @@ export const FIELD_NAME = {
 
 export const initCountDownCategory: ICountDownCategory[] = [
   {
+    id: 'all',
+    name: 'Tất cả',
+    icon: 'important',
+  },
+  {
     id: '0',
     name: 'Quan trọng',
     icon: 'important',

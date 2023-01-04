@@ -13,7 +13,7 @@ interface ReminderCategoryProps {
   onPressItem?: (item: ICountDownCategory) => void;
   isCurrentCategory?: string;
   isShowCheckbox?: boolean;
-  isShowOtherCategory?: boolean;
+  isShowOverCategory?: boolean;
 }
 
 // not select for editing
@@ -22,7 +22,7 @@ const DONE_CATEGORY = '6';
 function CountDownCategory({
   isCurrentCategory = '',
   isShowCheckbox = false,
-  isShowOtherCategory = true,
+  isShowOverCategory = true,
   onPressItem,
 }: ReminderCategoryProps) {
   const { colors } = useCustomTheme();
@@ -33,10 +33,10 @@ function CountDownCategory({
 
   const initDataWithoutDoneCategory = useMemo(
     () =>
-      isShowOtherCategory
+      isShowOverCategory
         ? initCountDownCategory
         : initCountDownCategory.filter(x => x.id !== DONE_CATEGORY),
-    [getAllReminderCategory, isShowOtherCategory],
+    [getAllReminderCategory, isShowOverCategory],
   );
 
   const categoryWithInitData = [

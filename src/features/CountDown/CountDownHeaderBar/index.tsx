@@ -6,27 +6,22 @@ import styles from './style';
 import { ADD_COUNTDOWN } from 'navigation/constants';
 import SVGIcon from 'components/SvgIcon';
 import { useCustomTheme } from 'resources/theme';
+import { RootState, useAppSelector } from 'store/index';
+import { homeCategorySelectors } from 'store/countDown/countDown.selector';
 
 export interface ICountDownHeaderBarProps {
   navigation: NavigationProp<any, any>;
   onToggle: () => void;
 }
 
-const CountDownHeaderBar = ({
-  navigation,
-  onToggle,
-}: ICountDownHeaderBarProps) => {
+const CountDownHeaderBar = ({ navigation, onToggle }: ICountDownHeaderBarProps) => {
   const { colors } = useCustomTheme();
 
   const renderIcon = useMemo(() => {
-    return (
-      <SVGIcon name="arrowUp" preset="expandIcon" />
-      // <>
-      //   {isModalShow && }
-      //   {!isModalShow && <SVGIcon name="arrowDown" preset="expandIcon" />}
-      // </>
-    );
+    return <SVGIcon name="arrowDown" preset="expandIcon" />;
   }, []);
+
+  const currentCategory = useAppSelector((state: RootState) => homeCategorySelectors(state));
 
   const onHandleAddReminderClick = () => {
     navigation.navigate(ADD_COUNTDOWN);
@@ -46,11 +41,8 @@ const CountDownHeaderBar = ({
       </View>
       <View style={[styles.center, styles.centerIcon]}>
         <Pressable style={styles.centerContent} onPress={onToggle}>
-          <Text
-            style={[styles.textStyle, { color: colors.text }]}
-            numberOfLines={1}
-          >
-            Tất cả sự kiện
+          <Text style={[styles.textStyle, { color: colors.text }]} numberOfLines={1}>
+            {currentCategory?.name || 'Tất cả'}
           </Text>
           {renderIcon}
         </Pressable>

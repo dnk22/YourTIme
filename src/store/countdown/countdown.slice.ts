@@ -1,9 +1,4 @@
-import {
-  createEntityAdapter,
-  createSlice,
-  nanoid,
-  PayloadAction,
-} from '@reduxjs/toolkit';
+import { createEntityAdapter, createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit';
 import { TCountDown, ICountDownCategory } from 'features/CountDown/type';
 
 const OTHER_CATEGORY = '5';
@@ -16,6 +11,7 @@ export const countDownSlice = createSlice({
   initialState: {
     countDown: countDownAdapter.getInitialState(),
     category: categoryAdapter.getInitialState(),
+    homeCategory: {},
   },
   reducers: {
     addOrUpdateCountDown: (state, { payload }: PayloadAction<TCountDown>) => {
@@ -33,6 +29,9 @@ export const countDownSlice = createSlice({
     },
     clearAllCountDown: state => {
       countDownAdapter.removeAll(state.countDown);
+    },
+    setHomeCategory: (state, { payload }: PayloadAction<string>) => {
+      state.homeCategory = payload;
     },
   },
 });
